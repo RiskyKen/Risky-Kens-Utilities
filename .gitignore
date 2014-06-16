@@ -2,7 +2,8 @@ eclipse/
 build/
 .settings/
 .gradle/
-
+.metadata/
+bin/
 .classpath
 .project
 
