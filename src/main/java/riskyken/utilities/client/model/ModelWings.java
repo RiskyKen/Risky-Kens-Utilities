@@ -12,12 +12,11 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import riskyken.utilities.client.particles.Particles;
 import riskyken.utilities.common.lib.LibModInfo;
 import riskyken.utilities.utils.PointD;
 import riskyken.utilities.utils.Trig;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelWings extends ModelBiped
@@ -125,7 +124,7 @@ public class ModelWings extends ModelBiped
 			double parX = offset.x;
 			double parY = player.posY - 0.4D;
 			double parZ = offset.y;
-			Particles.FEATHER.spawnParticle(player.worldObj, parX, parY, parZ, red, green, blue, true);
+			//Particles.FEATHER.spawnParticle(player.worldObj, parX, parY, parZ, red, green, blue, true);
 		}
 	}
 

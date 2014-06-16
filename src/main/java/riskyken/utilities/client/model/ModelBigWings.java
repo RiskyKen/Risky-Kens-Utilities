@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
@@ -14,14 +13,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import riskyken.utilities.client.particles.Particles;
+import riskyken.utilities.client.particles.EntityFeatherFx;
+import riskyken.utilities.client.particles.ParticleManager;
 import riskyken.utilities.common.lib.LibModInfo;
 import riskyken.utilities.utils.PointD;
 import riskyken.utilities.utils.Trig;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelBigWings extends ModelBiped
@@ -85,35 +84,31 @@ public class ModelBigWings extends ModelBiped
 		float mult = 0.0625F;
 		
 		GL11.glPushMatrix();
-
-		GL11.glDisable(GL11.GL_LIGHTING);
-		
-		//GL11.glRotatef(180, 1, 0, 0);
-		//GL11.glRotatef(player.renderYawOffset, 0, 1, 0);
 		
 		float lastBrightnessX = OpenGlHelper.lastBrightnessX;
 		float lastBrightnessY = OpenGlHelper.lastBrightnessY;
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
+		if (wingId != 0) {
+			GL11.glDisable(GL11.GL_LIGHTING);
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
+		}
+
 		Tessellator tessellator = Tessellator.instance;
 		//tessellator.setBrightness(15728880);
-		
 		
 	    rightWing.render(mult);
 	    leftWing.render(mult);
 	    
-	    OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
-	    
-	    GL11.glEnable(GL11.GL_LIGHTING);
-	    //OpenGlHelper.setLightmapTextureCoords(OpenGlHelper., par1, par2);
+	    if (wingId != 0) {
+		    OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
+		    GL11.glEnable(GL11.GL_LIGHTING);
+	    }
 	    
 	    GL11.glPopMatrix();
 	    
-	    if (wingId == 0) { spawnParticales(player, 0.2F, 0.2F, 0.2F); }
-	    if (wingId == 1) { spawnParticales(player, 1F, 1F, 1F); }
-	    if (wingId == 2) { spawnParticales(player, 1F, 0.5F, 0.2F); }
+	    spawnParticales(player, wingId);
 	}
 	
-	private void spawnParticales(EntityPlayer player, float red, float green, float blue) {
+	private void spawnParticales(EntityPlayer player, int type) {
 		Random rnd = new Random();
 		if (rnd.nextFloat() * 1000 > 980) {
 			PointD offset;// = new PointD(player.posX, player.posZ);
@@ -129,7 +124,9 @@ public class ModelBigWings extends ModelBiped
 			double parX = offset.x;
 			double parY = player.posY - 0.4D;
 			double parZ = offset.y;
-			Particles.FEATHER.spawnParticle(player.worldObj, parX, parY, parZ, red, green, blue, true);
+			
+			EntityFeatherFx particle = new EntityFeatherFx(player.worldObj, parX, parY, parZ, type);
+			ParticleManager.INSTANCE.spawnParticle(player.worldObj, particle);
 		}
 	}
 

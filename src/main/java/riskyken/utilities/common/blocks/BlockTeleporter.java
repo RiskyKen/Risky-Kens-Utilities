@@ -3,9 +3,7 @@ package riskyken.utilities.common.blocks;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +14,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import riskyken.utilities.RiskyKensUtilities;
-import riskyken.utilities.client.particles.Particles;
+import riskyken.utilities.client.particles.EntityTeleporterFx;
+import riskyken.utilities.client.particles.ParticleManager;
 import riskyken.utilities.common.items.block.ModItemBlock;
 import riskyken.utilities.common.lib.LibBlockNames;
 import riskyken.utilities.common.lib.LibGuiIds;
@@ -69,7 +68,8 @@ public class BlockTeleporter extends AbstractModBlock implements ITileEntityProv
 			float particleMotionY = -0.01F; //- (rand.nextFloat() * 0.1F);
 			float particleMotionZ = 0;
 			
-			Particles.TELEPORTER_BLOCK.spawnParticle(world, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ, meta==4);
+			EntityTeleporterFx particle = new EntityTeleporterFx(world, particleX, particleY, particleZ, meta==4);
+			ParticleManager.INSTANCE.spawnParticle(world, particle);
 		}
 	}
 	

@@ -7,13 +7,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import riskyken.utilities.client.particles.Particles;
-import riskyken.utilities.common.items.block.ModItemBlock;
 import riskyken.utilities.common.items.block.ModItemBlockWithMetadata;
 import riskyken.utilities.common.lib.LibBlockNames;
 import riskyken.utilities.common.lib.LibModInfo;
@@ -53,11 +50,11 @@ public class BlockStarLight extends AbstractModBlock implements ITileEntityProvi
 				float particleZ = z + 0.5F - 10 + rnd.nextFloat() * 20;
 				//System.out.println("render state " + renderState);
 				if (renderState == 0) {
-					Particles.STAR_DUST.spawnParticle(world, particleX, particleY, particleZ, x + 0.5F, y + 0.5F, z + 0.5F, true);
+					//Particles.STAR_DUST.spawnParticle(world, particleX, particleY, particleZ, x + 0.5F, y + 0.5F, z + 0.5F, true);
 				}
 				
 				if (renderState == 2) {
-					Particles.STAR_FLAME.spawnParticle(world, x + 0.5F, y + 0.5F, z + 0.5F, 0, 0, 0, true);
+					//Particles.STAR_FLAME.spawnParticle(world, x + 0.5F, y + 0.5F, z + 0.5F, 0, 0, 0, true);
 				}
 			}
 

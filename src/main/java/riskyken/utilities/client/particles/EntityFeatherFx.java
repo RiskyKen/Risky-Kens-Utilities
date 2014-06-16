@@ -2,15 +2,31 @@ package riskyken.utilities.client.particles;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.relauncher.ReflectionHelper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import riskyken.utilities.common.blocks.ModBlocks;
+import riskyken.utilities.common.lib.LibModInfo;
 
+@SideOnly(Side.CLIENT)
 public class EntityFeatherFx extends EntityFX {
-
-	protected EntityFeatherFx(World world, double x, double y, double z, double xV, double yV, double zV, boolean enabled) {
+	
+	private static final ResourceLocation whiteFeather = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/armor/tiny-white-feather.png");
+	private static final ResourceLocation blackFeather = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/armor/tiny-black-feather.png");
+	private static final ResourceLocation redFeather = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/armor/tiny-red-feather.png");
+	
+	private final int type;
+	private final boolean isUnlit;
+	
+	public EntityFeatherFx(World world, double x, double y, double z, int type) {
 		super(world, x, y, z);
 		//System.out.println("x:" + x + " y:" + y + " z:" + z);
 		
@@ -22,26 +38,16 @@ public class EntityFeatherFx extends EntityFX {
 		this.prevPosY = y;
 		this.prevPosZ = z;
 		
-		//this.interpPosY = 0;
+		this.type = type;
+		this.isUnlit = type != 0;
 		
-		setParticleIcon(ModBlocks.deviceBlock.smallFetherIcon);
 		particleScale = 0.5F;
 		particleMaxAge = 200;
-		
-		//this.rotationPitch = rand.nextFloat();
-		//this.rotationYaw = 45f;
-		
-		particleRed = (float) xV;
-		particleGreen = (float) yV;
-		particleBlue = (float) zV;
 		
 		this.motionX = (rand.nextFloat() - 0.5F) * 0.03F;
 		this.motionZ = (rand.nextFloat() - 0.5F) * 0.03F;;
 		this.motionY = -0.03F;
 		this.particleGravity = 0;
-		
-		
-		//this.moveEntity(this.motionX, this.motionY, this.motionZ);
 	}
 	
 	@Override
@@ -53,23 +59,59 @@ public class EntityFeatherFx extends EntityFX {
 	}
 	
 	@Override
-	public int getFXLayer() {
-		return 1;
-	}
-	
-	@Override
-	public void renderParticle(Tessellator par1Tessellator, float par2, float par3, float par4, float par5, float par6, float par7) {
-		if (!isDead) {
-			//GL11.glPushMatrix();
+	public void renderParticle(Tessellator tessellator, float par2, float par3, float par4, float par5, float par6, float par7) {
+		if (isDead) { return; }
+		
+		if (isUnlit) {
+			tessellator.draw();
+			GL11.glPushMatrix();
 			GL11.glDisable(GL11.GL_LIGHTING);
-			par1Tessellator.setBrightness(15728880);
-			float lastBrightnessX = OpenGlHelper.lastBrightnessX;
-			float lastBrightnessY = OpenGlHelper.lastBrightnessY;
-			//OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
-			
-			super.renderParticle(par1Tessellator, par2, par3, par4, par5, par6, par7);
-			GL11.glEnable(GL11.GL_LIGHTING);
-			//GL11.glPopMatrix();
 		}
+
+		
+		switch (type) {
+		case 0:
+			Minecraft.getMinecraft().renderEngine.bindTexture(blackFeather);
+			break;
+		case 1:
+			Minecraft.getMinecraft().renderEngine.bindTexture(whiteFeather);
+			break;
+		case 2:
+			Minecraft.getMinecraft().renderEngine.bindTexture(redFeather);
+			break;
+		}
+		
+		
+        float f6 = 0;
+        float f7 = 1;
+        float f8 = 0;
+        float f9 = 1;
+        float f10 = 0.1F * this.particleScale;
+
+        float f11 = (float)(this.prevPosX + (this.posX - this.prevPosX) * (double)par2 - interpPosX);
+        float f12 = (float)(this.prevPosY + (this.posY - this.prevPosY) * (double)par2 - interpPosY);
+        float f13 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * (double)par2 - interpPosZ);
+        
+        if (isUnlit) {
+        	tessellator.startDrawingQuads();
+        	tessellator.setBrightness(15728880);
+        }
+
+        tessellator.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
+        tessellator.addVertexWithUV((double)(f11 - par3 * f10 - par6 * f10), (double)(f12 - par4 * f10), (double)(f13 - par5 * f10 - par7 * f10), (double)f7, (double)f9);
+        tessellator.addVertexWithUV((double)(f11 - par3 * f10 + par6 * f10), (double)(f12 + par4 * f10), (double)(f13 - par5 * f10 + par7 * f10), (double)f7, (double)f8);
+        tessellator.addVertexWithUV((double)(f11 + par3 * f10 + par6 * f10), (double)(f12 + par4 * f10), (double)(f13 + par5 * f10 + par7 * f10), (double)f6, (double)f8);
+        tessellator.addVertexWithUV((double)(f11 + par3 * f10 - par6 * f10), (double)(f12 - par4 * f10), (double)(f13 + par5 * f10 - par7 * f10), (double)f6, (double)f9);
+        
+        if (isUnlit) {
+            tessellator.draw();
+    		GL11.glEnable(GL11.GL_LIGHTING);
+    		GL11.glPopMatrix();
+    		
+    		ResourceLocation particleTextures;
+    		particleTextures = ReflectionHelper.getPrivateValue(EffectRenderer.class, null, "particleTextures", "field_110737_b", "b");
+    		Minecraft.getMinecraft().renderEngine.bindTexture(particleTextures);
+    		tessellator.startDrawingQuads();
+        }
 	}
 }
