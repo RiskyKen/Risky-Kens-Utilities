@@ -1,0 +1,36 @@
+{
+    "teleportfxrecieve": {"category": "master","sounds": [{"name": "teleportfxrecieve1","stream": false}, {"name": "teleportfxrecieve2","stream": false}]},
+    "teleportfxsend": {"category": "master","sounds": [{"name": "teleportfxsend1","stream": false}, {"name": "teleportfxsend2","stream": false}]},
+	
+	"star-born": {"category": "master","sounds": [{"name": "star-born","stream": true}]},
+    
+	"electro_BD": {"category": "master","sounds": [{"name": "electro-kit/electro_BD","stream": false}]},
+	"electro_cHats": {"category": "master","sounds": [{"name": "electro-kit/electro_cHats","stream": false}]},
+	"electro_clap": {"category": "master","sounds": [{"name": "electro-kit/electro_clap","stream": false}]},
+	"electro_crash": {"category": "master","sounds": [{"name": "electro-kit/electro_crash","stream": false}]},
+    "electro_oHats": {"category": "master","sounds": [{"name": "electro-kit/electro_oHats","stream": false}]},
+    "electro_Ride": {"category": "master","sounds": [{"name": "electro-kit/electro_Ride","stream": false}]},
+	"electro_SD": {"category": "master","sounds": [{"name": "electro-kit/electro_SD","stream": false}]},
+	"electro_Tom1": {"category": "master","sounds": [{"name": "electro-kit/electro_Tom1","stream": false}]},
+	"electro_Tom2": {"category": "master","sounds": [{"name": "electro-kit/electro_Tom2","stream": false}]},
+	
+	"dance1_BD": {"category": "master","sounds": [{"name": "dance1/dance1_BD","stream": false}]},
+    "dance1_cHat": {"category": "master","sounds": [{"name": "dance1/dance1_cHat","stream": false}]},
+    "dance1_clap": {"category": "master","sounds": [{"name": "dance1/dance1_clap","stream": false}]},
+    "dance1_crash": {"category": "master","sounds": [{"name": "dance1/dance1_crash","stream": false}]},
+    "dance1_oHat": {"category": "master","sounds": [{"name": "dance1/dance1_oHat","stream": false}]},
+    "dance1_Ride": {"category": "master","sounds": [{"name": "dance1/dance1_Ride","stream": false}]},
+    "dance1_SD": {"category": "master","sounds": [{"name": "dance1/dance1_SD","stream": false}]},
+    "dance1_Tom1": {"category": "master","sounds": [{"name": "dance1/dance1_Tom1","stream": false}]},
+    "dance1_Tom2": {"category": "master","sounds": [{"name": "dance1/dance1_Tom2","stream": false}]},
+    
+    "dance2_BD": {"category": "master","sounds": [{"name": "dance2/dance2_BD","stream": false}]},
+    "dance2_cHat": {"category": "master","sounds": [{"name": "dance2/dance2_cHat","stream": false}]},
+    "dance2_clap": {"category": "master","sounds": [{"name": "dance2/dance2_clap","stream": false}]},
+    "dance2_crash": {"category": "master","sounds": [{"name": "dance2/dance2_crash","stream": false}]},
+    "dance2_oHat": {"category": "master","sounds": [{"name": "dance2/dance2_oHat","stream": false}]},
+    "dance2_Ride": {"category": "master","sounds": [{"name": "dance2/dance2_Ride","stream": false}]},
+    "dance2_SD": {"category": "master","sounds": [{"name": "dance2/dance2_SD","stream": false}]},
+    "dance2_Tom1": {"category": "master","sounds": [{"name": "dance2/dance2_Tom1","stream": false}]},
+    "dance2_Tom2": {"category": "master","sounds": [{"name": "dance2/dance2_Tom2","stream": false}]}
+}

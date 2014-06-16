@@ -1,0 +1,13 @@
+{
+  "pack": {
+    "pack_format": 1,
+    "description": "Risky Ken's Utilities Pack"
+  },
+  "language": {
+    "en_GB": {
+      "name": "English",
+      "region": "GB",
+      "bidirectional": false
+    }
+  }
+}

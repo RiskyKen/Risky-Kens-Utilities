@@ -1,0 +1,17 @@
+[
+{
+  "modid": "RiskyKensUtilities",
+  "name": "Risky Ken's Utilities",
+  "description": "Adds utility blocks and items.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "logoFile": "",
+  "url": "http://www.minecraftforum.net/topic/2637295-",
+  "updateUrl": "",
+  "authors": ["RiskyKen"],
+  "credits": "Sounds By Borro55, Art By Choccie Bunny",
+  "parent": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
