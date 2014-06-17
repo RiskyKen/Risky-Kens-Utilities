@@ -17,6 +17,7 @@ import riskyken.utilities.common.tileentities.TileEntityLeafCatcher;
 import riskyken.utilities.common.tileentities.TileEntityMusicSequencer;
 import riskyken.utilities.common.tileentities.TileEntityOreProcessor;
 import riskyken.utilities.common.tileentities.TileEntityStarLight;
+import riskyken.utilities.common.tileentities.TileEntityStarMultiBlock;
 import riskyken.utilities.common.tileentities.TileEntityTransporterBeacon;
 import riskyken.utilities.utils.Utils;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -76,6 +77,7 @@ public class ModBlocks {
 		//registerTileEntity(TileEntityHouseBuilder.class, LibBlockNames.FARM);
 		//registerTileEntity(TileEntityHouseBuilder.class, LibBlockNames.HOUSE_BUILDER);
 		registerTileEntity(TileEntityStarLight.class, LibBlockNames.STAR_LIGHT);
+		registerTileEntity(TileEntityStarMultiBlock.class, LibBlockNames.STAR_MULTI_BLOCK);
 	}
 	
 	public static void registerRecipes() {

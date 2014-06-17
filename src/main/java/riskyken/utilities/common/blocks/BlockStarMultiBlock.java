@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import riskyken.utilities.client.particles.EntityStarDust;
@@ -16,11 +18,12 @@ import riskyken.utilities.client.particles.ParticleManager;
 import riskyken.utilities.common.items.block.ModItemBlockWithMetadata;
 import riskyken.utilities.common.lib.LibBlockNames;
 import riskyken.utilities.common.lib.LibModInfo;
+import riskyken.utilities.common.tileentities.TileEntityStarMultiBlock;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockStarMultiBlock extends AbstractModBlock {
+public class BlockStarMultiBlock extends AbstractModBlock implements ITileEntityProvider {
 
 	public BlockStarMultiBlock() {
 		super(LibBlockNames.STAR_MULTI_BLOCK);
@@ -87,7 +90,7 @@ public class BlockStarMultiBlock extends AbstractModBlock {
 	public void randomDisplayTick(World world, int x, int y, int z, Random rnd) {
 		//System.out.println("tick");
 		int spread = 20;
-		for (int i = 0; i < 500; i++) {
+		for (int i = 0; i < 5; i++) {
 			float particleX = (x + 0.5F) + (rnd.nextFloat() * spread) - spread / 2;
 			float particleY = (y + 0.5F) + (rnd.nextFloat() * spread) - spread / 2;
 			float particleZ = (z + 0.5F) + (rnd.nextFloat() * spread) - spread / 2;
@@ -95,5 +98,18 @@ public class BlockStarMultiBlock extends AbstractModBlock {
 			EntityStarDust particle = new EntityStarDust(world, particleX, particleY, particleZ, x + 0.5F, y + 0.5F, z + 0.5F, 1F);
 			ParticleManager.INSTANCE.spawnParticle(world, particle);
 		}
+	}
+
+	@Override
+	public TileEntity createNewTileEntity(World var1, int var2) {
+		return null;
+	}
+	
+	@Override
+	public TileEntity createTileEntity(World world, int metadata) {
+		if (metadata < 4) {
+			return new TileEntityStarMultiBlock(metadata);
+		}
+		return null;
 	}
 }

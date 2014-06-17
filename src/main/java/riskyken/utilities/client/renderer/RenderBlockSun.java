@@ -1,33 +1,15 @@
 package riskyken.utilities.client.renderer;
 
-import java.awt.image.TileObserver;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import riskyken.utilities.common.blocks.ModBlocks;
-import riskyken.utilities.common.lib.LibModInfo;
-import riskyken.utilities.common.tileentities.TileEntityStarLight;
-import riskyken.utilities.proxies.ClientProxy;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.projectile.EntityPotion;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemPotion;
-import net.minecraft.potion.PotionHelper;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.IBlockAccess;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import org.lwjgl.opengl.GL11;
+import riskyken.utilities.common.lib.LibModInfo;
+import riskyken.utilities.common.tileentities.TileEntityStarLight;
 
 public class RenderBlockSun extends TileEntitySpecialRenderer {
 	

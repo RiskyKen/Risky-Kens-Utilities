@@ -12,7 +12,7 @@ import net.minecraft.world.IBlockAccess;
 public class BlockUtilitieSolid extends Block {
 	
 	public BlockUtilitieSolid() {
-		super(Material.air);
+		super(Material.rock);
 		setBlockName(LibBlockNames.UTILITIE_SOLID);
 		setBlockUnbreakable();
 		setLightOpacity(0);
