@@ -118,8 +118,6 @@ public class EntityFeatherFx extends EntityFX {
 		particleTextures = ReflectionHelper.getPrivateValue(EffectRenderer.class, null, "particleTextures", "field_110737_b", "b");
 		Minecraft.getMinecraft().renderEngine.bindTexture(particleTextures);
 		tessellator.startDrawingQuads();
-		
-
 	}
 	
 	private void drawBillboard(double x, double y, double z, float rotation) {

@@ -1,6 +1,7 @@
 package riskyken.utilities.common.blocks;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -10,6 +11,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import riskyken.utilities.client.particles.EntityStarDust;
+import riskyken.utilities.client.particles.ParticleManager;
 import riskyken.utilities.common.items.block.ModItemBlockWithMetadata;
 import riskyken.utilities.common.lib.LibBlockNames;
 import riskyken.utilities.common.lib.LibModInfo;
@@ -46,7 +49,6 @@ public class BlockStarMultiBlock extends AbstractModBlock {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float xHit, float yHit, float zHit) {
 		int meta = world.getBlockMetadata(x, y, z);
 		if (meta != 4) { return false; }
-		
 		if (!world.isRemote) {
 			
 		}
@@ -77,6 +79,21 @@ public class BlockStarMultiBlock extends AbstractModBlock {
 			return blockIcons[meta];
 		} else {
 			return blockIcons[0];
+		}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random rnd) {
+		//System.out.println("tick");
+		int spread = 20;
+		for (int i = 0; i < 500; i++) {
+			float particleX = (x + 0.5F) + (rnd.nextFloat() * spread) - spread / 2;
+			float particleY = (y + 0.5F) + (rnd.nextFloat() * spread) - spread / 2;
+			float particleZ = (z + 0.5F) + (rnd.nextFloat() * spread) - spread / 2;
+			
+			EntityStarDust particle = new EntityStarDust(world, particleX, particleY, particleZ, x + 0.5F, y + 0.5F, z + 0.5F, 1F);
+			ParticleManager.INSTANCE.spawnParticle(world, particle);
 		}
 	}
 }
