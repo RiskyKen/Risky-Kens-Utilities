@@ -110,7 +110,7 @@ public class ModelBigWings extends ModelBiped
 	
 	private void spawnParticales(EntityPlayer player, int type) {
 		Random rnd = new Random();
-		if (rnd.nextFloat() * 1000 > 980) {
+		if (rnd.nextFloat() * 1000 > 990) {
 			PointD offset;// = new PointD(player.posX, player.posZ);
 			
 			if (rnd.nextFloat() > 0.5f) {
