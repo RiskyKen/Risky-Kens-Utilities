@@ -104,7 +104,7 @@ public class EntityFeatherFx extends EntityFX {
         
         tessellator.startDrawingQuads();
         if (isUnlit) {
-        tessellator.setBrightness(15728880);
+        	tessellator.setBrightness(15728880);
         }
         
         drawBillboard(f11 - par3 * f10 - par6 * f10, f12 - par4 * f10, f13 - par5 * f10 - par7 * f10, rotationPitch);

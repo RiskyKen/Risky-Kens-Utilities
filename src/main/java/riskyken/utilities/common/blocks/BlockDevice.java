@@ -42,28 +42,10 @@ public class BlockDevice extends AbstractModBlock {
 		
 		blockIcons[1] = register.registerIcon(LibModInfo.ID + ":"
 				+ "device-block-water-drain");
-		
-		smallFetherIcon = register.registerIcon(LibModInfo.ID + ":"
-				+ "tiny-feather");
-		
-		starDustIcon = register.registerIcon(LibModInfo.ID + ":"
-				+ "tiny-feather");
-		
-		starFlameIcon = register.registerIcon(LibModInfo.ID + ":"
-				+ "tiny-feather");
 	}
 
 	@SideOnly(Side.CLIENT)
 	private IIcon[] blockIcons;
-	
-	@SideOnly(Side.CLIENT)
-	public IIcon smallFetherIcon;
-	
-	@SideOnly(Side.CLIENT)
-	public IIcon starDustIcon;
-	
-	@SideOnly(Side.CLIENT)
-	public IIcon starFlameIcon;
 
 	@Override
 	public IIcon getIcon(int side, int meta) {

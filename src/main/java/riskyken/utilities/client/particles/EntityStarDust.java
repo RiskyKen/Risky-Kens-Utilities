@@ -41,7 +41,7 @@ public class EntityStarDust extends EntityFX {
 		//this.motionY = point2.y - y;
 		this.motionZ = point1.y - z;
 		
-		setParticleIcon(ModBlocks.deviceBlock.starDustIcon);
+		//setParticleIcon(ModBlocks.deviceBlock.starDustIcon);
 		
 		this.particleRed = 1;
 		this.particleGreen = 0.7F;
