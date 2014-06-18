@@ -1,11 +1,9 @@
 package riskyken.utilities.common.world;
 
-import static net.minecraftforge.common.ChestGenHooks.DUNGEON_CHEST;
-
+import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.Random;
 
-import riskyken.utilities.utils.ModLogger;
-import riskyken.utilities.utils.Utils;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
@@ -15,7 +13,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.DungeonHooks;
-import net.minecraftforge.common.util.ForgeDirection;
+import riskyken.utilities.utils.ModLogger;
 
 public class WorldGenDungeon extends WorldGenerator {
 
@@ -26,18 +24,19 @@ public class WorldGenDungeon extends WorldGenerator {
 		
 		int dungeonSize = (int) (rnd.nextFloat() * 3) + 1;
 		int roomSize  = (int) (rnd.nextFloat() * dungeonSize) + 8;
+		ArrayList<Rectangle> roomList = new ArrayList<Rectangle>();
+		
 		
 		if (validSpawn(world, x, y, z, roomSize, ROOM_HEIGHT + 1) & validSpawn(world, x, y - ROOM_HEIGHT + 1, z, 4, ROOM_HEIGHT)) {
 			
-
-			
 			ModLogger.logger.info("Spawning dungeon of size " + dungeonSize + " at x:" + x + " y:" + y + " z:" + z);
-			generateRoom(world, rnd, x, y - ROOM_HEIGHT + 1, z, 3, ROOM_HEIGHT, 1);
-			
-			spawnRoom(world, rnd, x, y, z, dungeonSize, roomSize, ROOM_HEIGHT + 1, 0);
+			generateRoom(world, rnd, null, x, y - ROOM_HEIGHT + 1, z, 3, ROOM_HEIGHT, 1);
+			spawnRoom(world, rnd, roomList, x, y, z, dungeonSize, roomSize, ROOM_HEIGHT + 1, 0);
 			
 			return true;
 		}
+		
+		roomList.clear();
 		return false;
 	}
 	
@@ -67,12 +66,27 @@ public class WorldGenDungeon extends WorldGenerator {
 		return true;
 	}
 	
-	private void spawnRoom(World world, Random rnd, int x, int y, int z, int level, int size, int height, int roomId) {
+	private boolean intersectsExistingRoom(ArrayList<Rectangle> roomList, Rectangle room) {
+		for(Rectangle iRoom : roomList){
+		    if (iRoom.intersects(room)) { return true; }
+		}
+		return false;
+	}
+	
+	private void spawnRoom(World world, Random rnd, ArrayList<Rectangle> roomList, int x, int y, int z, int level, int size, int height, int roomId) {
 		
-		generateRoom(world, rnd, x, y, z, size, height, roomId);
+		//System.out.println("spawning room x:" + x + " y:" + y + " z:" + z + " size:" + size + " level:" + level);
+		
+		generateRoom(world, rnd, roomList, x, y, z, size, height, roomId);
+		
+		//System.out.println("rooms " + roomList.size() + " level " + level);
 		
 		if (level < 1) {
 			return;
+		}
+		
+		if (roomList.size() > 50) {
+			//return;
 		}
 		
 		for (int ix = -1; ix <= 1; ix++) {
@@ -80,8 +94,11 @@ public class WorldGenDungeon extends WorldGenerator {
 				if (ix == 0 | iz == 0) {
 					if (ix != iz) {
 						int roomSize  = (int) (rnd.nextFloat() * 3) + 3;
-						if (validSpawn(world, x + (roomSize + size + 2) * ix, y, z + (roomSize + size + 2) * iz, roomSize, height)) {
-							spawnRoom(world, rnd, x + (roomSize + size + 2) * ix, y, z + (roomSize + size + 2) * iz, level - 1, roomSize, ROOM_HEIGHT, 2);
+						int roomX = x + (roomSize + size + 2) * ix;
+						int roomZ = z + (roomSize + size + 2) * iz;
+						
+						if (!intersectsExistingRoom(roomList, new Rectangle(roomX + -roomSize, roomZ + -roomSize, roomSize * 2 + 1, roomSize * 2 + 1))) {
+							spawnRoom(world, rnd, roomList, x + (roomSize + size + 2) * ix, y, z + (roomSize + size + 2) * iz, level - 1, roomSize, ROOM_HEIGHT, 2);
 							generateDoor(world, rnd, x + (size + 1) * ix, y, z + (size + 1) * iz, 1, ROOM_HEIGHT - 2, ix, iz);
 						}
 					}
@@ -90,7 +107,14 @@ public class WorldGenDungeon extends WorldGenerator {
 		}
 	}
 	
-	private void generateRoom(World world, Random rnd, int x, int y, int z, int size, int height, int roomId) {
+	private void generateRoom(World world, Random rnd, ArrayList<Rectangle> roomList, int x, int y, int z, int size, int height, int roomId) {
+		
+		if (roomList != null) {
+			Rectangle rec = new Rectangle(x + -size, z + -size, size * 2 + 1, size * 2 + 1);
+			roomList.add(rec);
+			//System.out.println("adding room to list x:" + rec.toString() );
+		}
+		
 		
 		for (int iy = 1; iy <= height; iy++) {
 			for (int ix = -size; ix <= size; ix++) {
@@ -260,12 +284,12 @@ public class WorldGenDungeon extends WorldGenerator {
 			world.setBlockToAir(x + 2, y - 2, z + 1);
 			world.setBlockToAir(x - 2, y - 2, z + 1);
 			
-			world.setBlock(x + 1, y - 3, z + 2, Blocks.redstone_wire, 0, 1);
-			world.setBlock(x + 2, y - 3, z + 2, Blocks.redstone_wire, 0, 1);
-			world.setBlock(x - 1, y - 3, z + 2, Blocks.redstone_wire, 0, 1);
-			world.setBlock(x - 2, y - 3, z + 2, Blocks.redstone_wire, 0, 1);
-			world.setBlock(x + 2, y - 3, z + 1, Blocks.redstone_wire, 0, 1);
-			world.setBlock(x - 2, y - 3, z + 1, Blocks.redstone_wire, 0, 1);
+			world.setBlock(x + 1, y - 3, z + 2, Blocks.redstone_wire, 0, 2);
+			world.setBlock(x + 2, y - 3, z + 2, Blocks.redstone_wire, 0, 2);
+			world.setBlock(x - 1, y - 3, z + 2, Blocks.redstone_wire, 0, 2);
+			world.setBlock(x - 2, y - 3, z + 2, Blocks.redstone_wire, 0, 2);
+			world.setBlock(x + 2, y - 3, z + 1, Blocks.redstone_wire, 0, 2);
+			world.setBlock(x - 2, y - 3, z + 1, Blocks.redstone_wire, 0, 2);
 		} 
 		if (zFlip == 1 | zFlip == -1) {
 			world.setBlockToAir(x + 1, y - 1, z);
@@ -289,12 +313,12 @@ public class WorldGenDungeon extends WorldGenerator {
 			world.setBlockToAir(x + 1, y - 2, z - 2);
 			world.setBlockToAir(x + 1, y - 2, z + 2);
 			
-			world.setBlock(x + 2, y - 3, z + 1, Blocks.redstone_wire, 0, 1);
-			world.setBlock(x + 2, y - 3, z + 2, Blocks.redstone_wire, 0, 1);
-			world.setBlock(x + 2, y - 3, z - 1, Blocks.redstone_wire, 0, 1);
-			world.setBlock(x + 2, y - 3, z - 2, Blocks.redstone_wire, 0, 1);
-			world.setBlock(x + 1, y - 3, z - 2, Blocks.redstone_wire, 0, 1);
-			world.setBlock(x + 1, y - 3, z + 2, Blocks.redstone_wire, 0, 1);
+			world.setBlock(x + 2, y - 3, z + 1, Blocks.redstone_wire, 0, 2);
+			world.setBlock(x + 2, y - 3, z + 2, Blocks.redstone_wire, 0, 2);
+			world.setBlock(x + 2, y - 3, z - 1, Blocks.redstone_wire, 0, 2);
+			world.setBlock(x + 2, y - 3, z - 2, Blocks.redstone_wire, 0, 2);
+			world.setBlock(x + 1, y - 3, z - 2, Blocks.redstone_wire, 0, 2);
+			world.setBlock(x + 1, y - 3, z + 2, Blocks.redstone_wire, 0, 2);
 
 		} 
 		
