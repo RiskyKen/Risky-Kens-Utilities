@@ -15,16 +15,23 @@ import riskyken.utilities.common.entities.EntityFloodLightDespawner;
 
 public class TileEntityFloodLight extends TileEntity {
 	
-	ForgeDirection facing = ForgeDirection.UP;
-	BlockFloodLightTypes type;
-	int updateCount;
-	int blockCount;
-	boolean addingBlocks = true;
-	boolean active = true;
+	private static final String TAG_TICK_COOLDOWN = "tickCooldown";
+	private static final String TAG_FACING = "facing";
+	private static final String TAG_TYPE = "type";
+	private static final String TAG_BLOCK_COUNT = "blockCount";
+	private static final String TAG_ADDING_BLOCKS = "addingBlocks";
+	private static final String TAG_ACTIVE = "active";
 	
-	public TileEntityFloodLight() {
-		
-	}
+	private static final int TICK_RATE = 5;
+	
+	private int tickCooldown = TICK_RATE;
+	private ForgeDirection facing = ForgeDirection.UP;
+	private BlockFloodLightTypes type;
+	private int blockCount;
+	private boolean addingBlocks = true;
+	private boolean active = true;
+	
+	public TileEntityFloodLight() {}
 	
 	public TileEntityFloodLight(BlockFloodLightTypes type) {
 		this.type = type;
@@ -34,9 +41,9 @@ public class TileEntityFloodLight extends TileEntity {
 	public void updateEntity() {
 		if (worldObj.isRemote) { return; }
 		
-		updateCount++;
-		if (updateCount >= 5) { updateCount = 0; }
-		else { return; }
+		tickCooldown--;
+		if (tickCooldown >= 0) { return; }
+		tickCooldown = TICK_RATE;
 		
 		if (type != null) {
 			updateFloodLight();
@@ -107,16 +114,17 @@ public class TileEntityFloodLight extends TileEntity {
 	
 	@Override
 	public Packet getDescriptionPacket() {
-	    NBTTagCompound tagCompound = new NBTTagCompound();
-	    writeToNBT(tagCompound);
-	    return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 5, tagCompound);
+	    NBTTagCompound compound = new NBTTagCompound();
+		compound.setInteger(TAG_FACING, facing.ordinal());
+		compound.setInteger(TAG_TYPE, type.ordinal());
+	    return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 5, compound);
 	}
 	
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		NBTTagCompound compound = packet.func_148857_g();
-		facing = ForgeDirection.getOrientation(compound.getInteger("facing"));
-		type = BlockFloodLightTypes.getBlockLightType(compound.getInteger("type"));
+		facing = ForgeDirection.getOrientation(compound.getInteger(TAG_FACING));
+		type = BlockFloodLightTypes.getBlockLightType(compound.getInteger(TAG_TYPE));
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		markDirty();
 	}
@@ -124,18 +132,22 @@ public class TileEntityFloodLight extends TileEntity {
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		compound.setInteger("facing", facing.ordinal());
-		compound.setInteger("type", type.ordinal());
-		compound.setInteger("updateCount", updateCount);
-		compound.setInteger("blockCount", blockCount);
+		compound.setInteger(TAG_TICK_COOLDOWN, tickCooldown);
+		compound.setInteger(TAG_FACING, facing.ordinal());
+		compound.setInteger(TAG_TYPE, type.ordinal());
+		compound.setInteger(TAG_BLOCK_COUNT, blockCount);
+		compound.setBoolean(TAG_ADDING_BLOCKS, addingBlocks);
+		compound.setBoolean(TAG_ACTIVE, active);
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		facing = ForgeDirection.getOrientation(compound.getInteger("facing"));
-		type = BlockFloodLightTypes.getBlockLightType(compound.getInteger("type"));
-		updateCount = compound.getInteger("updateCount");
-		blockCount = compound.getInteger("blockCount");
+		tickCooldown = compound.getInteger(TAG_TICK_COOLDOWN);
+		facing = ForgeDirection.getOrientation(compound.getInteger(TAG_FACING));
+		type = BlockFloodLightTypes.getBlockLightType(compound.getInteger(TAG_TYPE));
+		blockCount = compound.getInteger(TAG_BLOCK_COUNT);
+		addingBlocks = compound.getBoolean(TAG_ADDING_BLOCKS);
+		active = compound.getBoolean(TAG_ACTIVE);
 	}
 }

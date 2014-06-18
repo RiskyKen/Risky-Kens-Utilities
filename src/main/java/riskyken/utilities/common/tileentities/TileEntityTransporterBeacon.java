@@ -74,16 +74,6 @@ public class TileEntityTransporterBeacon extends TileEntityUtilitiesBasePowered 
 			((ItemTransportDevice)itemstack1.getItem()).setLinkPos(itemstack1, worldObj, xCoord, yCoord, zCoord);
 		}
 	}
-    
-	@Override
-	public void writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
-	}
 	
 	@Override
 	public String getInventoryName() {

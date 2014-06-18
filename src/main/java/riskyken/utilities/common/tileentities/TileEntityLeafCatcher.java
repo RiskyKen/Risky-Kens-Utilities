@@ -27,7 +27,6 @@ public class TileEntityLeafCatcher extends TileEntityUtilitiesBase {
 		if (worldObj.isRemote) { return; }
 		
 		tickCooldown--;
-		
 		if (tickCooldown >= 0) { return; }
 		tickCooldown = TICK_RATE;
 		

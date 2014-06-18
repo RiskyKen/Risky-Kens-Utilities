@@ -336,16 +336,6 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 		}
 	}
 	
-	@Override
-	public void writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
-	}
-	
 	private class Coord3D {
 	    public int x;
 	    public int y;

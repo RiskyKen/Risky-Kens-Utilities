@@ -13,8 +13,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityGift extends TileEntityUtilitiesBase {
 
-	public int color1;
-	public int color2;
+	private static final String TAG_COLOUR_1 = "colour1";
+	private static final String TAG_COLOUR_2 = "colour2";
+	private static final String TAG_ITEMS = "items";
+	private static final String TAG_SLOT = "slot";
+	
+	private int colour1;
+	private int colour2;
 	
 	public TileEntityGift() {
 		items = new ItemStack[9];
@@ -25,31 +30,30 @@ public class TileEntityGift extends TileEntityUtilitiesBase {
 		return LibBlockNames.GIFT;
 	}
 	
-	public void updateColor1(int c1) {
-		color1 = c1;
+	public void updateColor1(int colour) {
+		colour1 = colour;
 		markDirty();
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
-	public void updateColor2(int c2) {
-		color2 = c2;
+	public void updateColor2(int colour) {
+		colour2 = colour;
 		markDirty();
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public void updateColor(byte colorId, int colorData) {
-		if (colorId == 0) { color1 = colorData; }
-		if (colorId == 1) { color2 = colorData; }
+		if (colorId == 0) { colour1 = colorData; }
+		if (colorId == 1) { colour2 = colorData; }
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	public int getColor(int colorId) {
-		if (colorId == 0) { return color1; }
-		if (colorId == 1) { return color2; }
+		if (colorId == 0) { return colour1; }
+		if (colorId == 1) { return colour2; }
 		return 0;
 	}
-	
 	
 	@Override
 	public Packet getDescriptionPacket() {
@@ -61,50 +65,47 @@ public class TileEntityGift extends TileEntityUtilitiesBase {
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		readItemNBT(packet.func_148857_g());
-		//super.onDataPacket(net, packet);
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		markDirty();
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
-		compound.setInteger("color1", color1);
-		compound.setInteger("color2", color2);
+		compound.setInteger(TAG_COLOUR_1, colour1);
+		compound.setInteger(TAG_COLOUR_2, colour2);
 		super.writeToNBT(compound);
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
-		color1 = compound.getInteger("color1");
-		color2 = compound.getInteger("color2");
+		colour1 = compound.getInteger(TAG_COLOUR_1);
+		colour2 = compound.getInteger(TAG_COLOUR_2);
 		super.readFromNBT(compound);
-		//worldObj.markBlockForRenderUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	public void writeItemNBT(NBTTagCompound compound) {
-		compound.setInteger("color1", color1);
-		compound.setInteger("color2", color2);
+		compound.setInteger(TAG_COLOUR_1, colour1);
+		compound.setInteger(TAG_COLOUR_2, colour2);
 		NBTTagList items = new NBTTagList();
 		for (int i = 0; i < getSizeInventory(); i++) {
 			ItemStack stack = getStackInSlot(i);
 			if (stack != null) {
 				NBTTagCompound item = new NBTTagCompound();
-				item.setByte("Slot", (byte)i);
+				item.setByte(TAG_SLOT, (byte)i);
 				stack.writeToNBT(item);
 				items.appendTag(item);
 			}
 		}
-		compound.setTag("Items", items);
+		compound.setTag(TAG_ITEMS, items);
 	}
 	
 	public void readItemNBT(NBTTagCompound compound) {
-		color1 = compound.getInteger("color1");
-		color2 = compound.getInteger("color2");
-		NBTTagList items = compound.getTagList("Items", NBT.TAG_COMPOUND);
+		colour1 = compound.getInteger(TAG_COLOUR_1);
+		colour2 = compound.getInteger(TAG_COLOUR_2);
+		NBTTagList items = compound.getTagList(TAG_ITEMS, NBT.TAG_COMPOUND);
 		for (int i = 0; i < items.tagCount(); i++) {
 			NBTTagCompound item = (NBTTagCompound)items.getCompoundTagAt(i);
-			int slot = item.getByte("Slot");
-			
+			int slot = item.getByte(TAG_SLOT);
 			if (slot >= 0 && slot < getSizeInventory()) {
 				setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(item));
 			}

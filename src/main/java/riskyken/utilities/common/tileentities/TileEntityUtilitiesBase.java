@@ -12,6 +12,7 @@ import net.minecraftforge.common.util.Constants.NBT;
 public abstract class TileEntityUtilitiesBase extends TileEntity implements IInventory  {
 
 	private static final String TAG_ITEMS = "items";
+	private static final String TAG_SLOT = "slot";
 	protected ItemStack[] items;
 	
 	@Override
@@ -84,13 +85,12 @@ public abstract class TileEntityUtilitiesBase extends TileEntity implements IInv
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		
 		NBTTagList items = new NBTTagList();
 		for (int i = 0; i < getSizeInventory(); i++) {
 			ItemStack stack = getStackInSlot(i);
 			if (stack != null) {
 				NBTTagCompound item = new NBTTagCompound();
-				item.setByte("Slot", (byte)i);
+				item.setByte(TAG_SLOT, (byte)i);
 				stack.writeToNBT(item);
 				items.appendTag(item);
 			}
@@ -104,7 +104,7 @@ public abstract class TileEntityUtilitiesBase extends TileEntity implements IInv
 		NBTTagList items = compound.getTagList(TAG_ITEMS, NBT.TAG_COMPOUND);
 		for (int i = 0; i < items.tagCount(); i++) {
 			NBTTagCompound item = (NBTTagCompound)items.getCompoundTagAt(i);
-			int slot = item.getByte("Slot");
+			int slot = item.getByte(TAG_SLOT);
 			
 			if (slot >= 0 && slot < getSizeInventory()) {
 				setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(item));

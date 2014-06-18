@@ -91,6 +91,22 @@ public class TileEntityStarMultiBlock extends TileEntity {
 		System.out.println("found star 4");
 	}
 	
+	private void replaceLayer3(int x, int y, int z) {
+		
+	}
+	
+	private boolean checkForLayer3(int x, int y, int z) {
+		return true;
+	}
+	
+	private void replaceLayer2(int x, int y, int z) {
+		
+	}
+	
+	private boolean checkForLayer2(int x, int y, int z) {
+		return true;
+	}
+	
 	private boolean checkForLayer1(int x, int y, int z) {
 		if (!checkMultiBlockMeta(x, y + 1, z, 6)) { return false; }
 		if (!checkMultiBlockMeta(x, y - 1, z, 6)) { return false; }
