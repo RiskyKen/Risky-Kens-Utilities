@@ -1,13 +1,14 @@
 package riskyken.utilities.common.tileentities;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import riskyken.utilities.common.config.ConfigHandler;
-import riskyken.utilities.common.lib.LibBlockNames;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import riskyken.utilities.common.config.ConfigHandler;
+import riskyken.utilities.common.lib.LibBlockNames;
+import riskyken.utilities.utils.Vector3;
 
 public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 	
@@ -16,9 +17,9 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 	
 	private int blocksScanned;
 	
-	private ArrayList airBlockOpenList = null;
-	private ArrayList airBlockClosedList = null;
-	private ArrayList removeBlockOpenList = null;
+	private HashMap<Integer, Vector3> airBlockOpenList;
+	private HashMap<Integer, Vector3> airBlockClosedList;
+	private HashMap<Integer, Vector3> removeBlockOpenList;
 	
 	public enum BlockState
 	{
@@ -59,9 +60,9 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 		if (state == BlockState.Scanning) { return; }
 		if (state == BlockState.Running) { return; }
 		//System.out.println("Starting block search");
-		airBlockOpenList = new ArrayList();
-		airBlockClosedList = new ArrayList();
-		removeBlockOpenList = new ArrayList();
+		airBlockOpenList = new HashMap<Integer, Vector3>();
+		airBlockClosedList = new HashMap<Integer, Vector3>();
+		removeBlockOpenList = new HashMap<Integer, Vector3>();
 		
 		blocksScanned = 0;
 		
@@ -184,13 +185,13 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 		}
 	}
 	
-	private void addBlockToList(Coord3D blockCoord, ArrayList list) {
+	private void addBlockToList(Coord3D blockCoord, ArrayList<Coord3D> list) {
 		list.add(blockCoord);
 		blocksScanned++;
 	}
 	
-	private void addBlocksAroundBlock(Coord3D blockCoord, ArrayList openList, ArrayList closedList, boolean allowAir) {
-		ArrayList checkBlocks = getBlockAroundBlock(blockCoord);
+	private void addBlocksAroundBlock(Coord3D blockCoord, ArrayList<Coord3D> openList, ArrayList<Coord3D> closedList, boolean allowAir) {
+		ArrayList<Coord3D> checkBlocks = getBlockAroundBlock(blockCoord);
 		for (int i = 0; i < checkBlocks.size(); i++)
 		{
 			checkAndAddBlock((Coord3D)checkBlocks.get(i), openList, closedList, allowAir);
@@ -198,7 +199,7 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 	}
 	
 	private ArrayList getBlockAroundBlock(Coord3D blockCoord) {
-		ArrayList result = new ArrayList();
+		ArrayList<Coord3D> result = new ArrayList<Coord3D>();
 		result.add(new Coord3D(blockCoord.x, blockCoord.y + 1, blockCoord.z));
 		result.add(new Coord3D(blockCoord.x, blockCoord.y - 1, blockCoord.z));
 		result.add(new Coord3D(blockCoord.x + 1, blockCoord.y, blockCoord.z));
@@ -208,7 +209,7 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 		return result;
 	}
 	
-	private void checkAndAddBlock(Coord3D blockCoord, ArrayList openList, ArrayList closedList, boolean allowAir) {
+	private void checkAndAddBlock(Coord3D blockCoord, ArrayList<Coord3D> openList, ArrayList<Coord3D> closedList, boolean allowAir) {
 
 		if (worldObj.getBlock(blockCoord.x, blockCoord.y, blockCoord.z) == targetBlock)
 		{
@@ -280,7 +281,7 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 		return true;
 	}
 	
-	private void moveBlockToClosedList(Coord3D blockCoord, ArrayList openList, ArrayList closedList) {
+	private void moveBlockToClosedList(Coord3D blockCoord, ArrayList<Coord3D> openList, ArrayList<Coord3D> closedList) {
 		for (int i = 0; i < openList.size(); i++)
 		{
 			Coord3D iBlock = (Coord3D)openList.get(i);
@@ -292,7 +293,7 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 		}
 	}
 	
-	private boolean isOnList(Coord3D blockCoord, ArrayList list) {
+	private boolean isOnList(Coord3D blockCoord, ArrayList<Coord3D> list) {
 		for (int i = 0; i < list.size(); i++)
 		{
 			Coord3D iBlock = (Coord3D)list.get(i);
@@ -334,28 +335,5 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 				startHollowing();
 				break;
 		}
-	}
-	
-	private class Coord3D {
-	    public int x;
-	    public int y;
-	    public int z;
-	    
-	    public Coord3D(int x, int y, int z) {
-			this.x = x;
-			this.y = y;
-			this.z = z;
-		}
-	    
-	    public boolean equals(Coord3D blockCoord) {
-			if (this.x == blockCoord.x) {
-				if (this.y == blockCoord.y) {
-					if (this.z == blockCoord.z) {
-						return true;
-					}
-				}
-			}
-			return false;
-	    }
 	}
 }
