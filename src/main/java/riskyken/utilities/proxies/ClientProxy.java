@@ -2,6 +2,7 @@ package riskyken.utilities.proxies;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -13,7 +14,9 @@ import riskyken.utilities.client.model.ModelWings;
 import riskyken.utilities.client.renderer.GiftBlockRender;
 import riskyken.utilities.client.renderer.HairRenderManager;
 import riskyken.utilities.client.renderer.RenderBlockSun;
+import riskyken.utilities.client.renderer.RenderItemGift;
 import riskyken.utilities.client.renderer.RenderItemMagicStaff;
+import riskyken.utilities.common.blocks.ModBlocks;
 import riskyken.utilities.common.items.ModItems;
 import riskyken.utilities.common.lib.LibModInfo;
 import riskyken.utilities.common.tileentities.TileEntityStarLight;
@@ -58,7 +61,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityStarLight.class, new RenderBlockSun());
 		
 		MinecraftForgeClient.registerItemRenderer(ModItems.raisingHeart, new RenderItemMagicStaff());
-		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.gift), new GiftItemRenderer());
+		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.gift), new RenderItemGift());
 	}
 	
 	@Override
