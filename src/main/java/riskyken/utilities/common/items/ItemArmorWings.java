@@ -51,26 +51,20 @@ public class ItemArmorWings extends ItemArmor {
 	}
 	
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot,
-	String type) {
-
-	return  LibModInfo.ID + ":" + "textures/armor/wings.png";
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
+		return  LibModInfo.ID + ":" + "textures/armor/big-white-wings.png";
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
-		
 		ModelBiped armorModel = null;
-		
 		if(itemStack != null) {
 			if(itemStack.getItem() instanceof ItemArmorWings) {
-				return ClientProxy.wingModel;
+				return ClientProxy.bigWings;
 			}
 		}
-
-		
-	return null;
+		return null;
 	}
 
 }
