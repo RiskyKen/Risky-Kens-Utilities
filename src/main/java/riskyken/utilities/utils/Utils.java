@@ -1,5 +1,7 @@
 package riskyken.utilities.utils;
 
+import java.util.ArrayList;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
@@ -79,6 +81,17 @@ public class Utils {
     public static double getDistance(int x1, int y1, int z1, int x2, int y2, int z2) {
     	return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) + (z1-z2)*(z1-z2));
     }
+    
+    public static ArrayList getBlockAroundBlock(Vector3 blockCoord) {
+		ArrayList<Vector3> result = new ArrayList<Vector3>();
+		result.add(new Vector3(blockCoord.x, blockCoord.y + 1, blockCoord.z));
+		result.add(new Vector3(blockCoord.x, blockCoord.y - 1, blockCoord.z));
+		result.add(new Vector3(blockCoord.x + 1, blockCoord.y, blockCoord.z));
+		result.add(new Vector3(blockCoord.x - 1, blockCoord.y, blockCoord.z));
+		result.add(new Vector3(blockCoord.x, blockCoord.y, blockCoord.z + 1));
+		result.add(new Vector3(blockCoord.x, blockCoord.y, blockCoord.z - 1));
+		return result;
+	}
     
     public static void travelToDimensionLocation(Entity player, int dimensionId, double x, double y ,double z)
     {

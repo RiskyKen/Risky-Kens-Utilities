@@ -1,13 +1,18 @@
 package riskyken.utilities.common.tileentities;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
-import riskyken.utilities.common.config.ConfigHandler;
-import riskyken.utilities.common.lib.LibBlockNames;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+import riskyken.utilities.common.config.ConfigHandler;
+import riskyken.utilities.common.lib.LibBlockNames;
+import riskyken.utilities.utils.Utils;
+import riskyken.utilities.utils.Vector3;
+import scala.annotation.meta.field;
 
 public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 	
@@ -15,10 +20,12 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 	private int targetBlockMeta;
 	
 	private int blocksScanned;
+	private boolean ignoreMeta;
+	private static final boolean USE_POWER = false;
 	
-	private ArrayList airBlockOpenList = null;
-	private ArrayList airBlockClosedList = null;
-	private ArrayList removeBlockOpenList = null;
+	private LinkedHashMap<String, Vector3> openBlockList;
+	private LinkedHashMap<String, Vector3> closedBlockList;
+	private LinkedHashMap<String, Vector3> removeBlockList;
 	
 	public enum BlockState
 	{
@@ -58,40 +65,36 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 	private void startBlockSearch() {
 		if (state == BlockState.Scanning) { return; }
 		if (state == BlockState.Running) { return; }
-		//System.out.println("Starting block search");
-		airBlockOpenList = new ArrayList();
-		airBlockClosedList = new ArrayList();
-		removeBlockOpenList = new ArrayList();
 		
-		blocksScanned = 0;
-		
-		if (getStackInSlot(0) != null)
-		{
+		if (getStackInSlot(0) != null) {
 			targetBlock = Block.getBlockFromItem(getStackInSlot(0).getItem());
 			targetBlockMeta = getStackInSlot(0).getItemDamage();
-		}
-		else
-		{
+		} else {
 			state = BlockState.NoTarget;
 			return;
 		}
-		if (!worldObj.isAirBlock(xCoord, yCoord + 1, zCoord)) { return; }
 		
-		addBlockToList(new Coord3D(xCoord, yCoord + 1, zCoord), airBlockOpenList);
+		openBlockList = new LinkedHashMap<String, Vector3>();
+		closedBlockList = new LinkedHashMap<String, Vector3>();
+		removeBlockList = new LinkedHashMap<String, Vector3>();
+		blocksScanned = 0;
+		ignoreMeta = true;
+		
+		//if (!worldObj.isAirBlock(xCoord, yCoord + 1, zCoord)) { return; }
+		
+		addBlockToList(new Vector3(xCoord, yCoord, zCoord), openBlockList);
 		
 		state = BlockState.Scanning;
 		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 2);
 	}
 	
 	private void blockSearchTick() {
-
-		switch (state)
-		{
+		switch (state) {
 		case Scan_Needed:
 			checkMeta();
 			break;
 		case Scanning:
-			scanAirBlocks();
+			scanBlocks();
 			break;
 		case Running:
 			hollowBlocks();
@@ -101,72 +104,139 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 		}
 	}
 	
-	private void scanAirBlocks() {
-		if (airBlockOpenList.size() == 0) {
-			//System.out.println("End of open block list");
-			//System.out.println(airBlockClosedList.size() + " blocks on air closed list");
-			//System.out.println(removeBlockOpenList.size() + " blocks on remove open list");
-			airBlockClosedList.clear();
-			airBlockOpenList.clear();
+	private void scanBlocks() {
+		if (openBlockList.size() == 0) {
+			openBlockList.clear();
+			closedBlockList.clear();
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 2, 2);
 			state = BlockState.Ready;
+			System.out.println("finished scan - size:" + removeBlockList.size());
 			return;
 		}
 		
-		//System.out.println("Scanning open " + airBlockOpenList.size() + " closed " +  airBlockClosedList.size() + " remove " + removeBlockOpenList.size() + " scanned:" + blocksScanned);
-		
-		
-		int blocksToScan = ConfigHandler.hollowerBlockSearchPerTick;
+		int blocksToScan = ConfigHandler.hollowerBlockSearchPerTick * 10;
 				
-		if (blocksToScan > airBlockOpenList.size()) { blocksToScan = airBlockOpenList.size(); }
+		if (blocksToScan > openBlockList.size()) { blocksToScan = openBlockList.size(); }
 		
-		for (int i = 0; i < blocksToScan; i++)
-		{
-			addBlocksAroundBlock((Coord3D)airBlockOpenList.get(0), airBlockOpenList, airBlockClosedList, true);
-			moveBlockToClosedList((Coord3D)airBlockOpenList.get(0), airBlockOpenList, airBlockClosedList);
+		System.out.println("scanning size:" + openBlockList.size());
+		
+		for (int i = 0; i < blocksToScan; i++) {
+			String key = (String) openBlockList.keySet().toArray()[0];
+			addBlocksAroundBlock((Vector3)openBlockList.get(key), openBlockList, closedBlockList, true);
+			moveBlockToClosedList((Vector3)openBlockList.get(key));
 		}
 		
-		if (blocksScanned > ConfigHandler.hollowerBlockSearchMax) {
+		if (blocksScanned > ConfigHandler.hollowerBlockSearchMax * 10) {
 			state = BlockState.InvalidArea;
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2);
-			//System.out.println("Block overflow");
 		}
 	}
 	
-	private void hollowBlocks() {
-		if (removeBlockOpenList.size() == 0) {
-			//System.out.println("End of hollow block list");
-			state = BlockState.Finished;
-			removeBlockOpenList.clear();
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2);
-			return;
+	private void addBlockToList(Vector3 blockCoord, LinkedHashMap<String, Vector3> list) {
+		list.put(blockCoord.hashString(), blockCoord);
+		blocksScanned++;
+	}
+	
+	private void addBlocksAroundBlock(Vector3 blockCoord, LinkedHashMap<String, Vector3> openList, LinkedHashMap<String, Vector3> closedList, boolean allowAir) {
+		ArrayList<Vector3> checkBlocks = Utils.getBlockAroundBlock(blockCoord);
+		for (int i = 0; i < checkBlocks.size(); i++) {
+			checkAndAddBlock((Vector3)checkBlocks.get(i), allowAir);
+		}
+	}
+	
+	private void checkAndAddBlock(Vector3 blockCoord, boolean allowAir) {
+		if (isTargetBlock(blockCoord)){
+			if (isValidRemoveBlock(blockCoord)) {
+				if (!openBlockList.containsKey(blockCoord.hashString())) {
+					if (!closedBlockList.containsKey(blockCoord.hashString())) {
+						addBlockToList(blockCoord, openBlockList);
+						addBlockToList(blockCoord, removeBlockList);
+					}
+				}
+			}
 		}
 		
-		if (!havePowerToWork())
-			return;
+		if (worldObj.isAirBlock(blockCoord.x, blockCoord.y, blockCoord.z)) {
+			if (!openBlockList.containsKey(blockCoord.hashCode())) {
+				if (!closedBlockList.containsKey(blockCoord.hashString())) {
+					addBlockToList(blockCoord, openBlockList);
+				}
+			}
+		}
+	}
+	
+	private boolean isTargetBlock(Vector3 blockCoord) {
+		if (worldObj.getBlock(blockCoord.x, blockCoord.y, blockCoord.z) != targetBlock) { return false; }
+		if (!ignoreMeta) {
+			if (worldObj.getBlockMetadata(blockCoord.x, blockCoord.y, blockCoord.z) != targetBlockMeta) { return false; }
+		}
+		return true;
+	}
+	
+	private boolean isValidRemoveBlock(Vector3 blockCoord) {
+		ArrayList checkBlocks = Utils.getBlockAroundBlock(blockCoord);
 		
-		useWorkPower();
-		
-		HollowBlock((Coord3D)removeBlockOpenList.get(0));
-		removeBlockOpenList.remove(0);
+		for (int i = 0; i < checkBlocks.size(); i++) {
+			Vector3 thisCoord = (Vector3)checkBlocks.get(i);
+			
+			if (worldObj.isAirBlock(thisCoord.x, thisCoord.y, thisCoord.z)) {
+				if (!openBlockList.containsKey(thisCoord.hashString())) {
+					if (!closedBlockList.containsKey(thisCoord.hashString())) {
+						return false;
+					}	
+				}
+			}
+			
+			Block block = worldObj.getBlock(thisCoord.x, thisCoord.y, thisCoord.z);
+			if (!worldObj.isAirBlock(thisCoord.x, thisCoord.y, thisCoord.z)) {
+				if (!isTargetBlock(thisCoord)) {
+					if (block.isReplaceable(worldObj, thisCoord.x, thisCoord.y, thisCoord.z)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
+	private void moveBlockToClosedList(Vector3 blockCoord) {
+		openBlockList.remove(blockCoord.hashString());
+		closedBlockList.put(blockCoord.hashString(), blockCoord);
 	}
 	
 	private void startHollowing() {
-		if (state == BlockState.Ready)
-		{
+		if (state == BlockState.Ready) {
 			state = BlockState.Running;
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 3, 2);
 		}
 	}
 	
-	private void HollowBlock(Coord3D blockCoord) {
+	private void hollowBlocks() {
+		if (removeBlockList.size() == 0) {
+			state = BlockState.Finished;
+			removeBlockList.clear();
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2);
+			return;
+		}
+		
+		if (USE_POWER) {
+			if (!havePowerToWork()) { return; }
+			useWorkPower();
+		}
+		
+		String key = (String) removeBlockList.keySet().toArray()[0];
+		HollowBlock(removeBlockList.get(key));
+		removeBlockList.remove(key);
+	}
+	
+	private void HollowBlock(Vector3 blockCoord) {
 		
 		if (!worldObj.isAirBlock(blockCoord.x, blockCoord.y, blockCoord.z)) {
 			
 			Block block = worldObj.getBlock(blockCoord.x, blockCoord.y, blockCoord.z);
 			int blockMeta = worldObj.getBlockMetadata(blockCoord.x, blockCoord.y, blockCoord.z);
 			
-			//DOTO
+			// TODO Place items in chest/pipe
 			ArrayList<ItemStack> items = block.getDrops(worldObj, blockCoord.x, blockCoord.y, blockCoord.z, blockMeta, 0);
 			
 			for (int i = 0; i < items.size(); i++) {
@@ -175,141 +245,16 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 				droppedItem.motionX = (-0.5F + worldObj.rand.nextFloat()) * mult;
 				droppedItem.motionY = (8 + worldObj.rand.nextFloat()) * mult;
 				droppedItem.motionZ = (-0.5F + worldObj.rand.nextFloat()) * mult;
-				worldObj.spawnEntityInWorld(droppedItem);
+				//worldObj.spawnEntityInWorld(droppedItem);
 			}
 			worldObj.func_147480_a(blockCoord.x, blockCoord.y, blockCoord.z, false);
-			//worldObj.func_147478_e(p_147478_1_, p_147478_2_, p_147478_3_, p_147478_4_)
-			//worldObj.setBlockToAir(blockCoord.x, blockCoord.y, blockCoord.z);
-			
 		}
-	}
-	
-	private void addBlockToList(Coord3D blockCoord, ArrayList list) {
-		list.add(blockCoord);
-		blocksScanned++;
-	}
-	
-	private void addBlocksAroundBlock(Coord3D blockCoord, ArrayList openList, ArrayList closedList, boolean allowAir) {
-		ArrayList checkBlocks = getBlockAroundBlock(blockCoord);
-		for (int i = 0; i < checkBlocks.size(); i++)
-		{
-			checkAndAddBlock((Coord3D)checkBlocks.get(i), openList, closedList, allowAir);
-		}
-	}
-	
-	private ArrayList getBlockAroundBlock(Coord3D blockCoord) {
-		ArrayList result = new ArrayList();
-		result.add(new Coord3D(blockCoord.x, blockCoord.y + 1, blockCoord.z));
-		result.add(new Coord3D(blockCoord.x, blockCoord.y - 1, blockCoord.z));
-		result.add(new Coord3D(blockCoord.x + 1, blockCoord.y, blockCoord.z));
-		result.add(new Coord3D(blockCoord.x - 1, blockCoord.y, blockCoord.z));
-		result.add(new Coord3D(blockCoord.x, blockCoord.y, blockCoord.z + 1));
-		result.add(new Coord3D(blockCoord.x, blockCoord.y, blockCoord.z - 1));
-		return result;
-	}
-	
-	private void checkAndAddBlock(Coord3D blockCoord, ArrayList openList, ArrayList closedList, boolean allowAir) {
-
-		if (worldObj.getBlock(blockCoord.x, blockCoord.y, blockCoord.z) == targetBlock)
-		{
-			if (worldObj.getBlockMetadata(blockCoord.x, blockCoord.y, blockCoord.z) == targetBlockMeta)
-			{
-				if (isValidRemoveBlock(blockCoord))
-				{
-					if (!isOnList(blockCoord, openList)) {
-						if (!isOnList(blockCoord, closedList)) {
-							addBlockToList(blockCoord, openList);
-							addBlockToList(blockCoord, removeBlockOpenList);
-						}
-					}
-				}
-				//return;
-			}
-		}
-		
-		if (worldObj.isAirBlock(blockCoord.x, blockCoord.y, blockCoord.z)) {
-			if (!isOnList(blockCoord, openList)) {
-				if (!isOnList(blockCoord, closedList)) {
-					addBlockToList(blockCoord, openList);
-				}
-			}
-		}
-	}
-	
-	private boolean isValidRemoveBlock(Coord3D blockCoord) {
-		ArrayList checkBlocks = getBlockAroundBlock(blockCoord);
-		
-		for (int i = 0; i < checkBlocks.size(); i++)
-		{
-			Coord3D thisCoord = (Coord3D)checkBlocks.get(i);
-			
-			if (worldObj.isAirBlock(thisCoord.x, thisCoord.y, thisCoord.z)) {
-				if (!isOnList(thisCoord, airBlockOpenList))
-				{
-					if (!isOnList(thisCoord, airBlockClosedList))
-					{
-						return false;
-					}	
-				}
-			}
-			
-			
-			Block block = worldObj.getBlock(thisCoord.x, thisCoord.y, thisCoord.z);
-			int blockMeta = worldObj.getBlockMetadata(thisCoord.x, thisCoord.y, thisCoord.z);
-			
-			if (!worldObj.isAirBlock(thisCoord.x, thisCoord.y, thisCoord.z)) {
-				if (block != targetBlock) {
-					if (block.isReplaceable(worldObj, thisCoord.x, thisCoord.y, thisCoord.z))
-					{
-						return false;
-					}
-				}
-				else
-				{
-					if (blockMeta != targetBlockMeta) {
-						if (block.isReplaceable(worldObj, thisCoord.x, thisCoord.y, thisCoord.z))
-						{
-							return false;
-						}
-					}
-				}
-			}
-			
-		}
-		
-		return true;
-	}
-	
-	private void moveBlockToClosedList(Coord3D blockCoord, ArrayList openList, ArrayList closedList) {
-		for (int i = 0; i < openList.size(); i++)
-		{
-			Coord3D iBlock = (Coord3D)openList.get(i);
-			if (iBlock.equals(blockCoord)) {
-				openList.remove(i);
-				closedList.add(blockCoord);
-				return;
-			}
-		}
-	}
-	
-	private boolean isOnList(Coord3D blockCoord, ArrayList list) {
-		for (int i = 0; i < list.size(); i++)
-		{
-			Coord3D iBlock = (Coord3D)list.get(i);
-			if (iBlock.equals(blockCoord)) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	@Override
 	public void updateEntity() {
-		if (!worldObj.isRemote)
-		{
-			blockSearchTick();
-		}	
-		super.updateEntity();
+		if (worldObj.isRemote) { return; }
+		blockSearchTick();
 	}
 	
 	public String getStatusText() {
@@ -334,28 +279,5 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 				startHollowing();
 				break;
 		}
-	}
-	
-	private class Coord3D {
-	    public int x;
-	    public int y;
-	    public int z;
-	    
-	    public Coord3D(int x, int y, int z) {
-			this.x = x;
-			this.y = y;
-			this.z = z;
-		}
-	    
-	    public boolean equals(Coord3D blockCoord) {
-			if (this.x == blockCoord.x) {
-				if (this.y == blockCoord.y) {
-					if (this.z == blockCoord.z) {
-						return true;
-					}
-				}
-			}
-			return false;
-	    }
 	}
 }
