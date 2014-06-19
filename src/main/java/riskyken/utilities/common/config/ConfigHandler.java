@@ -47,8 +47,8 @@ public class ConfigHandler {
 		gen_dungeons = config.get("world generation", "generate dungeons", true, "Enable dungeon world generation.").getBoolean(true);
 		
 		//other
-		hollowerBlockSearchMax = config.get("other", "Hollower Max Block Scan", 8000, "Max number of blocks the hollower can scan.").getInt(8000);
-		hollowerBlockSearchPerTick = config.get("other", "Hollower Blocks Scanned Per Tick", 10, "Number of blocks the hollower scans every tick.").getInt(10);
+		hollowerBlockSearchMax = config.get("other", "Hollower Max Block Scan", 80000, "Max number of blocks the hollower can scan.").getInt(8000);
+		hollowerBlockSearchPerTick = config.get("other", "Hollower Blocks Scanned Per Tick", 100, "Number of blocks the hollower scans every tick.").getInt(10);
 		UpdateCheck.shouldCheckForUpdates = config.get("other", "Check for updates", true).getBoolean(true);
 		
 		config.save();

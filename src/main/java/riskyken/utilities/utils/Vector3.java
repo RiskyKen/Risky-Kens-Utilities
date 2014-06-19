@@ -12,17 +12,6 @@ public class Vector3 {
 		this.z = z;
 	}
     
-    public boolean equals(Vector3 blockCoord) {
-		if (this.x == blockCoord.x) {
-			if (this.y == blockCoord.y) {
-				if (this.z == blockCoord.z) {
-					return true;
-				}
-			}
-		}
-		return false;
-    }
-    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -38,11 +27,14 @@ public class Vector3 {
     }
     
     @Override
-    public int hashCode()
-    {
-        int result = (int) (x ^ (x >>> 32));
-        result = 31 * result + (int) (y ^ (y >>> 32));
-        result = 31 * result + (int) (z ^ (z >>> 32));
+    public int hashCode() {
+        int result = (int) (x ^ (x >>> 16));
+        result = 15 * result + (int) (y ^ (y >>> 16));
+        result = 15 * result + (int) (z ^ (z >>> 16));
         return result;
+    }
+    
+    public String hashString() {
+        return this.x + ":" + this.y + ":" + this.z;
     }
 }
