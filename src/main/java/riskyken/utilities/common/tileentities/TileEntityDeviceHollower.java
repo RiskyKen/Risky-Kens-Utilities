@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -11,6 +12,7 @@ import net.minecraft.world.World;
 import riskyken.utilities.common.config.ConfigHandler;
 import riskyken.utilities.common.lib.LibBlockNames;
 import riskyken.utilities.utils.Utils;
+import riskyken.utilities.utils.UtilsInventory;
 import riskyken.utilities.utils.Vector3;
 import scala.annotation.meta.field;
 
@@ -78,9 +80,7 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 		closedBlockList = new LinkedHashMap<String, Vector3>();
 		removeBlockList = new LinkedHashMap<String, Vector3>();
 		blocksScanned = 0;
-		ignoreMeta = true;
-		
-		//if (!worldObj.isAirBlock(xCoord, yCoord + 1, zCoord)) { return; }
+		ignoreMeta = false;
 		
 		addBlockToList(new Vector3(xCoord, yCoord, zCoord), openBlockList);
 		
@@ -239,14 +239,16 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 			// TODO Place items in chest/pipe
 			ArrayList<ItemStack> items = block.getDrops(worldObj, blockCoord.x, blockCoord.y, blockCoord.z, blockMeta, 0);
 			
-			for (int i = 0; i < items.size(); i++) {
-				EntityItem droppedItem = new EntityItem(worldObj, (double)xCoord + 0.5, (double)yCoord + 1.2, (double)zCoord + 0.5, items.get(i));
-				float mult = 0.05F;
-				droppedItem.motionX = (-0.5F + worldObj.rand.nextFloat()) * mult;
-				droppedItem.motionY = (8 + worldObj.rand.nextFloat()) * mult;
-				droppedItem.motionZ = (-0.5F + worldObj.rand.nextFloat()) * mult;
-				//worldObj.spawnEntityInWorld(droppedItem);
+			if (items != null) {
+				UtilsInventory.placeItemStackInAdjacentInventory(worldObj, xCoord, yCoord, zCoord, items);
 			}
+			if (items != null & Loader.isModLoaded("BuildCraft|Core")) {
+				UtilsInventory.placeItemStackInAdjacentPipe(worldObj, xCoord, yCoord, zCoord, items);
+			}
+			if (items != null) {
+				UtilsInventory.spawnItemStackiInWorld(worldObj, xCoord, yCoord, zCoord, items);
+			}
+			
 			worldObj.func_147480_a(blockCoord.x, blockCoord.y, blockCoord.z, false);
 		}
 	}
