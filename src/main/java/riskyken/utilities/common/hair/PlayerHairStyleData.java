@@ -179,8 +179,7 @@ public class PlayerHairStyleData implements IExtendedEntityProperties {
 		this.hairAccessoryColourUnlockFlags = hairAccessoryColourUnlockFlags;
 	}
 	
-	public final void sync()
-	{
+	public final void sync() {
 		PacketHandler.networkWrapper.sendTo(new MessagePlayerHairStyleData(player), (EntityPlayerMP) player);
 	}
 }

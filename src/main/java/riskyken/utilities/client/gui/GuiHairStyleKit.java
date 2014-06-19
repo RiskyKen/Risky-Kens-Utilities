@@ -4,6 +4,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentStyle;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -17,6 +20,7 @@ import riskyken.utilities.common.lib.LibModInfo;
 import riskyken.utilities.common.network.PacketHandler;
 import riskyken.utilities.common.network.messages.MessageButton;
 import riskyken.utilities.proxies.ClientProxy;
+import riskyken.utilities.utils.Utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -40,21 +44,21 @@ public class GuiHairStyleKit extends GuiContainer {
 	public void initGui() {
 		super.initGui();
 		buttonList.clear();
-		buttonList.add(new GuiScrollbar(0, guiLeft + 73, guiTop + 20, 10, 136, "", false));
-		buttonList.add(new GuiScrollbar(1, guiLeft + 236, guiTop + 20, 10, 136, "", false));
+		buttonList.add(new GuiScrollbar(0, guiLeft + 92, guiTop + 20, 10, 136, "", false));
+		//buttonList.add(new GuiScrollbar(1, guiLeft + 236, guiTop + 20, 10, 136, "", false));
 	}
 	
 	@Override
 	protected void mouseMovedOrUp(int x, int y, int button) {
 		if (button == 0) {
-			PacketHandler.networkWrapper.sendToServer(new MessageButton((short)0));
+			//PacketHandler.networkWrapper.sendToServer(new MessageButton((short)0));
 		}
 		super.mouseMovedOrUp(x, y, button);
 		
 		
 		if (button==0) {
 			((GuiScrollbar)buttonList.get(0)).mouseReleased(x, y);
-			((GuiScrollbar)buttonList.get(1)).mouseReleased(x, y);
+			//((GuiScrollbar)buttonList.get(1)).mouseReleased(x, y);
 			//((GuiScrollbar)buttonList.get(2)).mouseReleased(x, y);
 			//((GuiScrollbar)buttonList.get(3)).mouseReleased(x, y);
 			//updateWingColour();
@@ -91,7 +95,7 @@ public class GuiHairStyleKit extends GuiContainer {
 		float scale = 50F;
 		
 		GL11.glPushMatrix();
-		GL11.glTranslatef(guiLeft + 128, guiTop + 70, 100);
+		GL11.glTranslatef(guiLeft + 198, guiTop + 70, 100);
 		GL11.glScalef(-scale, scale, scale);
 		
 		rotation += 3.0F;
@@ -125,16 +129,16 @@ public class GuiHairStyleKit extends GuiContainer {
         	if (props.getHasHairStyle(type)) {
         		typeName = type.getName();
         	}
-        	this.fontRendererObj.drawString(typeName, 12, 22 + 9 * i, 4210752);
-        }
-        
-        for (int i = 0; i < HairAccessoryType.values().length; i++) {
-        	HairAccessoryType type = HairAccessoryType.values()[i];
-        	String typeName = "???";
-        	if (props.getHasAccessory(type)) {
-        		typeName = type.getName();
+        	
+        	int textTop = 22 + 9 * i;
+        	int textLeft = 12;
+        	
+        	if (y >= textTop + guiTop & y <= textTop + guiTop + 6 & x >= textLeft + guiLeft - 1 & x <= textLeft + guiLeft + 78) {
+        		this.fontRendererObj.drawString(typeName, textLeft, textTop, Utils.getMinecraftColor(4));
+        	} else {
+        		this.fontRendererObj.drawString(typeName, textLeft, textTop, 4210752);
         	}
-        	this.fontRendererObj.drawString(typeName, 175, 22 + 9 * i, 4210752);
+        	
         }
         
 	}
