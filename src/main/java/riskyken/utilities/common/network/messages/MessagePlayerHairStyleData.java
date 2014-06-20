@@ -1,12 +1,9 @@
 package riskyken.utilities.common.network.messages;
 
+import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import riskyken.utilities.common.hair.PlayerHairStyleData;
 import riskyken.utilities.utils.ModLogger;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-import io.netty.buffer.ByteBuf;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -47,13 +44,13 @@ public class MessagePlayerHairStyleData implements IMessage, IMessageHandler<Mes
 			ModLogger.logger.warning("Error got MessagePlayerHairStyleData packet on the wrong side.");
 			return null;
 		}
-		
+		/*
 		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
 		PlayerHairStyleData props = PlayerHairStyleData.get(player);
 		props.setHairStyleUnlockFlags(message.hairStyleUnlockFlags);
 		props.setHairAccessoriesUnlockFlags(message.hairAccessoriesUnlockFlags);
 		props.setHairAccessoryColourUnlockFlags(message.hairAccessoryColourUnlockFlags);
-		
+		*/
 		return null;
 	}
 }

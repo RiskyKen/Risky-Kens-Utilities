@@ -48,6 +48,7 @@ public class BlockTeleporter extends AbstractModBlock implements ITileEntityProv
     }
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		
 		int meta = world.getBlockMetadata(x, y, z);
