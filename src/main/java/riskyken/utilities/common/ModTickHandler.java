@@ -1,8 +1,8 @@
-package riskyken.utilities.client;
+package riskyken.utilities.common;
 
 import java.util.EnumSet;
 
-import riskyken.utilities.common.UpdateCheck;
+import riskyken.utilities.RiskyKensUtilities;
 import riskyken.utilities.common.lib.LibModInfo;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -16,16 +16,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 
-@SideOnly(Side.CLIENT)
-public class TickHandlerClient {
+public class ModTickHandler {
 
 	private boolean shownUpdateInfo = false;
 	
 	@SubscribeEvent
-	public void onTick(TickEvent.PlayerTickEvent event) {
+	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		if (event.side == Side.CLIENT) {
 			if (event.type == Type.PLAYER) {
 				if (event.phase == Phase.END) {
+					RiskyKensUtilities.proxy.onPlayerTick(event.player);
 					onPlayerTickEndEvent();
 				}
 				//System.out.println("showing update message");
@@ -34,10 +34,10 @@ public class TickHandlerClient {
 	}
 	  
 	public void onPlayerTickEndEvent() {
-		if (shownUpdateInfo) { return; }
-		
 		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+		//RiskyKensUtilities.proxy.onPlayerTick(player);
 		
+		if (shownUpdateInfo) { return; }
 		if (UpdateCheck.showUpdateInfo) {
 			shownUpdateInfo = true;
 			player.addChatMessage(new ChatComponentText(LibModInfo.NAME + " - New version is " + UpdateCheck.remoteVersion));

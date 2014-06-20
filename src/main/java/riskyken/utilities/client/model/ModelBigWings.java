@@ -3,6 +3,7 @@ package riskyken.utilities.client.model;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -10,6 +11,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -104,13 +106,15 @@ public class ModelBigWings extends ModelBiped
 	    }
 	    
 	    GL11.glPopMatrix();
-	    
-	    spawnParticales(player, wingId);
+	}
+	
+	public void onTick(EntityPlayer player, int wingId) {
+		spawnParticales(player, wingId);
 	}
 	
 	private void spawnParticales(EntityPlayer player, int type) {
 		Random rnd = new Random();
-		if (rnd.nextFloat() * 1000 > 990) {
+		if (rnd.nextFloat() * 100 > 85) {
 			PointD offset;// = new PointD(player.posX, player.posZ);
 			
 			if (rnd.nextFloat() > 0.5f) {
@@ -124,6 +128,12 @@ public class ModelBigWings extends ModelBiped
 			double parX = offset.x;
 			double parY = player.posY - 0.4D;
 			double parZ = offset.y;
+			
+			EntityClientPlayerMP localPlayer =  Minecraft.getMinecraft().thePlayer;
+			
+			if (!localPlayer.getDisplayName().equals(player.getDisplayName())) {
+				parY += 1.6D;
+			}
 			
 			EntityFeatherFx particle = new EntityFeatherFx(player.worldObj, parX, parY, parZ, type);
 			ParticleManager.INSTANCE.spawnParticle(player.worldObj, particle);

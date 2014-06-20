@@ -3,8 +3,9 @@ package riskyken.utilities;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
 import riskyken.utilities.common.GuiHandler;
+import riskyken.utilities.common.ModTickHandler;
 import riskyken.utilities.common.UpdateCheck;
-import riskyken.utilities.common.UtilitiesEventHandler;
+import riskyken.utilities.common.ModEventHandler;
 import riskyken.utilities.common.blocks.ModBlocks;
 import riskyken.utilities.common.config.ConfigHandler;
 import riskyken.utilities.common.creativetab.CreativeTabRiskyKensUtilities;
@@ -15,6 +16,7 @@ import riskyken.utilities.common.network.PacketHandler;
 import riskyken.utilities.common.world.GenerationHandler;
 import riskyken.utilities.proxies.CommonProxy;
 import riskyken.utilities.utils.ModLogger;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -74,7 +76,10 @@ public class RiskyKensUtilities {
 	public void initialise(FMLInitializationEvent evt) {
 	    PacketHandler.init();
 	    proxy.postInit();
-	    MinecraftForge.EVENT_BUS.register(new UtilitiesEventHandler());
+	    
+	    MinecraftForge.EVENT_BUS.register(new ModEventHandler());
+	    FMLCommonHandler.instance().bus().register(new ModTickHandler());
+	    //MinecraftForge.EVENT_BUS.register(new ModTickHandler());
 	}
 
 	@EventHandler

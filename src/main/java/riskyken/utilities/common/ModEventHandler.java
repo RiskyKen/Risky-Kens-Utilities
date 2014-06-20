@@ -12,8 +12,12 @@ import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import riskyken.utilities.common.hair.PlayerHairStyleData;
 import riskyken.utilities.common.items.ModItems;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.Type;
+import cpw.mods.fml.relauncher.Side;
 
-public class UtilitiesEventHandler {
+public class ModEventHandler {
 
 	@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing event) {

@@ -1,5 +1,8 @@
 package riskyken.utilities.proxies;
 
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.entity.player.EntityPlayer;
+
 public class CommonProxy {
 
 	public void init() {
@@ -15,6 +18,10 @@ public class CommonProxy {
 	}
 
 	public void playDimensionSound(byte soundId) {
+		
+	}
+	
+	public void onPlayerTick(EntityPlayer player) {
 		
 	}
 

@@ -2,12 +2,13 @@ package riskyken.utilities.proxies;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
-import riskyken.utilities.client.TickHandlerClient;
 import riskyken.utilities.client.model.ModelBigWings;
 import riskyken.utilities.client.model.ModelPlayerHead;
 import riskyken.utilities.client.model.ModelWings;
@@ -16,6 +17,7 @@ import riskyken.utilities.client.renderer.HairRenderManager;
 import riskyken.utilities.client.renderer.RenderBlockSun;
 import riskyken.utilities.client.renderer.RenderItemGift;
 import riskyken.utilities.client.renderer.RenderItemMagicStaff;
+import riskyken.utilities.common.ModTickHandler;
 import riskyken.utilities.common.blocks.ModBlocks;
 import riskyken.utilities.common.items.ModItems;
 import riskyken.utilities.common.lib.LibModInfo;
@@ -66,7 +68,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void postInit() {
-		MinecraftForge.EVENT_BUS.register(new TickHandlerClient());
+		//MinecraftForge.EVENT_BUS.register(new ModTickHandler());
 		//FMLCommonHandler.instance().bus().register(new TickHandlerClient());
 	}
 	
@@ -83,6 +85,17 @@ public class ClientProxy extends CommonProxy {
 		}
 		if (ev.entityPlayer.getDisplayName().equals("Choccie_Bunny")) {
 			//bigWings.render(ev.entityPlayer, ev.renderer, 2);
+		}
+	}
+	
+	@Override
+	public void onPlayerTick(EntityPlayer player){
+		bigWings.onTick(player, 2);
+		if (player.getDisplayName().equals("RiskyKen")) {
+			//bigWings.onTick(player, 2);
+		}
+		if (player.getDisplayName().equals("Choccie_Bunny")) {
+			//bigWings.onTick(player, 2);
 		}
 	}
 	
