@@ -29,7 +29,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 //@NetworkMod(channels = {ModInformation.CHANNEL}, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class RiskyKensUtilities {
 
-	@Instance(LibModInfo.ID)
+	@Mod.Instance(LibModInfo.ID)
 	public static RiskyKensUtilities instance;
 	
 	@SidedProxy(clientSide = "riskyken.utilities.proxies.ClientProxy", serverSide = "riskyken.utilities.proxies.CommonProxy")
@@ -37,12 +37,7 @@ public class RiskyKensUtilities {
 	
 	public static CreativeTabRiskyKensUtilities tabRiskyKensUtilities = new CreativeTabRiskyKensUtilities(CreativeTabs.getNextID(),LibModInfo.ID);
 	
-	@EventHandler
-	public void loadConfiguration(FMLPreInitializationEvent evt) {
-
-	}
-	
-	@EventHandler
+	@Mod.EventHandler
 	public void perInit(FMLPreInitializationEvent event) {
 		ModLogger.init();
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
@@ -56,7 +51,7 @@ public class RiskyKensUtilities {
 		proxy.initRenderers();
 	}
 
-	@EventHandler
+	@Mod.EventHandler
 	public void load(FMLInitializationEvent event){
 		if (!ConfigHandler.disableRecipes) {
 			ModItems.registerRecipes();
@@ -70,19 +65,16 @@ public class RiskyKensUtilities {
 		
 		new GenerationHandler();
 		new GuiHandler();
-	}
-	
-	@EventHandler
-	public void initialise(FMLInitializationEvent evt) {
+		
 	    PacketHandler.init();
 	    proxy.postInit();
 	    
 	    MinecraftForge.EVENT_BUS.register(new ModEventHandler());
 	    FMLCommonHandler.instance().bus().register(new ModTickHandler());
-	    //MinecraftForge.EVENT_BUS.register(new ModTickHandler());
 	}
 
-	@EventHandler
-	public void modsLoaded(FMLPostInitializationEvent event){
+	@Mod.EventHandler
+	public void postInit(FMLPostInitializationEvent event) {
+		
 	}
 }
