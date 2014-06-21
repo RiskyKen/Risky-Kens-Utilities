@@ -29,7 +29,7 @@ public class GuiRectangle {
 		}
 		else
 		{
-			gui.drawTexturedModalRect(guiLeft + x, guiTop + y, sourceX, sourceY + 8, width, height);
+			gui.drawTexturedModalRect(guiLeft + x, guiTop + y, sourceX, sourceY + height, width, height);
 		}
 		
 		if (collum == x) {

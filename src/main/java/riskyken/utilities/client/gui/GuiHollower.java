@@ -31,8 +31,8 @@ public class GuiHollower extends GuiContainer {
 	public void initGui() {
 		super.initGui();
 		buttonList.clear();
-		buttonList.add(new GuiButton(0, guiLeft + 56, guiTop + 26, 60, 20, "Scan"));
-		buttonList.add(new GuiButton(1, guiLeft + 56, guiTop + 48, 60, 20, "Start"));
+		buttonList.add(new GuiButton(0, guiLeft + 36, guiTop + 28, 50, 20, "Scan"));
+		buttonList.add(new GuiButton(1, guiLeft + 96, guiTop + 28, 50, 20, "Start"));
 		//((GuiButton)buttonList.get(1)).enabled = false;
 	}
 	
@@ -54,11 +54,12 @@ public class GuiHollower extends GuiContainer {
     protected void drawGuiContainerForegroundLayer(int x, int y) {
         int k = (this.width - this.xSize) / 2;
         int l = (this.height - this.ySize) / 2;
-        
         GuiHelper.renderLocalizedGuiName(this.fontRendererObj, this.xSize, deviceHollower.getInventoryName());
         String status = "Status: " + deviceHollower.getStatusText();
         this.fontRendererObj.drawString(status, this.xSize / 2 - this.fontRendererObj.getStringWidth(status) / 2, 16, 4210752);
-        //this.fontRenderer.drawString("Target Block", 26, 30, 4210752);
+        //this.fontRendererObj.drawString("Target Block", 8, 26, 4210752);
+        this.fontRendererObj.drawString("Ignore Meta", 8, 52, 4210752);
+      	this.fontRendererObj.drawString("Leave Walls", 80, 52, 4210752);
         this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
         if (x - k >= 160 & x - k <= 168) {
         	if (y - l >= 7 & y - l <= 78) {

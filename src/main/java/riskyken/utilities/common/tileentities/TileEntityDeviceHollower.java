@@ -22,31 +22,15 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 	private int targetBlockMeta;
 	
 	private int blocksScanned;
-	private boolean ignoreMeta;
+	private boolean ignoreMeta = true;
+	private boolean leaveWalls = true;
 	private static final boolean USE_POWER = false;
 	
 	private LinkedHashMap<String, Vector3> openBlockList;
 	private LinkedHashMap<String, Vector3> closedBlockList;
 	private LinkedHashMap<String, Vector3> removeBlockList;
 	
-	public enum BlockState
-	{
-		Scan_Needed(0),
-		Ready(1),
-		Scanning(2),
-		NoTarget(3),
-		InvalidArea(4),
-		Running(5),
-		Finished(6),
-		Unknown(7);
-		
-		private int value;
-	    private BlockState(int value) {
-	        this.value = value;
-	    }
-	}
-	
-	public BlockState state;
+	private BlockState state;
 	
 	public TileEntityDeviceHollower() {
 		super(100,500);
@@ -80,7 +64,6 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 		closedBlockList = new LinkedHashMap<String, Vector3>();
 		removeBlockList = new LinkedHashMap<String, Vector3>();
 		blocksScanned = 0;
-		ignoreMeta = false;
 		
 		addBlockToList(new Vector3(xCoord, yCoord, zCoord), openBlockList);
 		
@@ -193,6 +176,9 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 					if (block.isReplaceable(worldObj, thisCoord.x, thisCoord.y, thisCoord.z)) {
 						return false;
 					}
+					if (leaveWalls) {
+						return false;
+					}
 				}
 			}
 		}
@@ -231,26 +217,24 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 	
 	private void HollowBlock(Vector3 blockCoord) {
 		
-		if (!worldObj.isAirBlock(blockCoord.x, blockCoord.y, blockCoord.z)) {
+		if (!worldObj.isAirBlock(blockCoord.x, blockCoord.y, blockCoord.z)) { return; }
 			
-			Block block = worldObj.getBlock(blockCoord.x, blockCoord.y, blockCoord.z);
-			int blockMeta = worldObj.getBlockMetadata(blockCoord.x, blockCoord.y, blockCoord.z);
-			
-			// TODO Place items in chest/pipe
-			ArrayList<ItemStack> items = block.getDrops(worldObj, blockCoord.x, blockCoord.y, blockCoord.z, blockMeta, 0);
-			
-			if (items != null) {
-				UtilsInventory.placeItemStackInAdjacentInventory(worldObj, xCoord, yCoord, zCoord, items);
-			}
-			if (items != null & Loader.isModLoaded("BuildCraft|Core")) {
-				UtilsInventory.placeItemStackInAdjacentPipe(worldObj, xCoord, yCoord, zCoord, items);
-			}
-			if (items != null) {
-				UtilsInventory.spawnItemStackiInWorld(worldObj, xCoord, yCoord, zCoord, items);
-			}
-			
-			worldObj.func_147480_a(blockCoord.x, blockCoord.y, blockCoord.z, false);
+		Block block = worldObj.getBlock(blockCoord.x, blockCoord.y, blockCoord.z);
+		int blockMeta = worldObj.getBlockMetadata(blockCoord.x, blockCoord.y, blockCoord.z);
+		
+		ArrayList<ItemStack> items = block.getDrops(worldObj, blockCoord.x, blockCoord.y, blockCoord.z, blockMeta, 0);
+		
+		if (items != null) {
+			UtilsInventory.placeItemStackInAdjacentInventory(worldObj, xCoord, yCoord, zCoord, items);
 		}
+		if (items != null & Loader.isModLoaded("BuildCraft|Core")) {
+			UtilsInventory.placeItemStackInAdjacentPipe(worldObj, xCoord, yCoord, zCoord, items);
+		}
+		if (items != null) {
+			UtilsInventory.spawnItemStackiInWorld(worldObj, xCoord, yCoord, zCoord, items);
+		}
+		
+		worldObj.func_147480_a(blockCoord.x, blockCoord.y, blockCoord.z, false);
 	}
 	
 	@Override
@@ -263,8 +247,27 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 		return state.toString();
 	}
 	
-	public int getStatusInt() {
+	public int getState() {
 		return state.value;
+	}
+	
+	public void setState(int value) {
+		state = TileEntityDeviceHollower.BlockState.values()[value];
+	}
+	
+	public boolean isIgnoreMeta() {
+		return ignoreMeta;
+	}
+	
+	public void setIgnoreMeta(boolean ignoreMeta) {
+		this.ignoreMeta = ignoreMeta;
+	}
+	public boolean isLeaveWalls() {
+		return leaveWalls;
+	}
+	
+	public void setLeaveWalls(boolean leaveWalls) {
+		this.leaveWalls = leaveWalls;
 	}
 
 	@Override
@@ -281,5 +284,22 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 				startHollowing();
 				break;
 		}
+	}
+	
+	public enum BlockState
+	{
+		Scan_Needed(0),
+		Ready(1),
+		Scanning(2),
+		NoTarget(3),
+		InvalidArea(4),
+		Running(5),
+		Finished(6),
+		Unknown(7);
+		
+		public int value;
+	    private BlockState(int value) {
+	        this.value = value;
+	    }
 	}
 }

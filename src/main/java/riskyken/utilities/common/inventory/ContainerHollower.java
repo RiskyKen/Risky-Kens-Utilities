@@ -22,7 +22,7 @@ public class ContainerHollower extends Container {
 	{
 		this.deviceHollower = deviceHollower;
 		
-		addSlotToContainer(new Slot(deviceHollower, 0, 26, 36));
+		addSlotToContainer(new Slot(deviceHollower, 0, 8, 30));
 		
 		for (int x = 0; x < 9; x++) {
 			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 142));
@@ -83,51 +83,62 @@ public class ContainerHollower extends Container {
 	}
 	
 	@Override
-	public void addCraftingToCrafters(ICrafting player)
-	{
+	public void addCraftingToCrafters(ICrafting player) {
 		super.addCraftingToCrafters(player);
-		player.sendProgressBarUpdate(this, 0, deviceHollower.getStatusInt());
-		//player.sendProgressBarUpdate(this, 1, deviceHollower.getPowerLevel());
+		player.sendProgressBarUpdate(this, 0, deviceHollower.getState());
+		player.sendProgressBarUpdate(this, 1, deviceHollower.isIgnoreMeta() ? 1 : 0);
+		player.sendProgressBarUpdate(this, 2, deviceHollower.isLeaveWalls() ? 1 : 0);
+		
+		oldPowerLevel = (int)deviceHollower.getPowerLevel();
+		oldIgnoreMeta = deviceHollower.isIgnoreMeta();
+		oldLeaveWalls = deviceHollower.isLeaveWalls();
 	}
 	
 	private int oldStatusText;
 	private int oldPowerLevel;
+	private boolean oldIgnoreMeta;
+	private boolean oldLeaveWalls;
 	
 	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		for (Object player : crafters)
 		{
-			if (deviceHollower.getStatusInt() != oldStatusText)
-			{
-				((ICrafting)player).sendProgressBarUpdate(this, 0, deviceHollower.getStatusInt());
-				oldStatusText = deviceHollower.getStatusInt();
-				//System.out.println(ModInformation.ID +  " block status update status");
+			if (deviceHollower.getState() != oldStatusText) {
+				((ICrafting)player).sendProgressBarUpdate(this, 0, deviceHollower.getState());
+				oldStatusText = deviceHollower.getState();
 			}
-			if (deviceHollower.getPowerLevel() != oldPowerLevel)
-			{
+			if (deviceHollower.isIgnoreMeta() != oldIgnoreMeta) {
+				((ICrafting)player).sendProgressBarUpdate(this, 1, deviceHollower.isIgnoreMeta() ? 1 : 0);
+				oldIgnoreMeta = deviceHollower.isIgnoreMeta();
+			}
+			if (deviceHollower.isLeaveWalls() != oldLeaveWalls) {
+				((ICrafting)player).sendProgressBarUpdate(this, 2, deviceHollower.isLeaveWalls() ? 1 : 0);
+				oldLeaveWalls = deviceHollower.isLeaveWalls();
+			}
+			if (deviceHollower.getPowerLevel() != oldPowerLevel) {
 				if (player instanceof EntityPlayerMP) {
 					oldPowerLevel = (int)deviceHollower.getPowerLevel();
 					PacketHandler.networkWrapper.sendTo(new MessageBlockPowerUpdate((TileEntityUtilitiesBasePowered)deviceHollower), (EntityPlayerMP)player);
 				}
 			}
-
 		}
 		
 	}
 	
 	@Override
     @SideOnly(Side.CLIENT)
-    public void updateProgressBar(int id, int data)
-	{
+    public void updateProgressBar(int id, int data) {
 		super.updateProgressBar(id, data);
-		switch (id)
-		{
+		switch (id) {
 			case 0:
-				deviceHollower.state = TileEntityDeviceHollower.BlockState.values()[(byte)data];
+				deviceHollower.setState(data);
 				break;
 			case 1:
-				deviceHollower.powerLevel = data;
+				deviceHollower.setIgnoreMeta(data == 0 ? false : true);
+				break;
+			case 2:
+				deviceHollower.setLeaveWalls(data == 0 ? false : true);
 				break;
 		}
 	}
