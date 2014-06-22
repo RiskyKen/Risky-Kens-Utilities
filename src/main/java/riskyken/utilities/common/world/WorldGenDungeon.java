@@ -163,7 +163,7 @@ public class WorldGenDungeon extends WorldGenerator {
 		
 		if (roomId != 1) {
 			
-			if (rnd.nextFloat() * 100 >= 75) {
+			if (rnd.nextFloat() * 100 >= 50) {
 				placeModSpawner(world, rnd, x, y + 3, z);
 				placeLootChest(world, rnd, x, y + 2, z, ChestGenHooks.DUNGEON_CHEST);
 			} else {
@@ -176,32 +176,32 @@ public class WorldGenDungeon extends WorldGenerator {
 			placeLootChest(world, rnd, x, y + 2, z + 2, ChestGenHooks.PYRAMID_JUNGLE_CHEST);
 			placeLootChest(world, rnd, x, y + 2, z - 2, ChestGenHooks.VILLAGE_BLACKSMITH);
 			
-			int luck = (int) (rnd.nextFloat() * 100);
-			
-			Block targetBlock;
-			
-			if (luck > 95) {
-				targetBlock = Blocks.diamond_block;
-			}
-			else if (luck > 75) {
-				targetBlock = Blocks.gold_block;
-			}
-			else if (luck > 50) {
-				targetBlock = Blocks.lapis_block;
-			}
-			else if (luck > 25) {
-				targetBlock = Blocks.iron_block;
-			}
-			else {
-				targetBlock = Blocks.coal_block;
-			}
-			
-			world.setBlock(x + 2, y + 2, z + 2, targetBlock, 0, 2);
-			world.setBlock(x + 2, y + 2, z - 2, targetBlock, 0, 2);
-			world.setBlock(x - 2, y + 2, z + 2, targetBlock, 0, 2);
-			world.setBlock(x - 2, y + 2, z - 2, targetBlock, 0, 2);
+			world.setBlock(x + 2, y + 2, z + 2, getRandomLootBlock(rnd), 0, 2);
+			world.setBlock(x + 2, y + 2, z - 2, getRandomLootBlock(rnd), 0, 2);
+			world.setBlock(x - 2, y + 2, z + 2, getRandomLootBlock(rnd), 0, 2);
+			world.setBlock(x - 2, y + 2, z - 2, getRandomLootBlock(rnd), 0, 2);
 		}
-
+	}
+	
+	private Block getRandomLootBlock(Random rnd) {
+		int luck = (int) (rnd.nextFloat() * 100);
+		Block targetBlock;
+		if (luck > 95) {
+			targetBlock = Blocks.diamond_block;
+		}
+		else if (luck > 75) {
+			targetBlock = Blocks.gold_block;
+		}
+		else if (luck > 50) {
+			targetBlock = Blocks.lapis_block;
+		}
+		else if (luck > 25) {
+			targetBlock = Blocks.iron_block;
+		}
+		else {
+			targetBlock = Blocks.coal_block;
+		}
+		return targetBlock;
 	}
 	
 	private void generatePiller(World world, Random rnd, int x, int y, int z, int height) {
