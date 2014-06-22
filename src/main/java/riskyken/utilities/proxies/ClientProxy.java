@@ -10,6 +10,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import riskyken.utilities.client.model.ModelBigWings;
+import riskyken.utilities.client.model.ModelExtraBigWings;
 import riskyken.utilities.client.model.ModelPlayerHead;
 import riskyken.utilities.client.model.ModelWings;
 import riskyken.utilities.client.renderer.GiftBlockRender;
@@ -35,8 +36,9 @@ public class ClientProxy extends CommonProxy {
 	
 	public static ModelPlayerHead playerHeadModel = new ModelPlayerHead();
 	
-	public static ModelWings wingModel = new ModelWings();
+	//public static ModelWings wingModel = new ModelWings();
 	public static ModelBigWings bigWings = new ModelBigWings();
+	public static ModelExtraBigWings extraBigWings = new ModelExtraBigWings();
 	
 	public static HairRenderManager hairRenderManager;
 	
@@ -78,7 +80,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@SubscribeEvent
 	public void onRender(RenderPlayerEvent.SetArmorModel ev){
-		bigWings.render(ev.entityPlayer, ev.renderer, 2);
+		extraBigWings.render(ev.entityPlayer, ev.renderer);
 		if (ev.entityPlayer.getDisplayName().equals("RiskyKen")) {
 			//bigWings.render(ev.entityPlayer, ev.renderer, 2);
 		}
@@ -89,7 +91,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void onPlayerTick(EntityPlayer player){
-		bigWings.onTick(player, 2);
+		//bigWings.onTick(player, 2);
 		if (player.getDisplayName().equals("RiskyKen")) {
 			//bigWings.onTick(player, 2);
 		}
