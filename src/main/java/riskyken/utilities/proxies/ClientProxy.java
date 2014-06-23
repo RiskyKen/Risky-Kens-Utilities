@@ -81,22 +81,29 @@ public class ClientProxy extends CommonProxy {
 	@SubscribeEvent
 	public void onRender(RenderPlayerEvent.SetArmorModel ev){
 		//extraBigWings.render(ev.entityPlayer, ev.renderer);
-		bigWings.render(ev.entityPlayer, ev.renderer, 2);
+		//bigWings.render(ev.entityPlayer, ev.renderer, 2);
 		if (ev.entityPlayer.getDisplayName().equals("RiskyKen")) {
-			//bigWings.render(ev.entityPlayer, ev.renderer, 2);
+			bigWings.render(ev.entityPlayer, ev.renderer, 1);
 		}
 		if (ev.entityPlayer.getDisplayName().equals("Choccie_Bunny")) {
+			bigWings.render(ev.entityPlayer, ev.renderer, 2);
+		}
+		if (ev.entityPlayer.getDisplayName().equals("Borro55")) {
+			//TODO pink fairy wings
 			//bigWings.render(ev.entityPlayer, ev.renderer, 2);
 		}
 	}
 	
 	@Override
 	public void onPlayerTick(EntityPlayer player){
-		bigWings.onTick(player, 2);
+		//bigWings.onTick(player, 2);
 		if (player.getDisplayName().equals("RiskyKen")) {
-			//bigWings.onTick(player, 2);
+			bigWings.onTick(player, 1);
 		}
 		if (player.getDisplayName().equals("Choccie_Bunny")) {
+			bigWings.onTick(player, 2);
+		}
+		if (player.getDisplayName().equals("Borro55")) {
 			//bigWings.onTick(player, 2);
 		}
 	}
