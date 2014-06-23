@@ -117,94 +117,30 @@ public class ModBlocks {
 			'i',Blocks.iron_block,
 			'b',Items.bucket});
 		
-		//flood light
-		addShapedRecipe(new ItemStack(floodLight, 1, 0), new Object[] {"wpw","igi","wiw",
-			'i',Items.iron_ingot,
-			'w',"plankWood",
-			'g',Blocks.torch,
-			'p',Blocks.glass_pane});
+		//flood lights
+		ItemStack lightCratingTiers[] = {new ItemStack(Items.coal), new ItemStack(Blocks.coal_block),
+				new ItemStack(Blocks.glowstone), new ItemStack(starMultiBlock, 1, 6),
+				new ItemStack(starMultiBlock, 1, 7)};
 		
-		addShapedRecipe(new ItemStack(floodLight, 1, 1), new Object[] {"wpw","igi","wiw",
-			'i',Items.iron_ingot,
-			'w',"plankWood",
-			'g',Blocks.coal_block,
-			'p',Blocks.glass_pane});
-		
-		addShapedRecipe(new ItemStack(floodLight, 1, 2), new Object[] {"wpw","igi","wiw",
-			'i',Items.iron_ingot,
-			'w',"plankWood",
-			'g',Items.glowstone_dust,
-			'p',Blocks.glass_pane});
-		
-		addShapedRecipe(new ItemStack(floodLight, 1, 3), new Object[] {"wpw","igi","wiw",
-			'i',Items.iron_ingot,
-			'w',"plankWood",
-			'g',Blocks.glowstone,
-			'p',Blocks.glass_pane});
-		
-		addShapedRecipe(new ItemStack(floodLight, 1, 4), new Object[] {"wpw","igi","wiw",
-			'i',Items.iron_ingot,
-			'w',"plankWood",
-			'g',Blocks.redstone_lamp,
-			'p',Blocks.glass_pane});
-		
-		//Flood light upgrades
 		for (int i = 0; i < 5; i++) {
-			if (i != 0) {
-				addShapelessRecipe(new ItemStack(floodLight, 1, 0), new Object[]
-						{new ItemStack(floodLight, 1, i), new ItemStack(Blocks.torch, 1)});
-			}
-
-			if (i != 1) {
-				addShapelessRecipe(new ItemStack(floodLight, 1, 1), new Object[]
-						{new ItemStack(floodLight, 1, i), new ItemStack(Blocks.coal_block, 1)});
+			addShapedRecipe(new ItemStack(floodLight, 1, i), new Object[] {"wpw","igi","wiw",
+				'i',Items.iron_ingot,
+				'w',"plankWood",
+				'g',lightCratingTiers[i],
+				'p',Blocks.glass_pane});
+			
+			//Flood light upgrades
+			for (int j = 0; j < 5; j++) {
+				if (j != i) {
+					addShapelessRecipe(new ItemStack(floodLight, 1, i), new Object[]
+							{new ItemStack(floodLight, 1, j), lightCratingTiers[i]});
+					
+					addShapelessRecipe(new ItemStack(floodLight, 1, i + 5), new Object[]
+							{new ItemStack(floodLight, 1, j + 5), lightCratingTiers[i]});
+				}
 			}
 			
-			if (i != 2) {
-				addShapelessRecipe(new ItemStack(floodLight, 1, 2), new Object[]
-						{new ItemStack(floodLight, 1, i), new ItemStack(Items.glowstone_dust, 1)});
-			}
-			
-			if (i != 3) {
-				addShapelessRecipe(new ItemStack(floodLight, 1, 3), new Object[]
-						{new ItemStack(floodLight, 1, i), new ItemStack(Blocks.glowstone, 1)});
-			}
-			
-			if (i != 4) {
-				addShapelessRecipe(new ItemStack(floodLight, 1, 4), new Object[]
-						{new ItemStack(floodLight, 1, i), new ItemStack(Blocks.redstone_lamp, 1)});
-			}
-		}
-		
-		for (int i = 5; i < 10; i++) {
-			if (i != 5) {
-				addShapelessRecipe(new ItemStack(floodLight, 1, 5), new Object[]
-						{new ItemStack(floodLight, 1, i), new ItemStack(Blocks.torch, 1)});
-			}
-
-			if (i != 6) {
-				addShapelessRecipe(new ItemStack(floodLight, 1, 6), new Object[]
-						{new ItemStack(floodLight, 1, i), new ItemStack(Blocks.coal_block, 1)});
-			}
-			
-			if (i != 7) {
-				addShapelessRecipe(new ItemStack(floodLight, 1, 7), new Object[]
-						{new ItemStack(floodLight, 1, i), new ItemStack(Items.glowstone_dust, 1)});
-			}
-			
-			if (i != 8) {
-				addShapelessRecipe(new ItemStack(floodLight, 1, 8), new Object[]
-						{new ItemStack(floodLight, 1, i), new ItemStack(Blocks.glowstone, 1)});
-			}
-			
-			if (i != 9) {
-				addShapelessRecipe(new ItemStack(floodLight, 1, 9), new Object[]
-						{new ItemStack(floodLight, 1, i), new ItemStack(Blocks.redstone_lamp, 1)});
-			}
-		}
-		
-		//Flood light phased upgrades/down grades
-		for (int i = 0; i < 5; i++) {
+			//Flood light phased upgrades/down grades
 			addShapedRecipe(new ItemStack(floodLight, 1, i + 5), new Object[] {" p ","plp"," p ",
 				'l',new ItemStack(floodLight, 1, i),
 				'p',Items.ender_pearl});
