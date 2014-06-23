@@ -80,7 +80,8 @@ public class ClientProxy extends CommonProxy {
 	
 	@SubscribeEvent
 	public void onRender(RenderPlayerEvent.SetArmorModel ev){
-		extraBigWings.render(ev.entityPlayer, ev.renderer);
+		//extraBigWings.render(ev.entityPlayer, ev.renderer);
+		bigWings.render(ev.entityPlayer, ev.renderer, 2);
 		if (ev.entityPlayer.getDisplayName().equals("RiskyKen")) {
 			//bigWings.render(ev.entityPlayer, ev.renderer, 2);
 		}
@@ -91,7 +92,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void onPlayerTick(EntityPlayer player){
-		//bigWings.onTick(player, 2);
+		bigWings.onTick(player, 2);
 		if (player.getDisplayName().equals("RiskyKen")) {
 			//bigWings.onTick(player, 2);
 		}

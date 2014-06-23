@@ -48,68 +48,6 @@ public class ModItems {
 		hairStyleUnlock = new ItemHairStyleUnlock();
 	}
 	
-	public static void registerRecipes()
-	{
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(hissingStick,1,0), new Object[]
-				{" h","s ",
-				'h',new ItemStack(Items.skull,1,4),
-				's',"stickWood"}));
-
-		
-		if (ConfigHandler.saddle_recipe) {
-			GameRegistry.addRecipe(new ItemStack(Items.saddle,1,0), new Object[] {"lll","lil",
-				'i',Items.iron_ingot,
-				'l',Items.leather});
-		}
-		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(upgrades, 1, 0), new Object[]
-				{"rrr","rpr","rsr",
-				'r',Items.redstone,
-				'p',Items.potato,
-				's',"stickWood"}));
-		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(upgrades, 1, 1), new Object[]
-				{" u ","uiu"," u ",
-				'u',new ItemStack(upgrades, 1, 0),
-				'i',Items.iron_ingot}));
-		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(upgrades, 1, 2), new Object[]
-				{" u ","uiu"," u ",
-				'u',new ItemStack(upgrades, 1, 1),
-				'i',Items.gold_ingot}));
-		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(upgrades, 1, 3), new Object[]
-				{"uuu","uiu","uuu",
-				'u',new ItemStack(upgrades, 1, 2),
-				'i',Blocks.diamond_block}));
-		
-		
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(transportDevice, 1, 0), new Object[]
-				{"isi","iei"," i ",
-				'i',Items.iron_ingot,
-				'e',Items.ender_pearl,
-				's',"stickWood"}));
-
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(linkCard, 1, 0), new Object[]
-				{Items.paper,
-				"dyeYellow",
-				"dyeBlack"}));
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(linkCard,1,0), new Object[]
-				{new ItemStack(linkCard,1,0)});
-		
-		//ribbon
-		GameRegistry.addRecipe(new ItemStack(craftingMats, 2, 0), new Object[] {"ss","ss","ss",
-			's',Items.string});
-		
-		//super note block
-		GameRegistry.addRecipe(new ItemStack(craftingMats, 1, 1), new Object[] {"rnr","ncn","pnp",
-			'r',Items.redstone,
-			'n',Blocks.noteblock,
-			'c',Blocks.chest,
-			'p',Blocks.glass_pane});
-	}
-	
 	public static void registerDungeonLoot() {
 		for (int i = 1; i < HairStyleType.values().length; i++) {
 			ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(hairStyleUnlock, 1, i), 1, 1, 5));

@@ -8,6 +8,7 @@ import riskyken.utilities.common.UpdateCheck;
 import riskyken.utilities.common.ModEventHandler;
 import riskyken.utilities.common.blocks.ModBlocks;
 import riskyken.utilities.common.config.ConfigHandler;
+import riskyken.utilities.common.crafting.CraftingManager;
 import riskyken.utilities.common.creativetab.CreativeTabRiskyKensUtilities;
 import riskyken.utilities.common.entities.Entities;
 import riskyken.utilities.common.items.ModItems;
@@ -53,10 +54,7 @@ public class RiskyKensUtilities {
 
 	@Mod.EventHandler
 	public void load(FMLInitializationEvent event){
-		if (!ConfigHandler.disableRecipes) {
-			ModItems.registerRecipes();
-			ModBlocks.registerRecipes();
-		}
+		CraftingManager.init();
 		
 		ModItems.registerDungeonLoot();
 		
