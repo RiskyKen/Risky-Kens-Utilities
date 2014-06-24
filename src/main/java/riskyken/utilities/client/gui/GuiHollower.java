@@ -1,7 +1,10 @@
 package riskyken.utilities.client.gui;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -33,14 +36,15 @@ public class GuiHollower extends GuiContainer {
 		buttonList.clear();
 		buttonList.add(new GuiButton(0, guiLeft + 36, guiTop + 28, 50, 20, "Scan"));
 		buttonList.add(new GuiButton(1, guiLeft + 96, guiTop + 28, 50, 20, "Start"));
-		//((GuiButton)buttonList.get(1)).enabled = false;
+		buttonList.add(new GuiCheckBox(2, guiLeft + 7, guiTop + 64, "check", deviceHollower.isIgnoreMeta()));
+		buttonList.add(new GuiCheckBox(3, guiLeft + 96, guiTop + 64, "check", deviceHollower.isLeaveWalls()));
 	}
 	
 	public GuiHollower(InventoryPlayer invPlayer, TileEntityDeviceHollower deviceHollower) {
 		super(new ContainerHollower(invPlayer, deviceHollower));
 		this.deviceHollower = deviceHollower;
 		xSize = 176;
-		ySize = 166;
+		ySize = 182;
 	}
 	
 	@Override
@@ -58,14 +62,17 @@ public class GuiHollower extends GuiContainer {
         String status = "Status: " + deviceHollower.getStatusText();
         this.fontRendererObj.drawString(status, this.xSize / 2 - this.fontRendererObj.getStringWidth(status) / 2, 16, 4210752);
         //this.fontRendererObj.drawString("Target Block", 8, 26, 4210752);
-        this.fontRendererObj.drawString("Ignore Meta", 8, 52, 4210752);
-      	this.fontRendererObj.drawString("Leave Walls", 80, 52, 4210752);
+        this.fontRendererObj.drawString("Ignore Meta", 9, 54, 4210752);
+      	this.fontRendererObj.drawString("Leave Walls", 98, 54, 4210752);
         this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
         if (x - k >= 160 & x - k <= 168) {
         	if (y - l >= 7 & y - l <= 78) {
         		drawOverlayText(String.format("%.0f",this.deviceHollower.powerLevel) + "/" + String.format("%.0f",this.deviceHollower.getMaxPowerLevel()), x - k, y - l);
         	}
         }
+        
+        ((GuiCheckBox)buttonList.get(2)).setChecked(deviceHollower.isIgnoreMeta());
+        ((GuiCheckBox)buttonList.get(3)).setChecked(deviceHollower.isLeaveWalls());
     }
     
 	@Override

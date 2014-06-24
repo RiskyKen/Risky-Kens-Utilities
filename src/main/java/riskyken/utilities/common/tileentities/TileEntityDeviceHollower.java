@@ -8,6 +8,7 @@ import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import riskyken.utilities.common.config.ConfigHandler;
 import riskyken.utilities.common.lib.LibBlockNames;
@@ -17,6 +18,9 @@ import riskyken.utilities.utils.Vector3;
 import scala.annotation.meta.field;
 
 public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
+	
+	private static final String TAG_IGNORE_META = "ignoreMeta";
+	private static final String TAG_LEAVE_WALLS = "leaveWalls";
 	
 	private Block targetBlock;
 	private int targetBlockMeta;
@@ -216,8 +220,7 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 	}
 	
 	private void HollowBlock(Vector3 blockCoord) {
-		
-		if (!worldObj.isAirBlock(blockCoord.x, blockCoord.y, blockCoord.z)) { return; }
+		if (worldObj.isAirBlock(blockCoord.x, blockCoord.y, blockCoord.z)) { return; }
 			
 		Block block = worldObj.getBlock(blockCoord.x, blockCoord.y, blockCoord.z);
 		int blockMeta = worldObj.getBlockMetadata(blockCoord.x, blockCoord.y, blockCoord.z);
@@ -261,18 +264,35 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 	
 	public void setIgnoreMeta(boolean ignoreMeta) {
 		this.ignoreMeta = ignoreMeta;
+		markDirty();
 	}
+	
 	public boolean isLeaveWalls() {
 		return leaveWalls;
 	}
 	
 	public void setLeaveWalls(boolean leaveWalls) {
 		this.leaveWalls = leaveWalls;
+		markDirty();
 	}
 
 	@Override
 	public String getInventoryName() {
 		return LibBlockNames.HOLLOWER;
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
+		compound.setBoolean(TAG_IGNORE_META, this.ignoreMeta);
+		compound.setBoolean(TAG_LEAVE_WALLS, this.leaveWalls);
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
+        this.ignoreMeta = compound.getBoolean(TAG_IGNORE_META);
+        this.leaveWalls = compound.getBoolean(TAG_LEAVE_WALLS);
 	}
 	
 	public void receiveButtonEvent(short buttonId) {
@@ -282,6 +302,12 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 				break;
 			case 1:
 				startHollowing();
+				break;
+			case 2:
+				setIgnoreMeta(!this.ignoreMeta);
+				break;
+			case 3:
+				setLeaveWalls(!this.leaveWalls);
 				break;
 		}
 	}

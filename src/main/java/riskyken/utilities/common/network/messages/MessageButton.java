@@ -36,7 +36,6 @@ public class MessageButton implements IMessage, IMessageHandler<MessageButton, I
 
 	@Override
 	public IMessage onMessage(MessageButton message, MessageContext ctx) {
-		System.out.println("got button data server");
 		EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 		
 		if (player == null) {

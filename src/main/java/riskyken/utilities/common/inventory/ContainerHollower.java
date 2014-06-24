@@ -25,12 +25,12 @@ public class ContainerHollower extends Container {
 		addSlotToContainer(new Slot(deviceHollower, 0, 8, 30));
 		
 		for (int x = 0; x < 9; x++) {
-			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 142));
+			addSlotToContainer(new Slot(invPlayer, x, 8 + 18 * x, 158));
 		}
 		
 		for (int y = 0; y < 3; y++) {
 			for (int x = 0; x < 9; x++) {
-				addSlotToContainer(new Slot(invPlayer, x + y * 9 + 9, 8 + 18 * x, 84 + y * 18));
+				addSlotToContainer(new Slot(invPlayer, x + y * 9 + 9, 8 + 18 * x, 100 + y * 18));
 			}
 		}
 	}
