@@ -1,5 +1,6 @@
 eclipse/
 build/
+api/
 .settings/
 .gradle/
 .metadata/
