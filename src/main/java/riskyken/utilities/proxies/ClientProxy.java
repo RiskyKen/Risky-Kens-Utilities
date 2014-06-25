@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -12,14 +11,11 @@ import net.minecraftforge.common.MinecraftForge;
 import riskyken.utilities.client.model.ModelBigWings;
 import riskyken.utilities.client.model.ModelExtraBigWings;
 import riskyken.utilities.client.model.ModelPlayerHead;
-import riskyken.utilities.client.model.ModelWings;
 import riskyken.utilities.client.renderer.GiftBlockRender;
 import riskyken.utilities.client.renderer.HairRenderManager;
 import riskyken.utilities.client.renderer.RenderBlockSun;
-import riskyken.utilities.client.renderer.RenderItemGift;
 import riskyken.utilities.client.renderer.RenderItemMagicStaff;
-import riskyken.utilities.common.ModTickHandler;
-import riskyken.utilities.common.blocks.ModBlocks;
+import riskyken.utilities.common.hair.PlayerHairStyleData;
 import riskyken.utilities.common.items.ModItems;
 import riskyken.utilities.common.lib.LibModInfo;
 import riskyken.utilities.common.tileentities.TileEntityStarLight;
@@ -106,6 +102,15 @@ public class ClientProxy extends CommonProxy {
 		if (player.getDisplayName().equals("Borro55")) {
 			//bigWings.onTick(player, 2);
 		}
+	}
+	
+	@Override
+	public void setHairStyleData(int hairStyleUnlockFlags, int hairAccessoriesUnlockFlags, int hairAccessoryColourUnlockFlags) {
+		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+		PlayerHairStyleData props = PlayerHairStyleData.get(player);
+		props.setHairStyleUnlockFlags(hairStyleUnlockFlags);
+		props.setHairAccessoriesUnlockFlags(hairAccessoriesUnlockFlags);
+		props.setHairAccessoryColourUnlockFlags(hairAccessoryColourUnlockFlags);
 	}
 	
 }

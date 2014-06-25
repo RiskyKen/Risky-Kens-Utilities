@@ -24,5 +24,9 @@ public class CommonProxy {
 	public void onPlayerTick(EntityPlayer player) {
 		
 	}
+	
+	public void setHairStyleData(int hairStyleUnlockFlags, int hairAccessoriesUnlockFlags,
+			int hairAccessoryColourUnlockFlags) {
+	}
 
 }
