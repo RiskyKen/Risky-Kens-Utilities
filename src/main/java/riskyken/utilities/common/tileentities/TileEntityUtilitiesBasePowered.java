@@ -20,11 +20,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @Optional.InterfaceList({
-	@Optional.Interface(iface="buildcraft.api.power.IPowerReceptor", modid="BuildCraft|Core", striprefs = true),
-	@Optional.Interface(iface="ic2.api.energy.tile.IEnergySink", modid="IC2", striprefs = true),
-	@Optional.Interface(iface="ic2.api.energy.tile.IEnergyTile", modid="IC2", striprefs = true),
-	@Optional.Interface(iface="ic2.api.energy.tile.IEnergyAcceptor", modid="IC2", striprefs = true),
-	@Optional.Interface(iface="ic2.api.energy.tile.IEnergyTile", modid="IC2", striprefs = true)
+	@Optional.Interface(iface="buildcraft.api.power.IPowerReceptor", modid="BuildCraft|Core", striprefs = false),
+	@Optional.Interface(iface="ic2.api.energy.tile.IEnergySink", modid="IC2", striprefs = false)
 	})
 public abstract class TileEntityUtilitiesBasePowered extends TileEntityUtilitiesBase implements IPowerReceptor, IEnergySink {
 
@@ -36,10 +33,7 @@ public abstract class TileEntityUtilitiesBasePowered extends TileEntityUtilities
 	
 	private final double workPowerLevel;
 	
-	//@Interface(modid="BuildCraft|Core")
-	
 	private PowerHandler powerHandler;
-	
 	
 	public TileEntityUtilitiesBasePowered(int workPowerLevel, int maxPowerLevel) {
 		super();
@@ -63,24 +57,33 @@ public abstract class TileEntityUtilitiesBasePowered extends TileEntityUtilities
 		powerHandler.configurePowerPerdition(0, 0);
 	}
 	
-	@Optional.Method(modid="BuildCraft|Core")
+	
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		if (Loader.isModLoaded("BuildCraft|Core")) {
-			powerHandler.writeToNBT(compound, TAG_MJ_POWER_HANDLER);
+			writePowerHandlerNBT(compound);
 		}
 		compound.setDouble(TAG_POWER_LEVEL, powerLevel);
 	}
 	
-	@Optional.Method(modid="BuildCraft|Core")
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		if (Loader.isModLoaded("BuildCraft|Core")) {
-			powerHandler.readFromNBT(compound, TAG_MJ_POWER_HANDLER);
+			readPowerHandlerNBT(compound);
 		}
 		powerLevel = compound.getDouble(TAG_POWER_LEVEL);
+	}
+	
+	@Optional.Method(modid="BuildCraft|Core")
+	private void readPowerHandlerNBT(NBTTagCompound compound) {
+		powerHandler.readFromNBT(compound, TAG_MJ_POWER_HANDLER);
+	}
+	
+	@Optional.Method(modid="BuildCraft|Core")
+	private void writePowerHandlerNBT(NBTTagCompound compound) {
+		powerHandler.writeToNBT(compound, TAG_MJ_POWER_HANDLER);
 	}
 	
 	public void useWorkPower() {
@@ -114,7 +117,6 @@ public abstract class TileEntityUtilitiesBasePowered extends TileEntityUtilities
 		}
 	}
 	
-	@Optional.Method(modid="BuildCraft|Core")
 	@Override
 	public World getWorld() {
 		return worldObj;
