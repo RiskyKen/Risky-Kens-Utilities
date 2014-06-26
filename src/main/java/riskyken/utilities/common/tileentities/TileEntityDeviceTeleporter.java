@@ -11,6 +11,7 @@ import net.minecraft.util.AxisAlignedBB;
 import riskyken.utilities.common.items.ModItems;
 import riskyken.utilities.common.lib.LibBlockNames;
 import riskyken.utilities.common.lib.LibModInfo;
+import riskyken.utilities.common.lib.LibSounds;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -149,7 +150,7 @@ public class TileEntityDeviceTeleporter extends TileEntityUtilitiesBasePowered {
 		if (isLinked) {
 			
 			if (playerInCount == 0)
-				worldObj.playSoundAtEntity(entity, LibModInfo.ID.toLowerCase() + ":" + "teleportfxsend", 1, 1);
+				worldObj.playSoundAtEntity(entity, LibSounds.TELEPORT_SEND, 1, 1);
 			
 			playerInCount++;
 			
@@ -174,7 +175,7 @@ public class TileEntityDeviceTeleporter extends TileEntityUtilitiesBasePowered {
 				player.setPositionAndUpdate((double)xTarget + .5, (double)yTarget, (double)zTarget + .5);
 			}
 
-			worldObj.playSoundAtEntity(entity, LibModInfo.ID.toLowerCase() + ":" + "teleportfxrecieve", 1, 1);
+			worldObj.playSoundAtEntity(entity, LibSounds.TELEPORT_RECIEVE, 1, 1);
 			//player.addChatMessage("Warping to X:" + xTar + " Y:" + yTar + " Z:" + zTar);
 			cooldown = 5;
 			updateMetaData();

@@ -18,6 +18,7 @@ import riskyken.utilities.client.renderer.RenderItemMagicStaff;
 import riskyken.utilities.common.hair.PlayerHairStyleData;
 import riskyken.utilities.common.items.ModItems;
 import riskyken.utilities.common.lib.LibModInfo;
+import riskyken.utilities.common.lib.LibSounds;
 import riskyken.utilities.common.tileentities.TileEntityStarLight;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -71,7 +72,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void playDimensionSound(byte soundId) {
-		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(LibModInfo.ID + ":" + "star-born"), 1.0F));
+		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(LibSounds.STAR_BORN), 1.0F));
 	}
 	
 	@SubscribeEvent
