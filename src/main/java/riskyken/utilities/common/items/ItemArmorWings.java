@@ -3,7 +3,7 @@ package riskyken.utilities.common.items;
 import java.util.List;
 
 import riskyken.utilities.RiskyKensUtilities;
-import riskyken.utilities.client.model.ModelWings;
+import riskyken.utilities.client.model.wings.ModelWings;
 import riskyken.utilities.common.lib.LibItemNames;
 import riskyken.utilities.common.lib.LibModInfo;
 import riskyken.utilities.proxies.ClientProxy;

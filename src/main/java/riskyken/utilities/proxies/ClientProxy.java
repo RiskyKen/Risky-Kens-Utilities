@@ -8,9 +8,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
-import riskyken.utilities.client.model.ModelBigWings;
-import riskyken.utilities.client.model.ModelExtraBigWings;
 import riskyken.utilities.client.model.ModelPlayerHead;
+import riskyken.utilities.client.model.wings.ModelBigWings;
+import riskyken.utilities.client.model.wings.ModelExtraBigWings;
+import riskyken.utilities.client.model.wings.ModelMetalWings;
 import riskyken.utilities.client.renderer.GiftBlockRender;
 import riskyken.utilities.client.renderer.HairRenderManager;
 import riskyken.utilities.client.renderer.RenderBlockSun;
@@ -36,6 +37,7 @@ public class ClientProxy extends CommonProxy {
 	//public static ModelWings wingModel = new ModelWings();
 	public static ModelBigWings bigWings = new ModelBigWings();
 	public static ModelExtraBigWings extraBigWings = new ModelExtraBigWings();
+	public static ModelMetalWings metalWings = new ModelMetalWings();
 	
 	public static HairRenderManager hairRenderManager;
 	
@@ -79,8 +81,9 @@ public class ClientProxy extends CommonProxy {
 	public void onRender(RenderPlayerEvent.SetArmorModel ev){
 		//extraBigWings.render(ev.entityPlayer, ev.renderer);
 		//bigWings.render(ev.entityPlayer, ev.renderer, 2);
+		metalWings.render(ev.entityPlayer, ev.renderer);
 		if (ev.entityPlayer.getDisplayName().equals("RiskyKen")) {
-			bigWings.render(ev.entityPlayer, ev.renderer, 1);
+			//bigWings.render(ev.entityPlayer, ev.renderer, 1);
 		}
 		if (ev.entityPlayer.getDisplayName().equals("Choccie_Bunny")) {
 			bigWings.render(ev.entityPlayer, ev.renderer, 2);
@@ -95,7 +98,7 @@ public class ClientProxy extends CommonProxy {
 	public void onPlayerTick(EntityPlayer player){
 		//bigWings.onTick(player, 2);
 		if (player.getDisplayName().equals("RiskyKen")) {
-			bigWings.onTick(player, 1);
+			//bigWings.onTick(player, 1);
 		}
 		if (player.getDisplayName().equals("Choccie_Bunny")) {
 			bigWings.onTick(player, 2);

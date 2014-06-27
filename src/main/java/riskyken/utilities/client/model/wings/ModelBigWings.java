@@ -1,4 +1,4 @@
-package riskyken.utilities.client.model;
+package riskyken.utilities.client.model.wings;
 
 import java.util.Random;
 
@@ -25,36 +25,37 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelExtraBigWings extends ModelBiped
+public class ModelBigWings extends ModelBiped
 {
     ModelRenderer rightWing;
     ModelRenderer leftWing;
     private final ResourceLocation[] wingsImage;
     
-  public ModelExtraBigWings()
+  public ModelBigWings()
   {
-    textureWidth = 128;
-    textureHeight = 128;
+    textureWidth = 64;
+    textureHeight = 64;
     
 
-      rightWing = new ModelRenderer(this, 0, 32);
-      rightWing.addBox(-13F, 2F, 0F, 20, 31, 1);
+      rightWing = new ModelRenderer(this, 0, 31);
+      rightWing.addBox(-11F, 2F, 0F, 17, 30, 1);
       rightWing.setRotationPoint(0F, 0F, 0F);
       rightWing.setTextureSize(64, 32);
-      rightWing.mirror = false;
+      rightWing.mirror = true;
       setRotation(rightWing, 2.094395F, 0F, -1.396263F);
       
 
       leftWing = new ModelRenderer(this, 0, 0);
-      leftWing.addBox(-7F, 2F, 0F, 20, 31, 1);
+      leftWing.addBox(-6F, 2F, 0F, 17, 30, 1);
       leftWing.setRotationPoint(0F, 0F, 0F);
       leftWing.setTextureSize(64, 32);
-      leftWing.mirror = false;
+      leftWing.mirror = true;
       setRotation(leftWing, 2.094395F, 0F, 1.396263F);
       
-      wingsImage = new ResourceLocation[2];
-      wingsImage[0] = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/armor/flandre-wings.png");
-      wingsImage[1] = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/armor/flandre-wings-glow.png");
+      wingsImage = new ResourceLocation[3];
+      wingsImage[0] = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/armor/big-black-wings.png");
+      wingsImage[1] = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/armor/big-white-wings.png");
+      wingsImage[2] = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/armor/shana-wings.png");
   }
   
   public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
@@ -77,14 +78,10 @@ public class ModelExtraBigWings extends ModelBiped
     super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
   }
   
-  public void render(EntityPlayer player, RenderPlayer renderer) {
-		renderWingLayer(player, renderer, 0);
-		renderWingLayer(player, renderer, 1);
-	}
-  
-  	private void renderWingLayer(EntityPlayer player, RenderPlayer renderer, int layerId) {	
-		if (layerId >= 0 & layerId < wingsImage.length) {
-			Minecraft.getMinecraft().getTextureManager().bindTexture(wingsImage[layerId]);
+	public void render(EntityPlayer player, RenderPlayer renderer, int wingId) {
+		
+		if (wingId >= 0 & wingId < wingsImage.length) {
+			Minecraft.getMinecraft().getTextureManager().bindTexture(wingsImage[wingId]);
 		}
 		float mult = 0.0625F;
 		
@@ -92,7 +89,7 @@ public class ModelExtraBigWings extends ModelBiped
 		
 		float lastBrightnessX = OpenGlHelper.lastBrightnessX;
 		float lastBrightnessY = OpenGlHelper.lastBrightnessY;
-		if (layerId != 0) {
+		if (wingId != 0) {
 			GL11.glDisable(GL11.GL_LIGHTING);
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
 		}
@@ -103,13 +100,13 @@ public class ModelExtraBigWings extends ModelBiped
 	    rightWing.render(mult);
 	    leftWing.render(mult);
 	    
-	    if (layerId != 0) {
+	    if (wingId != 0) {
 		    OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
 		    GL11.glEnable(GL11.GL_LIGHTING);
 	    }
 	    
 	    GL11.glPopMatrix();
-  	}
+	}
 	
 	public void onTick(EntityPlayer player, int wingId) {
 		spawnParticales(player, wingId);

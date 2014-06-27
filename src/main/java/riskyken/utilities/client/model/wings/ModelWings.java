@@ -1,4 +1,4 @@
-package riskyken.utilities.client.model;
+package riskyken.utilities.client.model.wings;
 
 import java.util.Random;
 
