@@ -19,20 +19,22 @@ public class ModelMetalWings extends ModelBiped {
 	
 	public ModelMetalWings() {
 		textureWidth = 64;
-		textureHeight = 64;
+		textureHeight = 32;
 		
-		rightWing = new ModelRenderer(this, 0, 30);
-		rightWing.addBox(-13F, 2F, 0F, 20, 29, 1);
+		rightWing = new ModelRenderer(this, 0, 0);
+		//rightWing.addBox(-13F, 2F, 0F, 20, 29, 1);
+		rightWing.addBox(-7F, 2F, -1F, 20, 29, 1);
 		rightWing.setRotationPoint(0F, 0F, 0F);
-		rightWing.setTextureSize(64, 32);
+		rightWing.setTextureSize(32, 32);
 		rightWing.mirror = false;
-		setRotation(rightWing, 2.094395F, 0F, -1.396263F);
+		setRotation(rightWing, 1.047198F, 0F, 1.745329F);
+		//setRotation(rightWing, 2.094395F, 0F, -1.396263F);
 
 		leftWing = new ModelRenderer(this, 0, 0);
 		leftWing.addBox(-7F, 2F, 0F, 20, 29, 1);
 		leftWing.setRotationPoint(0F, 0F, 0F);
-		leftWing.setTextureSize(64, 32);
-		leftWing.mirror = false;
+		leftWing.setTextureSize(32, 32);
+		leftWing.mirror = true;
 		setRotation(leftWing, 2.094395F, 0F, 1.396263F);
 		
 		wingsImage = new ResourceLocation[1];

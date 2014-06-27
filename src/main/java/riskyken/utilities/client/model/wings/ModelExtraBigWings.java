@@ -27,61 +27,59 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ModelExtraBigWings extends ModelBiped
 {
-    ModelRenderer rightWing;
-    ModelRenderer leftWing;
-    private final ResourceLocation[] wingsImage;
-    
-  public ModelExtraBigWings()
-  {
-    textureWidth = 128;
-    textureHeight = 128;
-    
+	ModelRenderer rightWing;
+	ModelRenderer leftWing;
+	private final ResourceLocation[] wingsImage;
 
-rightWing = new ModelRenderer(this, 0, 32);
-rightWing.addBox(-13F, 2F, 0F, 20, 31, 1);
-rightWing.setRotationPoint(0F, 0F, 0F);
-rightWing.setTextureSize(64, 32);
-rightWing.mirror = false;
-setRotation(rightWing, 2.094395F, 0F, -1.396263F);
+	public ModelExtraBigWings()
+	{
+		textureWidth = 64;
+		textureHeight = 64;
+		
+		rightWing = new ModelRenderer(this, 0, 32);
+		//rightWing.addBox(-13F, 2F, 0F, 20, 31, 1);
+		rightWing.addBox(-7F, 2F, -1F, 20, 31, 1);
+		rightWing.setRotationPoint(0F, 0F, 0F);
+		rightWing.setTextureSize(64, 64);
+		rightWing.mirror = false;
+		setRotation(rightWing, 1.047198F, 0F, 1.745329F);
+		//setRotation(rightWing, 2.094395F, 0F, -1.396263F);
+		
+		leftWing = new ModelRenderer(this, 0, 0);
+		leftWing.addBox(-7F, 2F, 0F, 20, 31, 1);
+		leftWing.setRotationPoint(0F, 0F, 0F);
+		leftWing.setTextureSize(64, 64);
+		leftWing.mirror = false;
+		setRotation(leftWing, 2.094395F, 0F, 1.396263F);
+		      
+		wingsImage = new ResourceLocation[2];
+		wingsImage[0] = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/armor/flandre-wings.png");
+		wingsImage[1] = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/armor/flandre-wings-glow.png");
+	}
 
-leftWing = new ModelRenderer(this, 0, 0);
-leftWing.addBox(-7F, 2F, 0F, 20, 31, 1);
-leftWing.setRotationPoint(0F, 0F, 0F);
-leftWing.setTextureSize(64, 32);
-leftWing.mirror = false;
-setRotation(leftWing, 2.094395F, 0F, 1.396263F);
-      
-wingsImage = new ResourceLocation[2];
-wingsImage[0] = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/armor/flandre-wings.png");
-wingsImage[1] = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/armor/flandre-wings-glow.png");
-  }
-  
-  public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-  {
-    //super.render(entity, f, f1, f2, f3, f4, f5);
-    //setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-    rightWing.render(f5);
-    leftWing.render(f5);
-  }
-  
-  private void setRotation(ModelRenderer model, float x, float y, float z)
-  {
-    model.rotateAngleX = x;
-    model.rotateAngleY = y;
-    model.rotateAngleZ = z;
-  }
-  
-  public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity)
-  {
-    super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-  }
-  
-  public void render(EntityPlayer player, RenderPlayer renderer) {
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+		//super.render(entity, f, f1, f2, f3, f4, f5);
+		//setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+		rightWing.render(f5);
+		leftWing.render(f5);
+	}
+
+	private void setRotation(ModelRenderer model, float x, float y, float z) {
+		model.rotateAngleX = x;
+		model.rotateAngleY = y;
+		model.rotateAngleZ = z;
+	}
+	
+	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
+		super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+	}
+
+	public void render(EntityPlayer player, RenderPlayer renderer) {
 		renderWingLayer(player, renderer, 0);
 		renderWingLayer(player, renderer, 1);
 	}
-  
-  	private void renderWingLayer(EntityPlayer player, RenderPlayer renderer, int layerId) {	
+
+	private void renderWingLayer(EntityPlayer player, RenderPlayer renderer, int layerId) {	
 		if (layerId >= 0 & layerId < wingsImage.length) {
 			Minecraft.getMinecraft().getTextureManager().bindTexture(wingsImage[layerId]);
 		}

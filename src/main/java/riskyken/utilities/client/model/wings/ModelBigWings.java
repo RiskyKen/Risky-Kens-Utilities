@@ -34,15 +34,17 @@ public class ModelBigWings extends ModelBiped
   public ModelBigWings()
   {
     textureWidth = 64;
-    textureHeight = 64;
+    textureHeight = 32;
     
 
-      rightWing = new ModelRenderer(this, 0, 31);
-      rightWing.addBox(-11F, 2F, 0F, 17, 30, 1);
+      rightWing = new ModelRenderer(this, 0, 0);
+      //rightWing = new ModelRenderer(this, 0, 31);
+      rightWing.addBox(-6F, 2F, -1F, 17, 30, 1);
       rightWing.setRotationPoint(0F, 0F, 0F);
       rightWing.setTextureSize(64, 32);
       rightWing.mirror = true;
-      setRotation(rightWing, 2.094395F, 0F, -1.396263F);
+      setRotation(rightWing, 1.047198F, 0F, 1.745329F);
+      //setRotation(rightWing, 2.094395F, 0F, -1.396263F);
       
 
       leftWing = new ModelRenderer(this, 0, 0);
