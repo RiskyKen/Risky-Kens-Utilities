@@ -18,7 +18,6 @@ import riskyken.utilities.client.renderer.RenderBlockSun;
 import riskyken.utilities.client.renderer.RenderItemMagicStaff;
 import riskyken.utilities.common.hair.PlayerHairStyleData;
 import riskyken.utilities.common.items.ModItems;
-import riskyken.utilities.common.lib.LibModInfo;
 import riskyken.utilities.common.lib.LibSounds;
 import riskyken.utilities.common.tileentities.TileEntityStarLight;
 import cpw.mods.fml.client.registry.ClientRegistry;
