@@ -6,5 +6,7 @@ public class LibSounds {
 	public static final String TELEPORT_SEND = PREFIX_SOUND + "teleportfxsend";
 	public static final String TELEPORT_RECIEVE = PREFIX_SOUND + "teleportfxrecieve";
 	
+	public static final String HAIR_CUT = PREFIX_SOUND + "haircut";
+	
 	public static final String STAR_BORN = PREFIX_SOUND + "star-born";
 }

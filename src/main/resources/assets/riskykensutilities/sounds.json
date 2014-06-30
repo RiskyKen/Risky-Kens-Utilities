@@ -2,6 +2,8 @@
     "teleportfxrecieve": {"category": "master","sounds": [{"name": "teleportfxrecieve1","stream": false}, {"name": "teleportfxrecieve2","stream": false}]},
     "teleportfxsend": {"category": "master","sounds": [{"name": "teleportfxsend1","stream": false}, {"name": "teleportfxsend2","stream": false}]},
 	
+	"haircut": {"category": "master","sounds": [{"name": "hair-cut/snip1","stream": false}, {"name": "hair-cut/snip2","stream": false}]},
+	
 	"star-born": {"category": "master","sounds": [{"name": "star-born","stream": true}]},
     
 	"electro_BD": {"category": "master","sounds": [{"name": "electro-kit/electro_BD","stream": false}]},
