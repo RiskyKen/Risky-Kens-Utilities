@@ -7,6 +7,7 @@ import riskyken.utilities.common.hair.PlayerHairStyleData;
 import riskyken.utilities.common.inventory.ContainerHollower;
 import riskyken.utilities.common.inventory.ContainerHairStyleKit;
 import riskyken.utilities.common.inventory.ContainerMusicSequencer;
+import riskyken.utilities.common.lib.LibSounds;
 import riskyken.utilities.common.tileentities.TileEntityDeviceHollower;
 import riskyken.utilities.common.tileentities.TileEntityMusicSequencer;
 import io.netty.buffer.ByteBuf;
@@ -57,7 +58,8 @@ public class MessageButton implements IMessage, IMessageHandler<MessageButton, I
 		{
 			PlayerHairStyleData props = PlayerHairStyleData.get(player);
 			switch (message.buttonId) {
-			case 0:
+			case 1:
+				player.worldObj.playSoundAtEntity(player, LibSounds.HAIR_CUT, 1, 1);
 				props.toggleHair();
 				break;
 			}

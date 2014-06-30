@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import riskyken.utilities.RiskyKensUtilities;
 import riskyken.utilities.common.hair.HairAccessoryType;
 import riskyken.utilities.common.hair.HairStyleType;
 import riskyken.utilities.common.hair.PlayerHairStyleData;
@@ -31,6 +32,7 @@ public class GuiHairStyleKit extends GuiContainer {
 	private EntityPlayer player;
 	PlayerHairStyleData props;
 	private float rotation;
+	private byte activeStyle;
 	
 	public GuiHairStyleKit(EntityPlayer player) {
 		super(new ContainerHairStyleKit(player));
@@ -38,6 +40,7 @@ public class GuiHairStyleKit extends GuiContainer {
 		xSize = 256;
 		ySize = 166;
 		props = PlayerHairStyleData.get(player);
+		activeStyle = props.getHairType();
 	}
 	
 	@Override
@@ -45,7 +48,7 @@ public class GuiHairStyleKit extends GuiContainer {
 		super.initGui();
 		buttonList.clear();
 		buttonList.add(new GuiScrollbar(0, guiLeft + 92, guiTop + 20, 10, 136, "", false));
-		//buttonList.add(new GuiScrollbar(1, guiLeft + 236, guiTop + 20, 10, 136, "", false));
+		buttonList.add(new GuiSilentButton(1, guiLeft + 190, guiTop + 136, 50, 20, "Apply"));
 	}
 	
 	@Override
@@ -68,7 +71,8 @@ public class GuiHairStyleKit extends GuiContainer {
 	
 	@Override
 	protected void actionPerformed(GuiButton button) {
-		if (button.id == 0) {
+		if (button.id == 1) {
+			PacketHandler.networkWrapper.sendToServer(new MessageButton((short)1));
 			//RiskyKensUtilities.packetPipeline.sendToServer(new PacketButton((short)button.id));
 		} else {
 			//updateWingColour();
@@ -122,7 +126,7 @@ public class GuiHairStyleKit extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int x, int y) {
 		GuiHelper.renderLocalizedGuiName(this.fontRendererObj, this.xSize, LibItemNames.HAIR_STYLE_KIT);
-        
+		activeStyle = props.getHairType();
         for (int i = 0; i < HairStyleType.values().length; i++) {
         	HairStyleType type = HairStyleType.values()[i];
         	String typeName = "???";
@@ -132,13 +136,15 @@ public class GuiHairStyleKit extends GuiContainer {
         	
         	int textTop = 22 + 9 * i;
         	int textLeft = 12;
+        	int renderColour = 4210752;
         	
-        	if (y >= textTop + guiTop & y <= textTop + guiTop + 6 & x >= textLeft + guiLeft - 1 & x <= textLeft + guiLeft + 78) {
-        		this.fontRendererObj.drawString(typeName, textLeft, textTop, Utils.getMinecraftColor(4));
-        	} else {
-        		this.fontRendererObj.drawString(typeName, textLeft, textTop, 4210752);
+        	if (i == activeStyle) {
+        		renderColour = Utils.getMinecraftColor(0);
         	}
-        	
+        	if (y >= textTop + guiTop & y <= textTop + guiTop + 6 & x >= textLeft + guiLeft - 1 & x <= textLeft + guiLeft + 78) {
+        		renderColour = Utils.getMinecraftColor(4);
+        	}
+        	this.fontRendererObj.drawString(typeName, textLeft, textTop, renderColour);
         }
         
 	}
