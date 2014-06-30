@@ -115,10 +115,10 @@ public class ModelBigWings extends ModelBiped
 	
 	private void spawnParticales(EntityPlayer player, int type) {
 		Random rnd = new Random();
-		if (rnd.nextFloat() * 100 > 85) {
+		if (rnd.nextFloat() * 100 > 95) {
 			PointD offset;// = new PointD(player.posX, player.posZ);
 			
-			if (rnd.nextFloat() > 0.5f) {
+			if (rnd.nextFloat() >= 0.5f) {
 				offset = Trig.moveTo(new PointD(player.posX, player.posZ), 0.3f  + rnd.nextFloat() * 1.5f, player.renderYawOffset + 56);
 			} else {
 				offset = Trig.moveTo(new PointD(player.posX, player.posZ), 0.3f + rnd.nextFloat() * 1.5f, player.renderYawOffset + 121);	
