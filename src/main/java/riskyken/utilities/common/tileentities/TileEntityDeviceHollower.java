@@ -28,7 +28,7 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 	private int blocksScanned;
 	private boolean ignoreMeta = true;
 	private boolean leaveWalls = true;
-	private static final boolean USE_POWER = false;
+	private static final boolean USE_POWER = true;
 	
 	private LinkedHashMap<String, Vector3> openBlockList;
 	private LinkedHashMap<String, Vector3> closedBlockList;
@@ -97,15 +97,12 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 			closedBlockList.clear();
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 2, 2);
 			state = BlockState.Ready;
-			System.out.println("finished scan - size:" + removeBlockList.size());
 			return;
 		}
 		
 		int blocksToScan = ConfigHandler.hollowerBlockSearchPerTick * 10;
 				
 		if (blocksToScan > openBlockList.size()) { blocksToScan = openBlockList.size(); }
-		
-		System.out.println("scanning size:" + openBlockList.size());
 		
 		for (int i = 0; i < blocksToScan; i++) {
 			String key = (String) openBlockList.keySet().toArray()[0];
