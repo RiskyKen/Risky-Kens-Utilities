@@ -15,7 +15,7 @@ public class UpdateCheck implements Runnable {
 	public static boolean shouldCheckForUpdates = true;
 	public static boolean needsUpdate = false;
 	//public static final String UPDATE_URL = "http://ktech.no-ip.info/mods/risky-kens-utilities/update.txt";
-	public static final String UPDATE_URL = "http://bit.ly/1hItnfS";
+	public static final String UPDATE_URL = "http://bit.ly/1mBUq0n";
 	public static boolean showUpdateInfo = false;
 	
 	public static String remoteVersion;
