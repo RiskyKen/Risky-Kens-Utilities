@@ -33,7 +33,7 @@ public class RiskyKensUtilities {
 	@Mod.Instance(LibModInfo.ID)
 	public static RiskyKensUtilities instance;
 	
-	@SidedProxy(clientSide = "riskyken.utilities.proxies.ClientProxy", serverSide = "riskyken.utilities.proxies.CommonProxy")
+	@SidedProxy(clientSide = LibModInfo.PROXY_CLIENT_CLASS, serverSide = LibModInfo.PROXY_COMMNON_CLASS)
 	public static CommonProxy proxy;
 	
 	public static CreativeTabRiskyKensUtilities tabRiskyKensUtilities = new CreativeTabRiskyKensUtilities(CreativeTabs.getNextID(),LibModInfo.ID);
