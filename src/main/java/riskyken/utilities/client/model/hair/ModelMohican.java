@@ -18,7 +18,7 @@ public class ModelMohican extends ModelHairBase {
 		textureHeight = 32;
 		
 		mohican = new ModelRenderer(this, 8, 0);
-		mohican.addBox(-0.5F, -10F, -6F, 1, 4, 12);
+		mohican.addBox(-1F, -10F, -6F, 2, 4, 12);
 		mohican.setRotationPoint(0F, 0F, 0F);
 		mohican.setTextureSize(64, 32);
 		mohican.mirror = true;
@@ -28,9 +28,13 @@ public class ModelMohican extends ModelHairBase {
 	@Override
 	public void renderHair(EntityPlayer player, int colour) {
 		float mult = 0.0625F;
-		bindPlayerTexture(player);
+        float colourRed = (colour >> 16 & 0xff) / 255F;
+        float colourGreen = (colour >> 8 & 0xff) / 255F;
+        float colourBlue = (colour & 0xff) / 255F;
+        
+		bindHairTexture();
 		GL11.glPushMatrix();
-		GL11.glColor3f(1, 1, 1);
+		GL11.glColor3f(colourRed, colourGreen, colourBlue);
 		mohican.render(mult);
 		GL11.glPopMatrix();
 	}

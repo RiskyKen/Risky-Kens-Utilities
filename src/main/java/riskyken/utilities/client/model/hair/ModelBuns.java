@@ -39,11 +39,13 @@ public class ModelBuns extends ModelHairBase
 	@Override
 	public void renderHair(EntityPlayer player, int colour) {
 		float mult = 0.0625F;
-		
-		bindPlayerTexture(player);
-		
+        float colourRed = (colour >> 16 & 0xff) / 255F;
+        float colourGreen = (colour >> 8 & 0xff) / 255F;
+        float colourBlue = (colour & 0xff) / 255F;
+        
+		bindHairTexture();
 		GL11.glPushMatrix();
-		GL11.glColor3f(1, 1, 1);
+		GL11.glColor3f(colourRed, colourGreen, colourBlue);
 		rightBun.render(mult);
 		leftBun.render(mult);
 		GL11.glPopMatrix();

@@ -71,28 +71,22 @@ public class ModelTwinTails extends ModelHairBase
 	@Override
 	public void renderHair(EntityPlayer player, int colour) {
 		float mult = 0.0625F;
-		
         float colourRed = (colour >> 16 & 0xff) / 255F;
         float colourGreen = (colour >> 8 & 0xff) / 255F;
         float colourBlue = (colour & 0xff) / 255F;
 		
-		bindPlayerTexture(player);
+        bindHairTexture();
 		
 		GL11.glPushMatrix();
-		GL11.glColor3f(1, 1, 1);
-		
+		GL11.glColor3f(colourRed, colourGreen, colourBlue);
 	    baseRight.render(mult);
 	    baseLeft.render(mult);
-
 	    tailRight.render(mult);
 	    tailLeft.render(mult);
-		
 		bindHairTexture();
-		GL11.glColor3f(colourRed, colourGreen, colourBlue);
-		
+		GL11.glColor3f(1, 1, 1);
 	    bobbleRight.render(mult);
 	    bobbleLeft.render(mult);
-		
 		GL11.glPopMatrix();
 	}
 }

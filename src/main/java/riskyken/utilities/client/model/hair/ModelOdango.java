@@ -76,16 +76,16 @@ public class ModelOdango extends ModelHairBase
         float colourGreen = (colour >> 8 & 0xff) / 255F;
         float colourBlue = (colour & 0xff) / 255F;
 		
-		bindPlayerTexture(player);
+        bindHairTexture();
 		
 		GL11.glPushMatrix();
-		GL11.glColor3f(1, 1, 1);
+		GL11.glColor3f(colourRed, colourGreen, colourBlue);
 	    bunLeft.render(mult);
 	    bunRight.render(mult);
 	    tailLeft.render(mult);
 	    tailRight.render(mult);
 		bindHairTexture();
-		GL11.glColor3f(colourRed, colourGreen, colourBlue);
+		GL11.glColor3f(1, 1, 1);
 	    bobbleLeft.render(mult);
 	    bobbleRight.render(mult);
 		GL11.glPopMatrix();

@@ -1,14 +1,24 @@
 package riskyken.utilities.client.gui;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.imageio.ImageIO;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentStyle;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
+import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.GL11;
 
 import riskyken.utilities.RiskyKensUtilities;
@@ -20,8 +30,10 @@ import riskyken.utilities.common.lib.LibItemNames;
 import riskyken.utilities.common.lib.LibModInfo;
 import riskyken.utilities.common.network.PacketHandler;
 import riskyken.utilities.common.network.messages.MessageButton;
+import riskyken.utilities.common.network.messages.MessageUpdatePlayerHairStyleData;
 import riskyken.utilities.proxies.ClientProxy;
 import riskyken.utilities.utils.Utils;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -73,12 +85,42 @@ public class GuiHairStyleKit extends GuiContainer {
 	protected void actionPerformed(GuiButton button) {
 		if (button.id == 1) {
 			PacketHandler.networkWrapper.sendToServer(new MessageButton((short)1));
+			BufferedImage bufferedImage = getBufferedImageSkin((AbstractClientPlayer) player);
+			int hairColour = getAvrageHairColour(bufferedImage);
+			
+			PacketHandler.networkWrapper.sendToServer(new MessageUpdatePlayerHairStyleData(2, hairColour));
+			
 			//RiskyKensUtilities.packetPipeline.sendToServer(new PacketButton((short)button.id));
 		} else {
 			//updateWingColour();
 		}
 		
 		
+	}
+	
+	private int getAvrageHairColour(BufferedImage bufferedImage) {
+		double redTotal = 0;
+		double greenTotal = 0;
+		double blueTotal = 0;
+		
+		for (int ix = 0; ix < 8; ix++) {
+			for (int iy = 0; iy < 8; iy++) {
+				int rgb = bufferedImage.getRGB(ix + 8, iy);
+		        redTotal += (rgb >> 16 & 0xff) / 255F;
+		        greenTotal += (rgb >> 8 & 0xff) / 255F;
+		        blueTotal += (rgb & 0xff) / 255F;
+			}
+		}
+		
+		float red = (float) (redTotal / 64);
+		float green = (float) (greenTotal / 64);
+		float blue = (float) (blueTotal / 64);
+		
+		Color c = new Color(red, green, blue);
+		
+		System.out.println("red" + red + " green" + green + " blue" + blue);
+		System.out.println("rgb" + c.getRGB());
+		return c.getRGB();
 	}
 	
 	private void updateWingColour() {
@@ -148,5 +190,15 @@ public class GuiHairStyleKit extends GuiContainer {
         }
         
 	}
+	
+    private BufferedImage getBufferedImageSkin(AbstractClientPlayer player) {
+        BufferedImage bufferedImage = null;
+        InputStream inputStream = null;
+        
+        ThreadDownloadImageData imageData = AbstractClientPlayer.getDownloadImageSkin(player.getLocationSkin(), player.getCommandSenderName());
+        bufferedImage = ReflectionHelper.getPrivateValue(ThreadDownloadImageData.class, imageData, "bufferedImage");
+        
+        return bufferedImage;
+    }
 
 }

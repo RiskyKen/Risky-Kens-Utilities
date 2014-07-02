@@ -15,7 +15,7 @@ public class ModelLongHair extends ModelHairBase {
 		textureWidth = 64;
 		textureHeight = 32;
 		
-		longHair = new ModelRenderer(this, 8, 0);
+		longHair = new ModelRenderer(this, 0, 0);
 		longHair.addBox(-4F, -8F, 4F, 8, 10, 1);
 		longHair.setRotationPoint(0F, 0F, 0F);
 		longHair.setTextureSize(64, 32);
@@ -26,11 +26,15 @@ public class ModelLongHair extends ModelHairBase {
 	@Override
 	public void renderHair(EntityPlayer player, int colour) {
 		float mult = 0.0625F;
-		
-		bindPlayerTexture(player);
-		
-		GL11.glColor3f(1, 1, 1);
+        float colourRed = (colour >> 16 & 0xff) / 255F;
+        float colourGreen = (colour >> 8 & 0xff) / 255F;
+        float colourBlue = (colour & 0xff) / 255F;
+        
+        GL11.glPushMatrix();
+		bindHairTexture();
+		GL11.glColor3f(colourRed, colourGreen, colourBlue);
 		longHair.render(mult);
+		GL11.glPopMatrix();
 	}
 
 }
