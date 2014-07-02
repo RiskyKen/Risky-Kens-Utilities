@@ -31,7 +31,7 @@ public class ConfigHandler {
 		
 		config.load();
 		
-		ModLogger.logger.log(Level.INFO, "Loading Config");
+		ModLogger.log("Loading Config");
 		
 		//recipe
 		saddle_recipe = config.get("recipe", "Saddle Recipe", true, "Enable saddle recipe using 5 leather and 1 iron ingot.").getBoolean(true);

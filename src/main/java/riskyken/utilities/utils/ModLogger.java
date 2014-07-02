@@ -1,18 +1,17 @@
 package riskyken.utilities.utils;
 
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.Level;
 
 import riskyken.utilities.common.lib.LibModInfo;
 import cpw.mods.fml.common.FMLLog;
 
 public class ModLogger {
-
-	public static final Logger logger = Logger.getLogger(LibModInfo.NAME);
+	public static void log(Object object) {
+		FMLLog.log(LibModInfo.NAME, Level.INFO, String.valueOf(object));
+	}
 	
-	public static void init() {
-		//logger = Logger.getLogger(LibModInfo.NAME);
-		//logger.setParent(FMLLog.getLogger());
-		//logger.setParent(FMLLog.getLogger());
-		logger.info("Loading " + LibModInfo.NAME + " " + LibModInfo.VERSION);
+	public static void log(Level logLevel, Object object) {
+		FMLLog.log(LibModInfo.NAME, logLevel, String.valueOf(object));
 	}
 }

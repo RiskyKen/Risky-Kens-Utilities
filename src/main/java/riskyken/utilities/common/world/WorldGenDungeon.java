@@ -4,6 +4,8 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.apache.logging.log4j.Level;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
@@ -29,7 +31,7 @@ public class WorldGenDungeon extends WorldGenerator {
 		
 		if (validSpawn(world, x, y, z, roomSize, ROOM_HEIGHT + 1) & validSpawn(world, x, y - ROOM_HEIGHT + 1, z, 4, ROOM_HEIGHT)) {
 			
-			ModLogger.logger.info("Spawning dungeon of size " + dungeonSize + " at x:" + x + " y:" + y + " z:" + z);
+			ModLogger.log("Spawning dungeon of size " + dungeonSize + " at x:" + x + " y:" + y + " z:" + z);
 			generateRoom(world, rnd, null, x, y - ROOM_HEIGHT + 1, z, 3, ROOM_HEIGHT, 1);
 			spawnRoom(world, rnd, roomList, x, y, z, dungeonSize, roomSize, ROOM_HEIGHT + 1, 0);
 			
@@ -339,7 +341,7 @@ public class WorldGenDungeon extends WorldGenerator {
 		if (te != null) {
 			te.func_145881_a().setEntityName(pickMobSpawner(rnd));
 		} else {
-			ModLogger.logger.warning("Failed to fetch mob spawner entity at (" + x + ", " + y  + ", " + z + ")");
+			ModLogger.log(Level.WARN, "Failed to fetch mob spawner entity at (" + x + ", " + y  + ", " + z + ")");
 		}
 	}
 	
@@ -349,7 +351,7 @@ public class WorldGenDungeon extends WorldGenerator {
 		if (te != null) {
 			WeightedRandomChestContent.generateChestContents(rnd, ChestGenHooks.getItems(type, rnd), te, ChestGenHooks.getCount(type, rnd));
 		} else {
-			ModLogger.logger.warning("Failed to fetch chest entity at (" + x + ", " + y  + ", " + z + ")");
+			ModLogger.log(Level.WARN, "Failed to fetch chest entity at (" + x + ", " + y  + ", " + z + ")");
 		}
 	}
 	

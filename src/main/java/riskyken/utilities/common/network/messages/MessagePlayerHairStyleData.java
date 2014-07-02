@@ -1,5 +1,7 @@
 package riskyken.utilities.common.network.messages;
 
+import org.apache.logging.log4j.Level;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import riskyken.utilities.RiskyKensUtilities;
@@ -42,7 +44,7 @@ public class MessagePlayerHairStyleData implements IMessage, IMessageHandler<Mes
 	@Override
 	public IMessage onMessage(MessagePlayerHairStyleData message, MessageContext ctx) {
 		if (ctx.side == Side.SERVER) {
-			ModLogger.logger.warning("Error got MessagePlayerHairStyleData packet on the wrong side.");
+			ModLogger.log(Level.WARN, "Error got MessagePlayerHairStyleData packet on the wrong side.");
 			return null;
 		}
 		RiskyKensUtilities.proxy.setHairStyleData(message.hairStyleUnlockFlags, message.hairAccessoriesUnlockFlags, message.hairAccessoryColourUnlockFlags);

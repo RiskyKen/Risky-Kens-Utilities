@@ -40,7 +40,7 @@ public class RiskyKensUtilities {
 	
 	@Mod.EventHandler
 	public void perInit(FMLPreInitializationEvent event) {
-		ModLogger.init();
+		ModLogger.log("Loading " + LibModInfo.NAME + " " + LibModInfo.VERSION);
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
 		
 		UpdateCheck.checkForUpdates();

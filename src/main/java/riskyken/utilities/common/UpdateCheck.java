@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.apache.logging.log4j.Level;
+
 import riskyken.utilities.common.lib.LibModInfo;
 import riskyken.utilities.utils.ModLogger;
 
@@ -27,7 +29,7 @@ public class UpdateCheck implements Runnable {
 
 	@Override
 	public void run() {
-		ModLogger.logger.info("Starting Update Check");
+		ModLogger.log("Starting Update Check");
 		try {
 			String location = UPDATE_URL;
 			HttpURLConnection conn = null;
@@ -66,16 +68,16 @@ public class UpdateCheck implements Runnable {
 			if (versionCompare(LibModInfo.VERSION, remoteVersion) < 0) {
 				showUpdateInfo = true;
 				
-				ModLogger.logger.info("Update needed. New version " + remoteVersion + " your version " + LibModInfo.VERSION);
+				ModLogger.log("Update needed. New version " + remoteVersion + " your version " + LibModInfo.VERSION);
 			}
 			else {
 				showUpdateInfo = false;
-				ModLogger.logger.info("Is up to date");
+				ModLogger.log("Is up to date");
 			}
 			
 		} catch (Exception e) {
-			ModLogger.logger.warning("Unable to read from remote version authority.");
-			ModLogger.logger.warning(e.toString());
+			ModLogger.log(Level.WARN, "Unable to read from remote version authority.");
+			ModLogger.log(Level.WARN, e.toString());
 			showUpdateInfo = false;
 		}
 		

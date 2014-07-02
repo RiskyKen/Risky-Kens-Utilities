@@ -1,5 +1,7 @@
 package riskyken.utilities.common.network.messages;
 
+import org.apache.logging.log4j.Level;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -48,7 +50,7 @@ public class MessageBlockPowerUpdate implements IMessage, IMessageHandler<Messag
 	@Override
 	public IMessage onMessage(MessageBlockPowerUpdate message, MessageContext ctx) {
 		if (ctx.side == Side.SERVER) {
-			ModLogger.logger.warning("Error got MessageBlockPowerUpdate packet on the wrong side.");
+			ModLogger.log(Level.WARN, "Error got MessageBlockPowerUpdate packet on the wrong side.");
 			return null;
 		}
 		
