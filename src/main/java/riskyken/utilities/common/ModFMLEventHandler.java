@@ -19,7 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 
-public class ModTickHandler {
+public class ModFMLEventHandler {
 
 	private boolean shownUpdateInfo = false;
 	

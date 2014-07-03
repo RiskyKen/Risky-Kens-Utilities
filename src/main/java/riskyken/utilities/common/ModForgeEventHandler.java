@@ -21,7 +21,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.Type;
 import cpw.mods.fml.relauncher.Side;
 
-public class ModEventHandler {
+public class ModForgeEventHandler {
 
 	@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing event) {
