@@ -184,7 +184,7 @@ public class TileEntityDeviceTeleporter extends TileEntityUtilitiesBasePowered {
 	
     protected AxisAlignedBB getSensitiveAABB(int par1, int par2, int par3) {
         float f = 0.125F;
-        return AxisAlignedBB.getAABBPool().getAABB((double)((float)par1 + f), (double)par2, (double)((float)par3 + f), (double)((float)(par1 + 1) - f), (double)par2 + 0.25D, (double)((float)(par3 + 1) - f));
+        return AxisAlignedBB.getBoundingBox((double)((float)par1 + f), (double)par2, (double)((float)par3 + f), (double)((float)(par1 + 1) - f), (double)par2 + 0.25D, (double)((float)(par3 + 1) - f));
     }
     
 	@Override
