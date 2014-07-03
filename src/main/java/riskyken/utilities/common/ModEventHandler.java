@@ -9,8 +9,12 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
+import riskyken.utilities.common.config.ConfigHandler;
 import riskyken.utilities.common.hair.PlayerHairStyleData;
 import riskyken.utilities.common.items.ModItems;
+import riskyken.utilities.common.lib.LibModInfo;
+import riskyken.utilities.utils.ModLogger;
+import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -30,9 +34,17 @@ public class ModEventHandler {
 	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
 		if (!event.entity.worldObj.isRemote && event.entity instanceof EntityPlayer) {
 			PlayerHairStyleData.get((EntityPlayer) event.entity).sync();
+			ModLogger.log("Join world.");
 		}
 	}
 	
+	@SubscribeEvent
+	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
+		ModLogger.log("Configs changed.");
+		if(eventArgs.modID.equals(LibModInfo.ID)) {
+			ConfigHandler.loadConfigFile();
+		}
+	}
 	/*
 	@SubscribeEvent
 	public void onLivingHurtEvent(LivingHurtEvent event) {

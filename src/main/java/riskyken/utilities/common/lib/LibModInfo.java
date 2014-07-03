@@ -8,4 +8,5 @@ public class LibModInfo {
 	
 	public static final String PROXY_CLIENT_CLASS = "riskyken.utilities.proxies.ClientProxy";
 	public static final String PROXY_COMMNON_CLASS = "riskyken.utilities.proxies.CommonProxy";
+	public static final String GUI_FACTORY_CLASS = "riskyken.utilities.client.gui.ModGuiFactory";
 }
