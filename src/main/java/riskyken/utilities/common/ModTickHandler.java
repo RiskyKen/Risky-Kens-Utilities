@@ -3,7 +3,10 @@ package riskyken.utilities.common;
 import java.util.EnumSet;
 
 import riskyken.utilities.RiskyKensUtilities;
+import riskyken.utilities.common.config.ConfigHandler;
 import riskyken.utilities.common.lib.LibModInfo;
+import riskyken.utilities.utils.ModLogger;
+import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -42,6 +45,13 @@ public class ModTickHandler {
 			shownUpdateInfo = true;
 			player.addChatMessage(new ChatComponentText(LibModInfo.NAME + " - New version is " + UpdateCheck.remoteVersion));
 			player.addChatMessage(new ChatComponentText(LibModInfo.NAME + " - " + UpdateCheck.remoteVersionInfo));
+		}
+	}
+	
+	@SubscribeEvent
+	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
+		if(eventArgs.modID.equals(LibModInfo.ID)) {
+			ConfigHandler.loadConfigFile();
 		}
 	}
 }

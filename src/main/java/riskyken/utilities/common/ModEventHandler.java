@@ -34,17 +34,9 @@ public class ModEventHandler {
 	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
 		if (!event.entity.worldObj.isRemote && event.entity instanceof EntityPlayer) {
 			PlayerHairStyleData.get((EntityPlayer) event.entity).sync();
-			ModLogger.log("Join world.");
 		}
 	}
 	
-	@SubscribeEvent
-	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-		ModLogger.log("Configs changed.");
-		if(eventArgs.modID.equals(LibModInfo.ID)) {
-			ConfigHandler.loadConfigFile();
-		}
-	}
 	/*
 	@SubscribeEvent
 	public void onLivingHurtEvent(LivingHurtEvent event) {

@@ -40,8 +40,8 @@ public class ConfigHandler {
 	public static void init(File file){
 		if (config == null) {
 			config = new Configuration(file);
+			loadConfigFile();
 		}
-		loadConfigFile();
 	}
 	
 	public static void loadConfigFile() {
@@ -60,7 +60,7 @@ public class ConfigHandler {
 		conversionRateUe = config.get(CATEGORY_POWER_CONVERSION, "Conversion Rate Ue", 1.0D).getDouble(1.0D);
 		
 		//world gen
-		gen_dungeons = config.get(CATEGORY_WORLD_GENERATION, "generate dungeons", true, "Enable dungeon world generation.").getBoolean(true);
+		gen_dungeons = config.get(CATEGORY_WORLD_GENERATION, "Generate dungeons", true, "Enable dungeon world generation.").getBoolean(true);
 		
 		//misc
 		hollowerBlockSearchMax = config.get(CATEGORY_MISC, "Hollower Max Block Scan", 80000, "Max number of blocks the hollower can scan.").getInt(8000);
