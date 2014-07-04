@@ -17,12 +17,12 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.7.2-0.0.20"
+version = "1.7.10-0.0.20"
 group= "riskyken.utilities" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "RiskyKensUtilities"
 
 minecraft {
-    version = "1.7.2-10.12.2.1147"
+    version = "1.7.10-10.13.0.1160"
     assetDir = "eclipse/assets"
 }
 
