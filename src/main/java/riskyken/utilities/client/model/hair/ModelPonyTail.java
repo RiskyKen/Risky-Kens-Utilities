@@ -23,18 +23,18 @@ public class ModelPonyTail extends ModelHairBase
   
 	public ModelPonyTail()
 	{
-		super("hair");
+		super("hair-tail");
 		textureWidth = 64;
 		textureHeight = 32;
 		
-		base = new ModelRenderer(this, 0, 0);
+		base = new ModelRenderer(this, 0, 8);
 		base.addBox(-1F, -5F, 4F, 2, 2, 2);
 		base.setRotationPoint(0F, 0F, 0F);
 		base.setTextureSize(64, 32);
 		base.mirror = true;
 		setRotation(base, 0F, 0F, 0F);
 		
-		bobble = new ModelRenderer(this, 0, 0);
+		bobble = new ModelRenderer(this, 8, 0);
 		bobble.addBox(-0.5F, -4.5F, 6F, 1, 1, 1);
 		bobble.setRotationPoint(0F, 0F, 0F);
 		bobble.setTextureSize(64, 32);
