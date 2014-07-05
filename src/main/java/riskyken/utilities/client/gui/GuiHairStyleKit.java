@@ -86,6 +86,7 @@ public class GuiHairStyleKit extends GuiContainer {
 		if (button.id == 1) {
 			PacketHandler.networkWrapper.sendToServer(new MessageButton((short)1));
 			BufferedImage bufferedImage = getBufferedImageSkin((AbstractClientPlayer) player);
+			
 			int hairColour = getAvrageHairColour(bufferedImage);
 			
 			PacketHandler.networkWrapper.sendToServer(new MessageUpdatePlayerHairStyleData(2, hairColour));
@@ -99,6 +100,8 @@ public class GuiHairStyleKit extends GuiContainer {
 	}
 	
 	private int getAvrageHairColour(BufferedImage bufferedImage) {
+		if (bufferedImage == null) { return 0; }
+		
 		double redTotal = 0;
 		double greenTotal = 0;
 		double blueTotal = 0;
@@ -188,17 +191,18 @@ public class GuiHairStyleKit extends GuiContainer {
         	}
         	this.fontRendererObj.drawString(typeName, textLeft, textTop, renderColour);
         }
-        
+
 	}
-	
-    private BufferedImage getBufferedImageSkin(AbstractClientPlayer player) {
-        BufferedImage bufferedImage = null;
-        InputStream inputStream = null;
-        
-        ThreadDownloadImageData imageData = AbstractClientPlayer.getDownloadImageSkin(player.getLocationSkin(), player.getCommandSenderName());
-        bufferedImage = ReflectionHelper.getPrivateValue(ThreadDownloadImageData.class, imageData, "bufferedImage");
-        
-        return bufferedImage;
-    }
+
+	private BufferedImage getBufferedImageSkin(AbstractClientPlayer player) {
+		BufferedImage bufferedImage = null;
+		InputStream inputStream;
+
+		if (player.func_152123_o()) {
+			ThreadDownloadImageData imageData = AbstractClientPlayer.getDownloadImageSkin(player.getLocationSkin(), player.getCommandSenderName());
+			bufferedImage = ReflectionHelper.getPrivateValue(ThreadDownloadImageData.class, imageData, "bufferedImage");
+		}
+		return bufferedImage;
+	}
 
 }
