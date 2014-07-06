@@ -84,9 +84,6 @@ public class PlayerHairStyleData implements IExtendedEntityProperties {
 		if (hair >= HairStyleType.values().length) {
 			hair = 0;
 		}
-		
-		
-		System.out.println("toggle hair " + HairStyleType.values()[hair].getName());
 
 		this.player.getDataWatcher().updateObject(HAIR_ID_WATCHER, hair);
 	}
