@@ -34,7 +34,7 @@ public class ModelPonyTail extends ModelHairBase
 		base.mirror = true;
 		setRotation(base, 0F, 0F, 0F);
 		
-		bobble = new ModelRenderer(this, 8, 0);
+		bobble = new ModelRenderer(this, 0, 0);
 		bobble.addBox(-0.5F, -4.5F, 6F, 1, 1, 1);
 		bobble.setRotationPoint(0F, 0F, 0F);
 		bobble.setTextureSize(64, 32);
@@ -62,12 +62,10 @@ public class ModelPonyTail extends ModelHairBase
 		
 		GL11.glPushMatrix();
 		GL11.glColor3f(colourRed, colourGreen, colourBlue);
-		
 		base.render(mult);
 		tail.render(mult);
-		bindHairTexture();
+		bindAccessoriesTexture();
 		GL11.glColor3f(1, 1, 1);
-		
 		bobble.render(mult);
 		GL11.glPopMatrix();
 	}

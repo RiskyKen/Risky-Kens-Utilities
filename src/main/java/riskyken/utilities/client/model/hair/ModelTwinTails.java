@@ -21,7 +21,7 @@ public class ModelTwinTails extends ModelHairBase
 
 	public ModelTwinTails()
 	{
-		super("hair");
+		super("hair-tail");
 		textureWidth = 64;
 		textureHeight = 32;
 		
@@ -32,35 +32,35 @@ public class ModelTwinTails extends ModelHairBase
 		baseRight.mirror = true;
 		setRotation(baseRight, 0F, 0F, 0F);
 		
-		baseLeft = new ModelRenderer(this, 8, 0);
+		baseLeft = new ModelRenderer(this, 0, 8);
 		baseLeft.addBox(2F, -5F, 4F, 2, 2, 2);
 		baseLeft.setRotationPoint(0F, 0F, 0F);
 		baseLeft.setTextureSize(64, 32);
 		baseLeft.mirror = true;
 		setRotation(baseLeft, 0F, 0F, 0F);
 		
-		bobbleRight = new ModelRenderer(this, 8, 0);
+		bobbleRight = new ModelRenderer(this, 0, 0);
 		bobbleRight.addBox(-3.5F, -4.5F, 6F, 1, 1, 1);
 		bobbleRight.setRotationPoint(0F, 0F, 0F);
 		bobbleRight.setTextureSize(64, 32);
 		bobbleRight.mirror = true;
 		setRotation(bobbleRight, 0F, 0F, 0F);
 		
-		bobbleLeft = new ModelRenderer(this, 8, 0);
+		bobbleLeft = new ModelRenderer(this, 0, 0);
 		bobbleLeft.addBox(2.5F, -4.5F, 6F, 1, 1, 1);
 		bobbleLeft.setRotationPoint(0F, 0F, 0F);
 		bobbleLeft.setTextureSize(64, 32);
 		bobbleLeft.mirror = true;
 		setRotation(bobbleLeft, 0F, 0F, 0F);
 		
-		tailRight = new ModelRenderer(this, 8, 0);
+		tailRight = new ModelRenderer(this, 0, 0);
 		tailRight.addBox(-4F, -5F, 7F, 2, 6, 2);
 		tailRight.setRotationPoint(0F, 0F, 0F);
 		tailRight.setTextureSize(64, 32);
 		tailRight.mirror = true;
 		setRotation(tailRight, 0F, 0F, 0F);
 		
-		tailLeft = new ModelRenderer(this, 8, 0);
+		tailLeft = new ModelRenderer(this, 0, 0);
 		tailLeft.addBox(2F, -5F, 7F, 2, 6, 2);
 		tailLeft.setRotationPoint(0F, 0F, 0F);
 		tailLeft.setTextureSize(64, 32);
@@ -83,7 +83,7 @@ public class ModelTwinTails extends ModelHairBase
 	    baseLeft.render(mult);
 	    tailRight.render(mult);
 	    tailLeft.render(mult);
-		bindHairTexture();
+	    bindAccessoriesTexture();
 		GL11.glColor3f(1, 1, 1);
 	    bobbleRight.render(mult);
 	    bobbleLeft.render(mult);
