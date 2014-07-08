@@ -92,6 +92,7 @@ public class HairRenderManager {
 	
 	@SubscribeEvent
 	public void onRender(RenderPlayerEvent.SetArmorModel ev){
+		if (ev.entityPlayer.isInvisible()) { return; }
 		renderHairOnPlayer(ev.entityPlayer, ev.renderer);
 	}
 	
