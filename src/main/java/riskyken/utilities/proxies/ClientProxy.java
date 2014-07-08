@@ -78,6 +78,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@SubscribeEvent
 	public void onRender(RenderPlayerEvent.SetArmorModel ev){
+		if (ev.entityPlayer.isInvisible()) { return; }
 		//extraBigWings.render(ev.entityPlayer, ev.renderer);
 		//bigWings.render(ev.entityPlayer, ev.renderer, 2);
 		//metalWings.render(ev.entityPlayer, ev.renderer);
@@ -94,7 +95,8 @@ public class ClientProxy extends CommonProxy {
 	}
 	
 	@Override
-	public void onPlayerTick(EntityPlayer player){
+	public void onPlayerTick(EntityPlayer player) {
+		if (player.isInvisible()) { return; }
 		//bigWings.onTick(player, 2);
 		if (player.getDisplayName().equals("RiskyKen")) {
 			bigWings.onTick(player, 1);
