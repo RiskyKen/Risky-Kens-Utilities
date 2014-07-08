@@ -18,7 +18,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiMusicSequencer extends GuiContainer {
+public class GuiMusicSequencer extends ModGui {
 
 	private TileEntityMusicSequencer musicSequencer;
 	private static final ResourceLocation texture = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/gui/music-sequencer.png");
@@ -27,24 +27,23 @@ public class GuiMusicSequencer extends GuiContainer {
 	public void initGui() {
 		super.initGui();
 		buttonList.clear();
-		buttonList.add(new GuiScrollbar(0, guiLeft + 20, guiTop + 19, 216, 10, "pie", true));
-		buttonList.add(new GuiScrollbar(0, guiLeft + 9, guiTop + 30, 10, 110, "pie", false));
+		buttonList.add(new GuiScrollbar(0, this.screenLeft + 20, this.screenTop + 19, 216, 10, "pie", true));
+		buttonList.add(new GuiScrollbar(0, this.screenLeft + 9, this.screenTop + 30, 10, 110, "pie", false));
 	}
 	
 	public GuiMusicSequencer(InventoryPlayer invPlayer, TileEntityMusicSequencer musicSequencer) {
 		super(new ContainerMusicSequencer(invPlayer, musicSequencer));
 		this.musicSequencer = musicSequencer;
-		xSize = 255;
-		ySize = 239;
+		setGuiSize(255, 239);
 	}
 	
 	@Override
     protected void drawGuiContainerForegroundLayer(int x, int y) {
-        int k = (this.width - this.xSize) / 2;
-        int l = (this.height - this.ySize) / 2;
+        int k = (this.screenWidth - this.screenXSize) / 2;
+        int l = (this.screenHeight - this.screenYSize) / 2;
         
-        GuiHelper.renderLocalizedGuiName(this.fontRendererObj, this.xSize, musicSequencer.getInventoryName());
-        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
+        GuiHelper.renderLocalizedGuiName(this.fontRendererObj, this.screenXSize, musicSequencer.getInventoryName());
+        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.screenYSize - 96 + 2, 4210752);
         
         InstrumentType instrumentType = musicSequencer.instrumentType;
         
@@ -59,7 +58,7 @@ public class GuiMusicSequencer extends GuiContainer {
 	protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
 		GL11.glColor4f(1, 1, 1, 1);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		drawTexturedModalRect(this.screenLeft, this.screenTop, 0, 0, this.screenXSize, this.screenYSize);
 		
 		GuiRectangle[] guiNodes = new GuiRectangle[144];
 		boolean[] musicNodes = musicSequencer.getNodesData();
@@ -80,7 +79,7 @@ public class GuiMusicSequencer extends GuiContainer {
 		
 		for (int i = 0; i < guiNodes.length; i++) {
 			//beats[i].DrawRectangle(this, guiLeft, guiTop, x, y, musicSequencer.beats[i], 20 + musicSequencer.collumCount * 12);
-			guiNodes[i].DrawRectangle(this, guiLeft, guiTop, x, y, musicNodes[i], 0);
+			guiNodes[i].DrawRectangle(this, this.screenLeft, this.screenTop, x, y, musicNodes[i], 0);
 		}
 		
 		for (int ix = 0; ix < 3; ix++) {
@@ -121,7 +120,7 @@ public class GuiMusicSequencer extends GuiContainer {
 		
 		
 		for (int i = 0; i < guiNodes.length; i++) {
-			if (button == 0 && guiNodes[i].IsInRectangle(x, y, guiLeft, guiTop)) {
+			if (button == 0 && guiNodes[i].IsInRectangle(x, y, this.screenLeft, this.screenTop)) {
 				PacketHandler.networkWrapper.sendToServer(new MessageButton((short)i));
 				break;
 			}

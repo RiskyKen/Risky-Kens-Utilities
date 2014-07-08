@@ -1,30 +1,25 @@
 package riskyken.utilities.client.gui;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
 import riskyken.utilities.common.inventory.ContainerTeleporter;
 import riskyken.utilities.common.lib.LibModInfo;
-import riskyken.utilities.common.tileentities.TileEntityDeviceHollower;
 import riskyken.utilities.common.tileentities.TileEntityDeviceTeleporter;
 import riskyken.utilities.utils.Utils;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiTeleporter extends GuiContainer {
+public class GuiTeleporter extends ModGui {
 
 	private TileEntityDeviceTeleporter deviceTeleporter;
 	private static final ResourceLocation texture = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/gui/teleporter.png");
@@ -32,19 +27,18 @@ public class GuiTeleporter extends GuiContainer {
 	public GuiTeleporter(InventoryPlayer invPlayer, TileEntityDeviceTeleporter deviceTeleporter) {
 		super(new ContainerTeleporter(invPlayer, deviceTeleporter));
 		this.deviceTeleporter = deviceTeleporter;
-		xSize = 176;
-		ySize = 166;
+		setGuiSize(176, 166);
 	}
 
 	@Override
     protected void drawGuiContainerForegroundLayer(int x, int y) {
-        int k = (this.width - this.xSize) / 2;
-        int l = (this.height - this.ySize) / 2;
+        int k = (this.width - this.screenXSize) / 2;
+        int l = (this.height - this.screenYSize) / 2;
         
-        GuiHelper.renderLocalizedGuiName(this.fontRendererObj, this.xSize, deviceTeleporter.getInventoryName());
+        GuiHelper.renderLocalizedGuiName(this.fontRendererObj, this.screenXSize, deviceTeleporter.getInventoryName());
         String status = "Status: " + deviceTeleporter.getStatusText();
-        this.fontRendererObj.drawString(status, this.xSize / 2 - this.fontRendererObj.getStringWidth(status) / 2, 16, 4210752);
-        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
+        this.fontRendererObj.drawString(status, this.screenXSize / 2 - this.fontRendererObj.getStringWidth(status) / 2, 16, 4210752);
+        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.screenYSize - 96 + 2, 4210752);
         
         //System.out.println("draw power level " + this.deviceTeleporter.powerLevel);
         if (x - k >= 160 & x - k <= 168) {
@@ -58,10 +52,10 @@ public class GuiTeleporter extends GuiContainer {
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		GL11.glColor4f(1, 1, 1, 1);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		drawTexturedModalRect(this.screenLeft, this.screenTop, 0, 0, this.screenXSize, this.screenYSize);
 		
-        int k = (this.width - this.xSize) / 2;
-        int l = (this.height - this.ySize) / 2;
+        int k = (this.width - this.screenXSize) / 2;
+        int l = (this.height - this.screenYSize) / 2;
         
         int i1 = 0;
         i1 = Utils.getScaledValue(72, (int)this.deviceTeleporter.powerLevel, (int)deviceTeleporter.getMaxPowerLevel());

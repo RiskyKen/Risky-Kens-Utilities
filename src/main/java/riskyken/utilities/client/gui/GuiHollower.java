@@ -26,7 +26,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiHollower extends GuiContainer {
+public class GuiHollower extends ModGui {
 
 	private TileEntityDeviceHollower deviceHollower;
 	
@@ -34,17 +34,16 @@ public class GuiHollower extends GuiContainer {
 	public void initGui() {
 		super.initGui();
 		buttonList.clear();
-		buttonList.add(new GuiButton(0, guiLeft + 36, guiTop + 28, 50, 20, "Scan"));
-		buttonList.add(new GuiButton(1, guiLeft + 96, guiTop + 28, 50, 20, "Start"));
-		buttonList.add(new GuiCheckBox(2, guiLeft + 7, guiTop + 64, "check", deviceHollower.isIgnoreMeta()));
-		buttonList.add(new GuiCheckBox(3, guiLeft + 96, guiTop + 64, "check", deviceHollower.isLeaveWalls()));
+		buttonList.add(new GuiButton(0, this.screenLeft + 36, this.screenTop + 28, 50, 20, "Scan"));
+		buttonList.add(new GuiButton(1, this.screenLeft + 96, this.screenTop + 28, 50, 20, "Start"));
+		buttonList.add(new GuiCheckBox(2, this.screenLeft + 7, this.screenTop + 64, "check", deviceHollower.isIgnoreMeta()));
+		buttonList.add(new GuiCheckBox(3, this.screenLeft + 96, this.screenTop + 64, "check", deviceHollower.isLeaveWalls()));
 	}
 	
 	public GuiHollower(InventoryPlayer invPlayer, TileEntityDeviceHollower deviceHollower) {
 		super(new ContainerHollower(invPlayer, deviceHollower));
 		this.deviceHollower = deviceHollower;
-		xSize = 176;
-		ySize = 182;
+		setGuiSize(176, 182);
 	}
 	
 	@Override
@@ -56,15 +55,15 @@ public class GuiHollower extends GuiContainer {
 
 	@Override
     protected void drawGuiContainerForegroundLayer(int x, int y) {
-        int k = (this.width - this.xSize) / 2;
-        int l = (this.height - this.ySize) / 2;
-        GuiHelper.renderLocalizedGuiName(this.fontRendererObj, this.xSize, deviceHollower.getInventoryName());
+        int k = (this.width - this.screenXSize) / 2;
+        int l = (this.height - this.screenYSize) / 2;
+        GuiHelper.renderLocalizedGuiName(this.fontRendererObj, this.screenXSize, deviceHollower.getInventoryName());
         String status = "Status: " + deviceHollower.getStatusText();
-        this.fontRendererObj.drawString(status, this.xSize / 2 - this.fontRendererObj.getStringWidth(status) / 2, 16, 4210752);
+        this.fontRendererObj.drawString(status, this.screenXSize / 2 - this.fontRendererObj.getStringWidth(status) / 2, 16, 4210752);
         //this.fontRendererObj.drawString("Target Block", 8, 26, 4210752);
         this.fontRendererObj.drawString("Ignore Meta", 9, 54, 4210752);
       	this.fontRendererObj.drawString("Leave Walls", 98, 54, 4210752);
-        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
+        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.screenYSize - 96 + 2, 4210752);
         if (x - k >= 160 & x - k <= 168) {
         	if (y - l >= 7 & y - l <= 78) {
         		drawOverlayText(String.format("%.0f",this.deviceHollower.powerLevel) + "/" + String.format("%.0f",this.deviceHollower.getMaxPowerLevel()), x - k, y - l);
@@ -79,10 +78,10 @@ public class GuiHollower extends GuiContainer {
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		GL11.glColor4f(1, 1, 1, 1);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		drawTexturedModalRect(this.screenLeft, this.screenTop, 0, 0, this.screenXSize, this.screenYSize);
 		
-        int k = (this.width - this.xSize) / 2;
-        int l = (this.height - this.ySize) / 2;
+        int k = (this.screenWidth - this.screenXSize) / 2;
+        int l = (this.screenHeight - this.screenYSize) / 2;
         
         int i1 = 0;
         i1 = Utils.getScaledValue(72, (int)this.deviceHollower.powerLevel, (int)deviceHollower.getMaxPowerLevel());

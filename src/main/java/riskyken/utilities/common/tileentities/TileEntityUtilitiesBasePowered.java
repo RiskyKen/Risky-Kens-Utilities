@@ -163,13 +163,13 @@ public abstract class TileEntityUtilitiesBasePowered extends TileEntityUtilities
 	
 	@Optional.Method(modid="IC2")
 	@Override
-	public double demandedEnergyUnits() {
+	public double getDemandedEnergy() {
 		return maxPowerLevel - powerLevel;
 	}
 	
 	@Optional.Method(modid="IC2")
 	@Override
-	public double injectEnergyUnits(ForgeDirection directionFrom, double amount) {
+	public double injectEnergy(ForgeDirection directionFrom, double amount, double voltage) {
 		addPower(amount * ConfigHandler.conversionRateEu);
 		//System.out.println("input amount eu " + amount);
 		if (powerLevel > maxPowerLevel) { powerLevel = maxPowerLevel; }
@@ -178,8 +178,8 @@ public abstract class TileEntityUtilitiesBasePowered extends TileEntityUtilities
 	
 	@Optional.Method(modid="IC2")
 	@Override
-	public int getMaxSafeInput() {
-		return 2048;
+	public int getSinkTier() {
+		return 4;
 	}
 	
 	public double getPowerLevel() {
