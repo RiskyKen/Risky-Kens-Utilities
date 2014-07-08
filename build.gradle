@@ -14,7 +14,12 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
     }
 }
-
+repositories {
+	maven {
+	name = "ic2"
+	url = "http://maven.ic2.player.to/"
+	}
+}
 apply plugin: 'forge'
 
 version = "1.7.10-0.0.21"
@@ -27,14 +32,15 @@ minecraft {
 }
 
 dependencies {
-	compile fileTree(dir:'libs', include: '*.jar')
+
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
     //compile "some.group:artifact:version"
-	
+      
     // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+	compile 'net.industrial-craft:industrialcraft-2:2.2.504-experimental:api'
     //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 
     // for more info...
