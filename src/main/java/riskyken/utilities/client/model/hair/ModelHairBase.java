@@ -14,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class ModelHairBase extends ModelBase {
 	
+	protected static final ResourceLocation accessoriesImage = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/hair/hair.png");
 	protected final ResourceLocation hairImage;
 	
 	public ModelHairBase(String imageName) {
@@ -43,6 +44,10 @@ public class ModelHairBase extends ModelBase {
 	
 	protected void bindHairTexture() {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(hairImage);
+	}
+	
+	protected static void bindAccessoriesTexture() {
+		Minecraft.getMinecraft().getTextureManager().bindTexture(accessoriesImage);
 	}
 	
 	public void renderHair(EntityPlayer player, int colour) {
