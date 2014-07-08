@@ -2,10 +2,7 @@ package riskyken.utilities.client.gui;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.InputStream;
-
-import javax.imageio.ImageIO;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -13,16 +10,10 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentStyle;
-import net.minecraft.util.ChatStyle;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
-import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.GL11;
 
-import riskyken.utilities.RiskyKensUtilities;
-import riskyken.utilities.common.hair.HairAccessoryType;
 import riskyken.utilities.common.hair.HairStyleType;
 import riskyken.utilities.common.hair.PlayerHairStyleData;
 import riskyken.utilities.common.inventory.ContainerHairStyleKit;
