@@ -239,6 +239,7 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 	
 	@Override
 	public void updateEntity() {
+		super.updateEntity();
 		if (worldObj.isRemote) { return; }
 		blockSearchTick();
 	}
