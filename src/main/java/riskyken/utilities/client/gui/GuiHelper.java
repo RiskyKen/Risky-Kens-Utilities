@@ -14,6 +14,7 @@ public class GuiHelper {
 		if (!unlocalizedName.equals(localizedName)){
 			renderText = localizedName;
 		}
-		fontRenderer.drawString(renderText, xSize / 2 - fontRenderer.getStringWidth(renderText) / 2, 6, 4210752);
+		int xPos = xSize / 2 - fontRenderer.getStringWidth(renderText) / 2;
+		fontRenderer.drawString(renderText, xPos, 6, 4210752);
 	}
 }

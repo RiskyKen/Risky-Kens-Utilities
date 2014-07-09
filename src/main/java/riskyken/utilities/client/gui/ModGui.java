@@ -22,13 +22,16 @@ public abstract class ModGui extends GuiContainer {
 		super(container);
 	}
 	
-	protected void setGuiSize(int width, int height) {
-		screenXSize = width;
-		screenYSize = height;
+	protected void setGuiSize(int screenX, int screenY) {
+		screenXSize = screenX;
+		screenYSize = screenY;
+		xSize = screenX;
+		ySize = screenY;
 	}
 	
 	@Override
 	public void setWorldAndResolution(Minecraft minecraft, int width, int height) {
+		
 		this.screenWidth = width;
 		this.screenHeight = height;
 		super.setWorldAndResolution(minecraft, width, height);
@@ -36,9 +39,9 @@ public abstract class ModGui extends GuiContainer {
 
 	@Override
 	public void initGui() {
+		super.initGui();
         this.screenLeft = (this.screenWidth - this.screenXSize) / 2;
         this.screenTop = (this.screenHeight - this.screenYSize) / 2;
-		super.initGui();
 	}
 	
 }

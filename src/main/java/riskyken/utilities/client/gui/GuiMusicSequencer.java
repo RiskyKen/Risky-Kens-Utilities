@@ -34,7 +34,7 @@ public class GuiMusicSequencer extends ModGui {
 	public GuiMusicSequencer(InventoryPlayer invPlayer, TileEntityMusicSequencer musicSequencer) {
 		super(new ContainerMusicSequencer(invPlayer, musicSequencer));
 		this.musicSequencer = musicSequencer;
-		setGuiSize(255, 239);
+		setGuiSize(256, 239);
 	}
 	
 	@Override
