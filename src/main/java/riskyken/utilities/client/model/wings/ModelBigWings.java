@@ -88,6 +88,8 @@ public class ModelBigWings extends ModelBiped
 		
 		GL11.glPushMatrix();
 		
+		GL11.glColor3f(1F, 1F, 1F);
+		
 		float lastBrightnessX = OpenGlHelper.lastBrightnessX;
 		float lastBrightnessY = OpenGlHelper.lastBrightnessY;
 		if (wingId != 0) {
@@ -96,7 +98,7 @@ public class ModelBigWings extends ModelBiped
 		}
 
 		Tessellator tessellator = Tessellator.instance;
-		//tessellator.setBrightness(15728880);
+		tessellator.setBrightness(15728880);
 		
 	    rightWing.render(mult);
 	    leftWing.render(mult);
