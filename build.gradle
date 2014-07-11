@@ -39,7 +39,7 @@ dependencies {
     //compile "some.group:artifact:version"
       
     // real examples
-	compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+    compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
     compile 'net.industrial-craft:industrialcraft-2:2.2.504-experimental:api'
     //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 
