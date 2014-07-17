@@ -34,7 +34,6 @@ public class ItemUpgrade extends AbstractModItem {
 	
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack) {
-		// TODO Auto-generated method stub
 		return super.getUnlocalizedName(itemStack) + itemStack.getItemDamage();
 	}
 	

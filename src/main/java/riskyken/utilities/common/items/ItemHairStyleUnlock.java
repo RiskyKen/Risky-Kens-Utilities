@@ -2,22 +2,19 @@ package riskyken.utilities.common.items;
 
 import java.util.List;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import riskyken.utilities.RiskyKensUtilities;
-import riskyken.utilities.common.hair.HairStyleType;
-import riskyken.utilities.common.hair.PlayerHairStyleData;
-import riskyken.utilities.common.lib.LibItemNames;
-import riskyken.utilities.common.lib.LibModInfo;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import riskyken.utilities.common.hair.HairStyleType;
+import riskyken.utilities.common.hair.PlayerHairStyleData;
+import riskyken.utilities.common.lib.LibItemNames;
+import riskyken.utilities.common.lib.LibModInfo;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemHairStyleUnlock extends AbstractModItem {
 
@@ -32,6 +29,11 @@ public class ItemHairStyleUnlock extends AbstractModItem {
 			ItemStack stack  = new ItemStack(item, 1, i);
 			list.add(stack);
 		}
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack itemStack) {
+		return super.getUnlocalizedName(itemStack) + itemStack.getItemDamage();
 	}
 	
 	@Override

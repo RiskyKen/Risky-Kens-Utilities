@@ -1,10 +1,10 @@
 package riskyken.utilities.common.items;
 
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import riskyken.utilities.RiskyKensUtilities;
 import riskyken.utilities.common.lib.LibModInfo;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public abstract class AbstractModItem extends Item {
 
@@ -17,7 +17,22 @@ public abstract class AbstractModItem extends Item {
 	
 	@Override
 	public Item setUnlocalizedName(String name) {
-		GameRegistry.registerItem(this, "item." + name);
+		GameRegistry.registerItem(this, "item." + LibModInfo.ID.toLowerCase() + ":" + name);
 		return super.setUnlocalizedName(name);
+	}
+	
+	@Override
+	public String getUnlocalizedName() {
+		return getModdedUnlocalizedName(super.getUnlocalizedName());
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack itemStack) {
+		return getModdedUnlocalizedName(super.getUnlocalizedName(itemStack));
+	}
+	
+	protected String getModdedUnlocalizedName(String unlocalizedName) {
+		String name = unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
+		return "item." + LibModInfo.ID.toLowerCase() + ":" + name;
 	}
 }

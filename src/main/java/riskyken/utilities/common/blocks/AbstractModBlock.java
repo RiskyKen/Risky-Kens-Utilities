@@ -1,11 +1,9 @@
 package riskyken.utilities.common.blocks;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import riskyken.utilities.RiskyKensUtilities;
-import riskyken.utilities.common.items.block.ModItemBlock;
-import riskyken.utilities.common.lib.LibModInfo;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import riskyken.utilities.RiskyKensUtilities;
+import riskyken.utilities.common.lib.LibModInfo;
 
 public abstract class AbstractModBlock extends Block {
 
@@ -23,5 +21,15 @@ public abstract class AbstractModBlock extends Block {
 		setHardness(3.0F);
 		setStepSound(soundType);
 		setBlockName(name);
+	}
+	
+	@Override
+	public String getUnlocalizedName() {
+		return getModdedUnlocalizedName(super.getUnlocalizedName());
+	}
+	
+	protected String getModdedUnlocalizedName(String unlocalizedName) {
+		String name = unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
+		return "tile." + LibModInfo.ID.toLowerCase() + ":" + name;
 	}
 }
