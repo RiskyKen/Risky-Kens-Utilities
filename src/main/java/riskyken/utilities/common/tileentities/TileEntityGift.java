@@ -18,11 +18,11 @@ public class TileEntityGift extends TileEntityUtilitiesBase {
 	private static final String TAG_ITEMS = "items";
 	private static final String TAG_SLOT = "slot";
 	
-	private int colour1;
-	private int colour2;
+	private int colour[];
 	
 	public TileEntityGift() {
 		items = new ItemStack[9];
+		colour = new int[2];
 	}
 	
 	@Override
@@ -30,29 +30,14 @@ public class TileEntityGift extends TileEntityUtilitiesBase {
 		return LibBlockNames.GIFT;
 	}
 	
-	public void updateColor1(int colour) {
-		colour1 = colour;
+	public void updateColor(int colour, int colorIndex) {
+		this.colour[colorIndex] = colour;
 		markDirty();
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
-	public void updateColor2(int colour) {
-		colour2 = colour;
-		markDirty();
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public void updateColor(byte colorId, int colorData) {
-		if (colorId == 0) { colour1 = colorData; }
-		if (colorId == 1) { colour2 = colorData; }
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-	}
-	
-	public int getColor(int colorId) {
-		if (colorId == 0) { return colour1; }
-		if (colorId == 1) { return colour2; }
-		return 0;
+	public int getColor(int colorIndex) {
+		return this.colour[colorIndex];
 	}
 	
 	@Override
@@ -64,28 +49,31 @@ public class TileEntityGift extends TileEntityUtilitiesBase {
 	
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		readItemNBT(packet.func_148857_g());
+		readFromNBT(packet.func_148857_g());
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-		markDirty();
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
-		compound.setInteger(TAG_COLOUR_1, colour1);
-		compound.setInteger(TAG_COLOUR_2, colour2);
+		compound.setInteger(TAG_COLOUR_1, colour[0]);
+		compound.setInteger(TAG_COLOUR_2, colour[1]);
 		super.writeToNBT(compound);
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
-		colour1 = compound.getInteger(TAG_COLOUR_1);
-		colour2 = compound.getInteger(TAG_COLOUR_2);
+		colour[0] = compound.getInteger(TAG_COLOUR_1);
+		colour[1] = compound.getInteger(TAG_COLOUR_2);
 		super.readFromNBT(compound);
 	}
 	
+	/**
+	 * Used when the block is broken to save contents and colour data to the dropped item.
+	 * @param compound
+	 */
 	public void writeItemNBT(NBTTagCompound compound) {
-		compound.setInteger(TAG_COLOUR_1, colour1);
-		compound.setInteger(TAG_COLOUR_2, colour2);
+		compound.setInteger(TAG_COLOUR_1, colour[0]);
+		compound.setInteger(TAG_COLOUR_2, colour[1]);
 		NBTTagList items = new NBTTagList();
 		for (int i = 0; i < getSizeInventory(); i++) {
 			ItemStack stack = getStackInSlot(i);
@@ -99,9 +87,13 @@ public class TileEntityGift extends TileEntityUtilitiesBase {
 		compound.setTag(TAG_ITEMS, items);
 	}
 	
+	/**
+	 * Used when the block it placed to load contents and colour data from the item.
+	 * @param compound
+	 */
 	public void readItemNBT(NBTTagCompound compound) {
-		colour1 = compound.getInteger(TAG_COLOUR_1);
-		colour2 = compound.getInteger(TAG_COLOUR_2);
+		colour[0] = compound.getInteger(TAG_COLOUR_1);
+		colour[1] = compound.getInteger(TAG_COLOUR_2);
 		NBTTagList items = compound.getTagList(TAG_ITEMS, NBT.TAG_COMPOUND);
 		for (int i = 0; i < items.tagCount(); i++) {
 			NBTTagCompound item = (NBTTagCompound)items.getCompoundTagAt(i);

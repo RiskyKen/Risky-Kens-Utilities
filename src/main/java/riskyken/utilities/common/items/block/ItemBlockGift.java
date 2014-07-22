@@ -78,8 +78,8 @@ public class ItemBlockGift extends ModItemBlock {
 
 		if (itemStack.hasTagCompound()) {
 			NBTTagCompound compound = itemStack.getTagCompound();
-			int color1 = compound.getInteger("color1");
-			int color2 = compound.getInteger("color2");
+			int color1 = compound.getInteger("colour1");
+			int color2 = compound.getInteger("colour2");
 			if (pass == 0) { return color1; }
 			if (pass == 1) { return color2; }
 			System.out.println("gpt coluor");
@@ -115,8 +115,8 @@ public class ItemBlockGift extends ModItemBlock {
 			}
 			else
 			{
-				((TileEntityGift)te).updateColor1(Utils.getMinecraftColor(14));
-				((TileEntityGift)te).updateColor2(Utils.getMinecraftColor(13));
+				((TileEntityGift)te).updateColor(Utils.getMinecraftColor(14), 0);
+				((TileEntityGift)te).updateColor(Utils.getMinecraftColor(13), 1);
 			}
 		}
 

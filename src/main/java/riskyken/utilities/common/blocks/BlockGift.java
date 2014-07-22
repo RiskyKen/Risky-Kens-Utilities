@@ -145,41 +145,41 @@ public class BlockGift extends AbstractModBlock implements ITileEntityProvider {
 
 						if (xHit < 0.625F & xHit > 0.375F)
 						{
-							((TileEntityGift)te).updateColor2(Utils.getMinecraftColor(-player.getCurrentEquippedItem().getItemDamage() + 15));
+							((TileEntityGift)te).updateColor(Utils.getMinecraftColor(-player.getCurrentEquippedItem().getItemDamage() + 15), 1);
 							
 						}
 						else if (zHit < 0.625F & zHit > 0.375F)
 						{
-							((TileEntityGift)te).updateColor2(Utils.getMinecraftColor(-player.getCurrentEquippedItem().getItemDamage() + 15));
+							((TileEntityGift)te).updateColor(Utils.getMinecraftColor(-player.getCurrentEquippedItem().getItemDamage() + 15), 1);
 							
 						}
 						else
 						{
-							((TileEntityGift)te).updateColor1(Utils.getMinecraftColor(-player.getCurrentEquippedItem().getItemDamage() + 15));
+							((TileEntityGift)te).updateColor(Utils.getMinecraftColor(-player.getCurrentEquippedItem().getItemDamage() + 15), 0);
 						}
 					}
 					if (side == 2 | side == 3) {
 
 						if (xHit < 0.625F & xHit > 0.375F)
 						{
-							((TileEntityGift)te).updateColor2(Utils.getMinecraftColor(-player.getCurrentEquippedItem().getItemDamage() + 15));
+							((TileEntityGift)te).updateColor(Utils.getMinecraftColor(-player.getCurrentEquippedItem().getItemDamage() + 15), 1);
 							
 						}
 						else
 						{
-							((TileEntityGift)te).updateColor1(Utils.getMinecraftColor(-player.getCurrentEquippedItem().getItemDamage() + 15));
+							((TileEntityGift)te).updateColor(Utils.getMinecraftColor(-player.getCurrentEquippedItem().getItemDamage() + 15), 0);
 						}
 					}
 					if (side == 4 | side == 5) {
 
 						if (zHit < 0.625F & zHit > 0.375F)
 						{
-							((TileEntityGift)te).updateColor2(Utils.getMinecraftColor(-player.getCurrentEquippedItem().getItemDamage() + 15));
+							((TileEntityGift)te).updateColor(Utils.getMinecraftColor(-player.getCurrentEquippedItem().getItemDamage() + 15), 1);
 							
 						}
 						else
 						{
-							((TileEntityGift)te).updateColor1(Utils.getMinecraftColor(-player.getCurrentEquippedItem().getItemDamage() + 15));
+							((TileEntityGift)te).updateColor(Utils.getMinecraftColor(-player.getCurrentEquippedItem().getItemDamage() + 15), 0);
 						}
 					}
 				}
