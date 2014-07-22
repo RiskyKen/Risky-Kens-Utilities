@@ -82,9 +82,28 @@ public abstract class TileEntityUtilitiesBase extends TileEntity implements IInv
 		return true;
 	}
 	
+	
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
+		writeItemsToNBT(compound);
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
+		readItemsFromNBT(compound);
+	}
+	
+	public void writeTeBaseToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
+	}
+	
+	public void readTeBaseFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
+	}
+	
+	public void writeItemsToNBT(NBTTagCompound compound) {
 		NBTTagList items = new NBTTagList();
 		for (int i = 0; i < getSizeInventory(); i++) {
 			ItemStack stack = getStackInSlot(i);
@@ -98,9 +117,7 @@ public abstract class TileEntityUtilitiesBase extends TileEntity implements IInv
 		compound.setTag(TAG_ITEMS, items);
 	}
 	
-	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
+	public void readItemsFromNBT(NBTTagCompound compound) {
 		NBTTagList items = compound.getTagList(TAG_ITEMS, NBT.TAG_COMPOUND);
 		for (int i = 0; i < items.tagCount(); i++) {
 			NBTTagCompound item = (NBTTagCompound)items.getCompoundTagAt(i);

@@ -43,13 +43,13 @@ public class TileEntityGift extends TileEntityUtilitiesBase {
 	@Override
 	public Packet getDescriptionPacket() {
 	    NBTTagCompound tagCompound = new NBTTagCompound();
-	    writeToNBT(tagCompound);
+	    writeColourToNBT(tagCompound);
 	    return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 5, tagCompound);
 	}
 	
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		readFromNBT(packet.func_148857_g());
+		readColourFromNBT(packet.func_148857_g());
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
@@ -65,6 +65,18 @@ public class TileEntityGift extends TileEntityUtilitiesBase {
 		colour[0] = compound.getInteger(TAG_COLOUR_1);
 		colour[1] = compound.getInteger(TAG_COLOUR_2);
 		super.readFromNBT(compound);
+	}
+	
+	
+	public void writeColourToNBT(NBTTagCompound compound) {
+		super.writeTeBaseToNBT(compound);
+		compound.setInteger(TAG_COLOUR_1, colour[0]);
+		compound.setInteger(TAG_COLOUR_2, colour[1]);
+	}
+	
+	public void readColourFromNBT(NBTTagCompound compound) {
+		colour[0] = compound.getInteger(TAG_COLOUR_1);
+		colour[1] = compound.getInteger(TAG_COLOUR_2);
 	}
 	
 	/**
