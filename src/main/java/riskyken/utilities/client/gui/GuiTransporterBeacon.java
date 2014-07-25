@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.EnumChatFormatting;
@@ -20,22 +21,16 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiTransporterBeacon extends ModGui {
+public class GuiTransporterBeacon extends GuiContainer {
 
 	private static final ResourceLocation texture = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/gui/transporter.png");
 	private TileEntityTransporterBeacon transporterBeacon;
 	
-	@Override
-	public void initGui() {
-		super.initGui();
-		//buttonList.clear();
-		//buttonList.add(new GuiButton(0, guiLeft + 84, guiTop + 20, 70, 20, "Link"));
-	}
-	
 	public GuiTransporterBeacon(InventoryPlayer invPlayer, TileEntityTransporterBeacon transporterBeacon) {
 		super(new ContainerTransporterBeacon(invPlayer, transporterBeacon));
 		this.transporterBeacon = transporterBeacon;
-		setGuiSize(176, 166);
+		this.xSize = 176;
+		this.ySize = 166;
 	}
 	
 	@Override
@@ -48,10 +43,10 @@ public class GuiTransporterBeacon extends ModGui {
 	
 	@Override
     protected void drawGuiContainerForegroundLayer(int x, int y) {
-        int k = (this.screenWidth - this.screenXSize) / 2;
-        int l = (this.screenHeight - this.screenYSize) / 2;
+        int k = (this.width - this.xSize) / 2;
+        int l = (this.height - this.ySize) / 2;
         
-        GuiHelper.renderLocalizedGuiName(this.fontRendererObj, this.screenXSize, transporterBeacon.getInventoryName());
+        GuiHelper.renderLocalizedGuiName(this.fontRendererObj, this.xSize, transporterBeacon.getInventoryName());
         
         String upgrades = "Upgrades";
         int rangeInt = transporterBeacon.getMaxRange();
@@ -68,7 +63,7 @@ public class GuiTransporterBeacon extends ModGui {
         this.fontRendererObj.drawString(upgrades, 8, 36, 4210752);
         this.fontRendererObj.drawString(range, 8, 22, 4210752);
         //this.fontRendererObj.drawString("Target Block", 26, 30, 4210752);
-        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.screenYSize - 96 + 2, 4210752);
+        this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
         if (x - k >= 160 & x - k <= 168) {
         	if (y - l >= 7 & y - l <= 78) {
         		drawOverlayText(String.format("%.0f",this.transporterBeacon.powerLevel) + "/" + String.format("%.0f",this.transporterBeacon.getMaxPowerLevel()), x - k, y - l);
@@ -80,10 +75,10 @@ public class GuiTransporterBeacon extends ModGui {
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		GL11.glColor4f(1, 1, 1, 1);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		drawTexturedModalRect(this.screenLeft, this.screenTop, 0, 0, this.screenXSize, this.screenYSize);
+		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 		
-        int k = (this.screenWidth - this.screenXSize) / 2;
-        int l = (this.screenHeight - this.screenYSize) / 2;
+        int k = (this.width - this.xSize) / 2;
+        int l = (this.height - this.ySize) / 2;
         
         int i1 = 0;
         i1 = Utils.getScaledValue(72, (int)this.transporterBeacon.powerLevel, (int)transporterBeacon.getMaxPowerLevel());

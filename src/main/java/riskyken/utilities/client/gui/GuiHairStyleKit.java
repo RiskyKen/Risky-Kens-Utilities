@@ -7,6 +7,7 @@ import java.io.InputStream;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -28,7 +29,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiHairStyleKit extends ModGui {
+public class GuiHairStyleKit extends GuiContainer {
 
 	private static final ResourceLocation texture = new ResourceLocation(LibModInfo.ID.toLowerCase(), "textures/gui/hair-styler.png");
 	private EntityPlayer player;
@@ -39,7 +40,8 @@ public class GuiHairStyleKit extends ModGui {
 	public GuiHairStyleKit(EntityPlayer player) {
 		super(new ContainerHairStyleKit(player));
 		this.player = player;
-		setGuiSize(256, 166);
+		this.xSize = 256;
+		this.ySize = 166;
 		props = PlayerHairStyleData.get(player);
 		activeStyle = props.getHairType();
 	}
@@ -48,8 +50,8 @@ public class GuiHairStyleKit extends ModGui {
 	public void initGui() {
 		super.initGui();
 		buttonList.clear();
-		buttonList.add(new GuiScrollbar(0, this.screenLeft + 92, this.screenTop + 20, 10, 136, "", false));
-		buttonList.add(new GuiSilentButton(1, this.screenLeft + 190, this.screenTop + 136, 50, 20, "Apply"));
+		buttonList.add(new GuiScrollbar(0, this.guiLeft + 92, this.guiTop + 20, 10, 136, "", false));
+		buttonList.add(new GuiSilentButton(1, this.guiLeft + 190, this.guiTop + 136, 50, 20, "Apply"));
 	}
 	
 	@Override
@@ -126,14 +128,14 @@ public class GuiHairStyleKit extends ModGui {
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3) {
 		GL11.glColor4f(1, 1, 1, 1);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		drawTexturedModalRect(this.screenLeft, this.screenTop, 0, 0, this.screenXSize, this.screenYSize);
+		drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 		
 		PlayerHairStyleData props = PlayerHairStyleData.get(player);
 		
 		float scale = 50F;
 		
 		GL11.glPushMatrix();
-		GL11.glTranslatef(this.screenLeft + 198, this.screenTop + 70, 100);
+		GL11.glTranslatef(this.guiLeft + 198, this.guiTop + 70, 100);
 		GL11.glScalef(-scale, scale, scale);
 		
 		rotation += 3.0F;
@@ -159,7 +161,7 @@ public class GuiHairStyleKit extends ModGui {
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int x, int y) {
-		GuiHelper.renderLocalizedGuiName(this.fontRendererObj, this.screenXSize, LibItemNames.HAIR_STYLE_KIT);
+		GuiHelper.renderLocalizedGuiName(this.fontRendererObj, this.xSize, LibItemNames.HAIR_STYLE_KIT);
 		activeStyle = props.getHairType();
         for (int i = 0; i < HairStyleType.values().length; i++) {
         	HairStyleType type = HairStyleType.values()[i];
@@ -175,7 +177,7 @@ public class GuiHairStyleKit extends ModGui {
         	if (i == activeStyle) {
         		renderColour = Utils.getMinecraftColor(0);
         	}
-        	if (y >= textTop + this.screenTop & y <= textTop + this.screenTop + 6 & x >= textLeft + this.screenLeft - 1 & x <= textLeft + this.screenLeft + 78) {
+        	if (y >= textTop + this.guiTop & y <= textTop + this.guiTop + 6 & x >= textLeft + this.guiLeft - 1 & x <= textLeft + this.guiLeft + 78) {
         		renderColour = Utils.getMinecraftColor(4);
         	}
         	this.fontRendererObj.drawString(typeName, textLeft, textTop, renderColour);
