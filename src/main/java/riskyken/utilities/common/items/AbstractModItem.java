@@ -17,7 +17,7 @@ public abstract class AbstractModItem extends Item {
 	
 	@Override
 	public Item setUnlocalizedName(String name) {
-		GameRegistry.registerItem(this, "item." + LibModInfo.ID.toLowerCase() + ":" + name);
+		GameRegistry.registerItem(this, name);
 		return super.setUnlocalizedName(name);
 	}
 	

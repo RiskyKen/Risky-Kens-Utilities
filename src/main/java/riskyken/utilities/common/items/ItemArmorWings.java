@@ -2,11 +2,6 @@ package riskyken.utilities.common.items;
 
 import java.util.List;
 
-import riskyken.utilities.RiskyKensUtilities;
-import riskyken.utilities.client.model.wings.ModelWings;
-import riskyken.utilities.common.lib.LibItemNames;
-import riskyken.utilities.common.lib.LibModInfo;
-import riskyken.utilities.proxies.ClientProxy;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -15,9 +10,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.Chat;
+import riskyken.utilities.RiskyKensUtilities;
+import riskyken.utilities.common.lib.LibItemNames;
+import riskyken.utilities.common.lib.LibModInfo;
+import riskyken.utilities.proxies.ClientProxy;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,7 +30,7 @@ public class ItemArmorWings extends ItemArmor {
 	
 	@Override
 	public Item setUnlocalizedName(String name) {
-		GameRegistry.registerItem(this, "item." + name);
+		GameRegistry.registerItem(this, name);
 		return super.setUnlocalizedName(name);
 	}
 	
@@ -65,6 +62,21 @@ public class ItemArmorWings extends ItemArmor {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public String getUnlocalizedName() {
+		return getModdedUnlocalizedName(super.getUnlocalizedName());
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack itemStack) {
+		return getModdedUnlocalizedName(super.getUnlocalizedName(itemStack));
+	}
+	
+	protected String getModdedUnlocalizedName(String unlocalizedName) {
+		String name = unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
+		return "item." + LibModInfo.ID.toLowerCase() + ":" + name;
 	}
 
 }
