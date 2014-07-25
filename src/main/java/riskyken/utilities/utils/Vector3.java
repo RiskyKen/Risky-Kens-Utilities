@@ -1,31 +1,31 @@
 package riskyken.utilities.utils;
 
 public class Vector3 {
-    public int x;
-    public int y;
-    public int z;
-    
-    public Vector3(int x, int y, int z) {
+	public int x;
+	public int y;
+	public int z;
+
+	public Vector3(int x, int y, int z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
-    
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        Vector3 that = (Vector3) o;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 
-        if (x != that.x) return false;
-        if (y != that.y) return false;
-        if (z != that.z) return false;
+		Vector3 that = (Vector3) o;
 
-        return true;
-    }
-    
-    @Override
+		if (x != that.x) return false;
+		if (y != that.y) return false;
+		if (z != that.z) return false;
+
+		return true;
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -34,8 +34,8 @@ public class Vector3 {
 		result = prime * result + z;
 		return result;
 	}
-    
-    public String hashString() {
-        return this.x + ":" + this.y + ":" + this.z;
-    }
+
+	public String hashString() {
+		return this.x + ":" + this.y + ":" + this.z;
+	}
 }
