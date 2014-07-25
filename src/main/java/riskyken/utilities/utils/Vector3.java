@@ -1,6 +1,5 @@
 package riskyken.utilities.utils;
 
-
 public class Vector3 {
     public int x;
     public int y;
@@ -27,12 +26,14 @@ public class Vector3 {
     }
     
     @Override
-    public int hashCode() {
-        int result = (int) (x ^ (x >>> 16));
-        result = 15 * result + (int) (y ^ (y >>> 16));
-        result = 15 * result + (int) (z ^ (z >>> 16));
-        return result;
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + x;
+		result = prime * result + y;
+		result = prime * result + z;
+		return result;
+	}
     
     public String hashString() {
         return this.x + ":" + this.y + ":" + this.z;
