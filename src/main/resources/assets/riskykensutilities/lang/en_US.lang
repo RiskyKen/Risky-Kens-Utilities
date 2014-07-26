@@ -81,6 +81,9 @@ tile.riskykensutilities:starMultiBlock5.name=Star Igniter (Active)
 tile.riskykensutilities:starMultiBlock6.name=Shell 1
 tile.riskykensutilities:starMultiBlock7.name=Shell 2
 
+tile.riskykensutilities:meteor0.name=Meteor Shell
+tile.riskykensutilities:meteor1.name=Meteor Core
+
 item.riskykensutilities:hissingStick.name=Hissing Stick
 item.riskykensutilities:linkCard.name=Link Card
 item.riskykensutilities:transportDevice.name=Transport Device

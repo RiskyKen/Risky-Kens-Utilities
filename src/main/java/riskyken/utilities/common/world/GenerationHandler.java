@@ -2,11 +2,11 @@ package riskyken.utilities.common.world;
 
 import java.util.Random;
 
-import riskyken.utilities.common.config.ConfigHandler;
-import riskyken.utilities.common.world.gen.tower.WorldGenTower;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import riskyken.utilities.common.config.ConfigHandler;
+import riskyken.utilities.common.world.gen.tower.WorldGenTower;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
 
