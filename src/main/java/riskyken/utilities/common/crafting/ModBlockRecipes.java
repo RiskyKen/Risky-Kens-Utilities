@@ -121,6 +121,7 @@ public final class ModBlockRecipes {
 		}
 		
 		//Music Sequencer
+		/*
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.musicSequencer, 1, 0), new Object[]
 				{"dnd","rsr","ini",
 			'd',Items.diamond,
@@ -128,7 +129,7 @@ public final class ModBlockRecipes {
 			'r',Blocks.redstone_block,
 			's',new ItemStack(ModItems.craftingMats,1,1),
 			'i',Items.iron_ingot});
-		
+		*/
 		//star shell 1
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.starMultiBlock, 1, 6), new Object[]
 				{"ccc","cmc","ccc",
@@ -140,7 +141,7 @@ public final class ModBlockRecipes {
 				{"ccc","cmc","ccc",
 			'c',Blocks.coal_block,
 			'm',new ItemStack(ModBlocks.meteor, 1, 1)});
-		
+		/*
 		//star igniter
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.starMultiBlock, 1, 4), new Object[]
 				{"scs","cmc","scs",
@@ -175,5 +176,6 @@ public final class ModBlockRecipes {
 			'c',new ItemStack(ModBlocks.starMultiBlock, 1, 2),
 			's',new ItemStack(ModBlocks.starMultiBlock, 1, 6),
 			'n',Items.nether_star});
+		*/
 	}
 }

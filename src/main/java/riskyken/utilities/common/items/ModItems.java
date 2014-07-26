@@ -1,24 +1,6 @@
 package riskyken.utilities.common.items;
 
-import riskyken.utilities.common.config.ConfigHandler;
-import riskyken.utilities.common.hair.HairStyleType;
-import riskyken.utilities.common.lib.LibModInfo;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.WeightedRandomChestContent;
-import net.minecraftforge.common.ChestGenHooks;
-import net.minecraftforge.common.DungeonHooks;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
-import cpw.mods.fml.common.asm.FMLSanityChecker;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
-import cpw.mods.fml.relauncher.FMLInjectionData;
 
 public class ModItems {
 
@@ -41,18 +23,19 @@ public class ModItems {
 		transportDevice = new ItemTransportDevice();
 		upgrades = new ItemUpgrade();
 		craftingMats = new ItemCraftingMats();
-		cassetteTape = new ItemCassetteTape();
+		//cassetteTape = new ItemCassetteTape();
 		raisingHeart = new ItemRaisingHeart();
-		wings = new ItemArmorWings(4, 1);
-		hairStyleKit = new ItemHairStyleKit();
-		hairStyleUnlock = new ItemHairStyleUnlock();
+		//wings = new ItemArmorWings(4, 1);
+		//hairStyleKit = new ItemHairStyleKit();
+		//hairStyleUnlock = new ItemHairStyleUnlock();
 	}
 	
 	public static void registerDungeonLoot() {
+		/*
 		for (int i = 1; i < HairStyleType.values().length; i++) {
 			ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(hairStyleUnlock, 1, i), 1, 1, 5));
 		}
-		
+		*/
 		/*
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(cassetteTape), 1, 1, 5));
 		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(new ItemStack(cassetteTape), 1, 1, 5));

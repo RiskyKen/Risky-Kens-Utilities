@@ -1,10 +1,9 @@
 package riskyken.utilities.common.tileentities;
 
-import riskyken.utilities.common.blocks.BlockFloodLightTypes;
-import riskyken.utilities.common.blocks.ModBlocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import riskyken.utilities.common.blocks.ModBlocks;
+import riskyken.utilities.utils.ModLogger;
 
 public class TileEntityStarMultiBlock extends TileEntity {
 	
@@ -29,8 +28,8 @@ public class TileEntityStarMultiBlock extends TileEntity {
 		tickCooldown--;
 		if (tickCooldown >= 0) { return; }
 		tickCooldown = TICK_RATE;
-		System.out.println("star check tick");
-		checkMultiBlock();
+		ModLogger.log("star check tick");
+		//checkMultiBlock();
 	}
 	
 	private void checkMultiBlock() {
