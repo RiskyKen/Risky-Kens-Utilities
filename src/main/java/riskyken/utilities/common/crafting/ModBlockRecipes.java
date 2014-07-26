@@ -107,10 +107,11 @@ public final class ModBlockRecipes {
 		
 		//Leaf Catcher
 		CraftingManager.addShapedRecipe(new ItemStack(ModBlocks.leafCatcher, 1, 0), new Object[]
-				{"w w","ici","wiw",
-			'i',Items.iron_ingot,
-			'w',"plankWood",
-			'c',Blocks.chest});
+				{"whw","ici","wiw",
+			'h', Blocks.hopper,
+			'i', Items.iron_ingot,
+			'w', "plankWood",
+			'c', Blocks.chest});
 		
 		//Gift
 		for (int i = 0; i < 16; i++) {
