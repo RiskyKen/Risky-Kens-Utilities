@@ -24,7 +24,7 @@ repositories {
 
 apply plugin: 'forge'
 
-version = "1.7.10-0.0.21"
+version = "1.7.10-0.0.22"
 group= "riskyken.utilities" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "RiskyKensUtilities"
 
