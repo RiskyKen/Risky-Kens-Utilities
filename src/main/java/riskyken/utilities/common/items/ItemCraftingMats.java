@@ -32,6 +32,11 @@ public class ItemCraftingMats extends AbstractModItem {
 	}
 	
 	@Override
+	public String getUnlocalizedName(ItemStack itemStack) {
+		return super.getUnlocalizedName(itemStack) + itemStack.getItemDamage();
+	}
+	
+	@Override
     public void addInformation(ItemStack itemStack, EntityPlayer player, List par3List, boolean par4)
     {
 		if (itemStack.getItemDamage() == 0)

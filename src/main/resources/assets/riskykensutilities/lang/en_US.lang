@@ -80,6 +80,7 @@ tile.riskykensutilities:starMultiBlock4.name=Star Igniter
 tile.riskykensutilities:starMultiBlock5.name=Star Igniter (Active)
 tile.riskykensutilities:starMultiBlock6.name=Shell 1
 tile.riskykensutilities:starMultiBlock7.name=Shell 2
+tile.riskykensutilities:starMultiBlock8.name=Shell 3
 
 tile.riskykensutilities:meteor0.name=Meteor Shell
 tile.riskykensutilities:meteor1.name=Meteor Core
