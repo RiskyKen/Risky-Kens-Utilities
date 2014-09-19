@@ -34,7 +34,6 @@ minecraft {
 }
 
 dependencies {
-    compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
     compile 'net.industrial-craft:industrialcraft-2:2.2.504-experimental:api'
 }
 

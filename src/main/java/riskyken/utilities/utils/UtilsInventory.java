@@ -4,8 +4,6 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import cpw.mods.fml.common.Optional;
-import buildcraft.api.transport.IPipeTile;
-import buildcraft.api.transport.IPipeTile.PipeType;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -58,6 +56,7 @@ public class UtilsInventory {
 		}
 	}
 	
+	/*
 	public static void placeItemStackInAdjacentPipe(World world, int x, int y, int z, ArrayList<ItemStack> items) {
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 			TileEntity te =  world.getTileEntity(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
@@ -77,7 +76,7 @@ public class UtilsInventory {
 			}
 		}
 	}
-	
+	*/
 	public static void spawnItemStackiInWorld(World world, int x, int y, int z, ArrayList<ItemStack> items) {
 		for (int i = 0; i < items.size(); i++) {
 			EntityItem droppedItem = new EntityItem(world, (double)x + 0.5, (double)y + 1.3, (double)z + 0.5, items.get(i));

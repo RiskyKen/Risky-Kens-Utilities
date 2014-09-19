@@ -1,21 +1,16 @@
 package riskyken.utilities.common.tileentities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import riskyken.utilities.common.config.ConfigHandler;
 import riskyken.utilities.common.lib.LibBlockNames;
 import riskyken.utilities.utils.Utils;
 import riskyken.utilities.utils.UtilsInventory;
 import riskyken.utilities.utils.Vector3;
-import scala.annotation.meta.field;
 
 public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 	
@@ -226,9 +221,6 @@ public class TileEntityDeviceHollower extends TileEntityUtilitiesBasePowered {
 		
 		if (items != null) {
 			UtilsInventory.placeItemStackInAdjacentInventory(worldObj, xCoord, yCoord, zCoord, items);
-		}
-		if (items != null & Loader.isModLoaded("BuildCraft|Core")) {
-			UtilsInventory.placeItemStackInAdjacentPipe(worldObj, xCoord, yCoord, zCoord, items);
 		}
 		if (items != null) {
 			UtilsInventory.spawnItemStackiInWorld(worldObj, xCoord, yCoord, zCoord, items);
