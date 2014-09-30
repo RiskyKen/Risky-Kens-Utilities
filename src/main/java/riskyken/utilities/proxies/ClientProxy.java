@@ -3,15 +3,10 @@ package riskyken.utilities.proxies;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import riskyken.utilities.client.model.ModelPlayerHead;
-import riskyken.utilities.client.model.wings.ModelBigWings;
-import riskyken.utilities.client.model.wings.ModelExtraBigWings;
-import riskyken.utilities.client.model.wings.ModelMetalWings;
 import riskyken.utilities.client.renderer.GiftBlockRender;
 import riskyken.utilities.client.renderer.HairRenderManager;
 import riskyken.utilities.client.renderer.RenderBlockSun;
@@ -22,7 +17,6 @@ import riskyken.utilities.common.lib.LibSounds;
 import riskyken.utilities.common.tileentities.TileEntityStarLight;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class ClientProxy extends CommonProxy {
 	
@@ -32,11 +26,6 @@ public class ClientProxy extends CommonProxy {
 	//public static int starBlockRenderType;
 	
 	public static ModelPlayerHead playerHeadModel = new ModelPlayerHead();
-	
-	//public static ModelWings wingModel = new ModelWings();
-	public static ModelBigWings bigWings = new ModelBigWings();
-	public static ModelExtraBigWings extraBigWings = new ModelExtraBigWings();
-	public static ModelMetalWings metalWings = new ModelMetalWings();
 	
 	public static HairRenderManager hairRenderManager;
 	
@@ -76,39 +65,6 @@ public class ClientProxy extends CommonProxy {
 		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation(LibSounds.STAR_BORN), 1.0F));
 	}
 	
-	@SubscribeEvent
-	public void onRender(RenderPlayerEvent.SetArmorModel ev){
-		if (ev.entityPlayer.isInvisible()) { return; }
-		//extraBigWings.render(ev.entityPlayer, ev.renderer);
-		//bigWings.render(ev.entityPlayer, ev.renderer, 2);
-		//metalWings.render(ev.entityPlayer, ev.renderer);
-		if (ev.entityPlayer.getDisplayName().equals("RiskyKen")) {
-			bigWings.render(ev.entityPlayer, ev.renderer, 1);
-		}
-		if (ev.entityPlayer.getDisplayName().equals("Choccie_Bunny")) {
-			bigWings.render(ev.entityPlayer, ev.renderer, 2);
-		}
-		if (ev.entityPlayer.getDisplayName().equals("Borro55")) {
-			//TODO pink fairy wings
-			//bigWings.render(ev.entityPlayer, ev.renderer, 2);
-		}
-	}
-	
-	@Override
-	public void onPlayerTick(EntityPlayer player) {
-		if (player.isInvisible()) { return; }
-		//bigWings.onTick(player, 2);
-		if (player.getDisplayName().equals("RiskyKen")) {
-			bigWings.onTick(player, 1);
-		}
-		if (player.getDisplayName().equals("Choccie_Bunny")) {
-			bigWings.onTick(player, 2);
-		}
-		if (player.getDisplayName().equals("Borro55")) {
-			//bigWings.onTick(player, 2);
-		}
-	}
-	
 	@Override
 	public void setHairStyleData(int hairStyleUnlockFlags, int hairAccessoriesUnlockFlags, int hairAccessoryColourUnlockFlags) {
 		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
@@ -117,5 +73,4 @@ public class ClientProxy extends CommonProxy {
 		props.setHairAccessoriesUnlockFlags(hairAccessoriesUnlockFlags);
 		props.setHairAccessoryColourUnlockFlags(hairAccessoryColourUnlockFlags);
 	}
-	
 }
